@@ -15,14 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('nomeInstituicao');
             $table->text('morada')->nullable();
-            $table->string('email');
+            $table->string('NIF')->nullable();
+            $table->string('emailResponsavel');
             $table->string('nomeResponsavel')->nullable();
             $table->string('telefoneResponsavel')->nullable();
-            $table->string('corCalendario');
-            $table->unsignedBigInteger('cursos_id');
-            $table->foreign('cursos_id')->references('id')->on('cursos');
-            $table->unsignedBigInteger('utilizadores_id');
-            $table->foreign('utilizadores_id')->references('id')->on('utilizadores');
+            $table->unsignedBigInteger('users_id');
+            $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -13,20 +13,27 @@ return new class extends Migration
     {
         Schema::create('financas', function (Blueprint $table) {
             $table->id();
-            $table->text('descricao')->nullable();
-            $table->duble('valor');
+            $table->string('numeroFatura');
+            $table->text('observacoes')->nullable();
             $table->dateTime('dataVencimento');
-            $table->dateTime('dataLancamento');
-            $table->dateTime('dataPagamento');
-            $table->duble('valorHora');
-            $table->unsignedBigInteger('status_id');
-            $table->foreign('status_id')->references('id')->on('status');
+            $table->dateTime('dataEmissao');
+            $table->dateTime('dataPagamento')->nullable();
+            $table->decimal('valor');
+            $table->decimal('IVAPercetagem')->nullable();
+            $table->decimal('baseCalculoIRS')->nullable();
+            $table->decimal('IRSTaxa')->nullable();
+            $table->unsignedBigInteger('users_id');
+            $table->foreign('users_id')->references('id')->on('users');
+            $table->unsignedBigInteger('instituicoes_id');
+            $table->foreign('instituicoes_id')->references('id')->on('instituicoes');
+            $table->unsignedBigInteger('metodos_pagamentos_id');
+            $table->foreign('metodos_pagamentos_id')->references('id')->on('metodos_pagamentos');
             $table->unsignedBigInteger('cursos_id');
             $table->foreign('cursos_id')->references('id')->on('cursos');
             $table->unsignedBigInteger('modulos_id');
             $table->foreign('modulos_id')->references('id')->on('modulos');
-            $table->unsignedBigInteger('utilizadores_id');
-            $table->foreign('utilizadores_id')->references('id')->on('utilizadores');
+            $table->unsignedBigInteger('estado_faturas_id');
+            $table->foreign('estado_faturas_id')->references('id')->on('estado_faturas');
             $table->timestamps();
         });
     }

@@ -15,17 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->text('caminhoDocumento');
+            $table->date('dataValidade');
             $table->string('formatoDocumento');
             $table->unsignedBigInteger('categoriaDocumentos_id');
             $table->foreign('categoriaDocumentos_id')->references('id')->on('categoriaDocumentos');
-            $table->unsignedBigInteger('intituicoes_id');
-            $table->foreign('intituicoes_id')->references('id')->on('intituicoes');
-            $table->unsignedBigInteger('cursos_id');
-            $table->foreign('cursos_id')->references('id')->on('cursos');
-            $table->unsignedBigInteger('modulos_id');
-            $table->foreign('modulos_id')->references('id')->on('modulos');
-            $table->unsignedBigInteger('utilizadores_id');
-            $table->foreign('utilizadores_id')->references('id')->on('utilizadores');
+            $table->unsignedBigInteger('formatos_id');
+            $table->foreign('formatos_id')->references('id')->on('formatos');
+            $table->unsignedBigInteger('estadoDocumentos_id');
+            $table->foreign('estadoDocumentos_id')->references('id')->on('estadoDocumentos');
+            $table->unsignedBigInteger('users_id');
+            $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -15,10 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->string('descrição')->nullable();
-            $table->double('horas');
+            $table->decimal('duracaoTotal')->nullable();
+            $table->decimal('precoHora');
             $table->dateTime('dataInicio');
             $table->dateTime('dataFim')->nullable();
-
+            $table->unsignedBigInteger('instituicoes_id');
+            $table->foreign('instituicoes_id')->references('id')->on('instituicoes');
+            $table->unsignedBigInteger('users_id');
+            $table->foreign('users_id')->references('id')->on('users');
+            $table->unsignedBigInteger('estado_cursos_id');
+            $table->foreign('estado_cursos_id')->references('id')->on('estado_cursos');
             $table->timestamps();
         });
     }
