@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('formatoDocumento');
             $table->unsignedBigInteger('categoriaDocumentos_id');
             $table->foreign('categoriaDocumentos_id')->references('id')->on('categoriaDocumentos');
-            $table->unsignedBigInteger('formatos_id');
-            $table->foreign('formatos_id')->references('id')->on('formatos');
-            $table->unsignedBigInteger('estadoDocumentos_id');
-            $table->foreign('estadoDocumentos_id')->references('id')->on('estadoDocumentos');
+            $table->unsignedBigInteger('formato_documentos_id');
+            $table->foreign('formato_documentos_id')->references('id')->on('formato_documentos');
+            $table->unsignedBigInteger('estado_documentos_id');
+            $table->foreign('estado_documentos_id')->references('id')->on('estado_documentos');
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();
