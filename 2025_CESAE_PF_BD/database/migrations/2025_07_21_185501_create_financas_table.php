@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('numeroFatura');
             $table->text('observacoes')->nullable();
-            $table->dateTime('dataVencimento');
-            $table->dateTime('dataEmissao');
-            $table->dateTime('dataPagamento')->nullable();
+            $table->date('dataVencimento');
+            $table->date('dataEmissao');
+            $table->date('dataPagamento')->nullable();
             $table->decimal('valor');
             $table->decimal('IVAPercetagem')->nullable();
             $table->decimal('baseCalculoIRS')->nullable();

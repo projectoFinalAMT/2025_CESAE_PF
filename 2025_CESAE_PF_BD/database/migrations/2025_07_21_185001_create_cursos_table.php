@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('descrição')->nullable();
             $table->decimal('duracaoTotal')->nullable();
             $table->decimal('precoHora');
-            $table->dateTime('dataInicio');
-            $table->dateTime('dataFim')->nullable();
+            $table->date('dataInicio');
+            $table->date('dataFim')->nullable();
             $table->unsignedBigInteger('instituicoes_id');
             $table->foreign('instituicoes_id')->references('id')->on('instituicoes');
             $table->unsignedBigInteger('users_id');

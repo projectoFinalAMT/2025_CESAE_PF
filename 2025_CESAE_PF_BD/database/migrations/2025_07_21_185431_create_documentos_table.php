@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nome');
             $table->text('caminhoDocumento');
             $table->date('dataValidade');
-            $table->string('formatoDocumento');
             $table->unsignedBigInteger('categoriaDocumentos_id');
             $table->foreign('categoriaDocumentos_id')->references('id')->on('categoriaDocumentos');
             $table->unsignedBigInteger('formato_documentos_id');
@@ -26,6 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();
+
         });
     }
 
