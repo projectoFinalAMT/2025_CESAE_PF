@@ -1,0 +1,50 @@
+.sidebar{
+    box-shadow: 6px 0 15px rgba(0, 0, 0, 0.3);
+    background-color: #696969!important;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .sidebar a:hover{
+background-color: #3c3c3c;
+
+  }
+
+  .sidebar a i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+    vertical-align: middle;
+  }
+
+  .sidebar .profile img {
+    object-fit: cover;
+  }
+
+  @media (min-width: 992px) {
+    .offcanvas-lg {
+      position: fixed;
+      width: 250px;
+      height: 100vh;
+    }
+
+    .content {
+      margin-left: 250px;
+    }
+  }
+
+
+
+
+  /* CRIAR DIV COM O NOME CONTENT PARA USAR A FORMATACAO */
+  .content {
+    margin-left: 250px; /* empurra o conteúdo para o lado */
+    padding: 20px;
+  }
+
+
