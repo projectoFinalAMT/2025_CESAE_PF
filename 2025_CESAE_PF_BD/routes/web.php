@@ -8,3 +8,5 @@ Route::get('/home', function () {
 });
 
 Route::get('/home', [homeController::class, 'index'])->name('casa');
+
+Route::get('/dashboard',[dashboardController::class,'general'])->name('dashboard_view'); // Rota que mostra a página dashboard
