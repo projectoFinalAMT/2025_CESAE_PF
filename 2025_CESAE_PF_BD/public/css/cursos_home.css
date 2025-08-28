@@ -1,22 +1,32 @@
-#btn-novo-curso {
+.btn-novo-curso {
   border: none;
   border-radius: 0px;
   box-shadow: 2px 0 5px rgba(0,0,0,0.3);
   transition: background-color 0.3s, color 0.3s;
 }
-#btn-novo-curso:hover {
+
+.btn-novo-curso:hover {
   background-color: rgb(245, 244, 244);
 }
-
 .card-cursos{
   border: none;
   border-radius: 0px;
   box-shadow: 2px 0 5px rgba(0,0,0,0.3);
 }
+
+.form-control:focus {
+  outline: none;
+  box-shadow: none;
+   border-color: #ced4da;
+}
+
 .status{
   padding-left: 6px;
   font-size: small;
+}
 
+.status:hover {
+  background-color: white;
 }
 
 .status::after {
@@ -34,4 +44,26 @@
 
 .status.inativo::after {
   background-color: red;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.btn-adicionar{
+    margin-top: 48px;
+}
+
+/*para elimar a seta no input[type=number] */
+/* Para Chrome, Edge, Safari */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Para Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+  appearance: textfield;
 }

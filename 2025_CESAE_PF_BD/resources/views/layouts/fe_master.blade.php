@@ -7,15 +7,15 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"> <!--icons bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/bootstrap.css') }}"> <!--Bootstrap css -->
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}"> <!--nosso css -->
 
     <!-- CSS específico da página -->
     @yield('css')
 
-
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script> --}}
     <script src="{{ asset('assets/bootstrap.js')}}" defer></script> <!--Script bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="{{ asset('js/script.js') }}" defer></script> <!--Script nosso -->
 
 
@@ -48,7 +48,7 @@
 
     <a href="#"><i class="bi bi-display"></i> Dashboard</a>
     <a href="{{ route('cursos') }}"><i class="bi bi-mortarboard"></i> Cursos</a>
-    <a href="#"><i class="bi bi-journal-bookmark-fill"></i> Módulos</a>
+    <a href="{{ route('modulos') }}"><i class="bi bi-journal-bookmark-fill"></i> Módulos</a>
     <a href="#"><i class="bi bi-people-fill"></i> Alunos</a>
     <a href="#"><i class="bi bi-calendar-event-fill"></i> Calendário</a>
     <a href="#"><i class="bi bi-file-earmark-text-fill"></i> Documentos</a>
