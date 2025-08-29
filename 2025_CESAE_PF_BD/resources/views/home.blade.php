@@ -2,8 +2,16 @@
 @section('css')
 <!-- Font Awesome (versão 6 mais recente no CDN) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <!-- css bootstrap -->
-<link rel="stylesheet" href="{{asset ('css/dashboard_css/dashboard.css')}}"><!-- css interno -->
+<!-- css interno -->
+<link rel="stylesheet" href="{{asset ('css/dashboard_css/dashboard.css')}}">
+<link rel="stylesheet" href="{{ asset('css/cursos_home.css') }}">
 <script src="{{ asset('assets/bootstrap.js')}}" defer></script> <!--Script bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+
+
+
+
+
 
 
 
@@ -31,7 +39,7 @@
         <div class="card-body">
             <div class="row d-flex justify-content-between" >
                 <div class="col-12 col-md-8">
-                <h5 class="card-title d-flex align-items-center justify-content-start">Cursos Ativos<i class="fa-solid fa-graduation-cap ms-4 "></i></h5>
+                <h5 class="card-title d-flex align-items-center justify-content-start">Cursos Ativos<i class="fa-solid fa-graduation-cap"></i></h5>
                 </div>
             </div>
                 <p class="card-text fw-bold fs-3">0</p>
@@ -96,12 +104,13 @@
           </div>
         </div>
       </div>
-
   </div>
 
 
-  <div class="container text-center">
+
+  <div class="container text-center ">
     <div class="row my-4">
+
         <!-- Full calendar -->
       <div class="col-sm-8">
 <div class="container">
@@ -114,39 +123,51 @@
       </div>
 
 <!-- card filter full calendar -->
-      <div class="col-sm-4">
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title d-flex align-items-center justify-content-center">
-                    Agendamentos
-                    <div class="dropdown">
-                      <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fa-solid fa-filter"></i>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Todos</a></li>
-                        <li><a class="dropdown-item" href="#">Pendentes</a></li>
-                        <li><a class="dropdown-item" href="#">Concluídos</a></li>
-                      </ul>
-                    </div>
-                  </h5>
-              <h6 class="card-subtitle mb-2 text-body-secondary">para hoje</h6>
-              <p class="card-text">Sem eventos a mostrar</p>
-
-            </div>
+<div class="col-sm-4">
+    <div id="filterBox" class="card" style="width: 18rem;">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <h5 class="card-title mb-0">Agendamentos</h5>
+          <div class="dropdown">
+            <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-filter"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">Todos</a></li>
+              <li><a class="dropdown-item" href="#">Pendentes</a></li>
+              <li><a class="dropdown-item" href="#">Concluídos</a></li>
+            </ul>
           </div>
+        </div>
+        <p id="subtitle" class="card-subtitle mb-2 text-body-secondary">para hoje</p>
+        <p class="card-text">Sem eventos a mostrar</p>
       </div>
     </div>
+  </div>
 
-
-    <!-- quick actions -->
-    <div class="row my-4">
-        <div id="fastAction" class="col-12">tetetete</div>
-
-      </div>
+    </div>
     </div>
 
+<!-- quick actions -->
+    <div class="row my-4 justify-content-center">
+        <div id="fastAction" class="col-10">
+            <h5 class="title">Ações rápidas</h5>
+            <p id="subtitle">Acesso rápido às funcionalidades mais utilizadas</p>
 
+            <div class="m-4 d-flex gap-4 justify-content-center">
+
+                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-graduation-cap"></i>Novo Curso</button>
+
+                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-user"></i>Adicionar aluno</button>
+
+                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-file"></i>Upload Documento</button>
+
+                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-calendar-days"></i>Agendar aula</button>
+
+                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-calendar-days"></i>Registar </button>
+           </div>
+        </div>
+      </div>
 </div>
 
 {{-- <div class="container my-4">
@@ -204,4 +225,9 @@
 @endif--}}
 
 </div>
+
+
+
+
+
 @endsection

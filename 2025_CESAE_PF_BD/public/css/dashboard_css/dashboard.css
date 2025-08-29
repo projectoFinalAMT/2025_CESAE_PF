@@ -1,5 +1,6 @@
 .card-title i {
     margin-left: 10px; /* ou qualquer valor */
+
   }
 
   .card-info{
@@ -17,3 +18,34 @@
     border-radius: 0px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.3);
   }
+
+  #fastActionButtons{
+    padding: 20px;
+  }
+  #fastActionButtons i{
+margin-right: 10px;  }
+
+#calendar {
+    max-width: 100%;
+    margin: 0 auto;
+    height: 600px; /* altura mínima para aparecer */
+}
+
+#filterBox{
+    border: none;
+    border-radius: 0px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+}
+
+#subtitle{
+    font-size: 12px;
+
+
+
+}
+.title{
+    padding-top: 20px;
+    font-size: 20px;
+    margin-bottom: 0; /* remove espaço abaixo do h5 */
+
+}
