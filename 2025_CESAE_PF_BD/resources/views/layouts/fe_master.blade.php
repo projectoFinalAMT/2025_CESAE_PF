@@ -18,7 +18,8 @@
     <script src="{{ asset('assets/bootstrap.js')}}" defer></script> <!--Script bootstrap -->
     <script src="{{ asset('js/script.js') }}" defer></script> <!--Script nosso -->
 
-
+    <!-- JS específico da página -->
+    @yield('scripts')
 
 </head>
 
@@ -51,7 +52,7 @@
     <a href="{{ route('modulos') }}"><i class="bi bi-journal-bookmark-fill"></i> Módulos</a>
     <a href="#"><i class="bi bi-people-fill"></i> Alunos</a>
     <a href="#"><i class="bi bi-calendar-event-fill"></i> Calendário</a>
-    <a href="#"><i class="bi bi-file-earmark-text-fill"></i> Documentos</a>
+    <a href="{{ route('documentos') }}"><i class="bi bi-file-earmark-text-fill"></i> Documentos</a>
     <a href="#"><i class="bi bi-currency-dollar"></i> Finanças</a>
     <a href="#" id="sair"><i class="bi bi-box-arrow-left"></i> Sair</a>
   </div>

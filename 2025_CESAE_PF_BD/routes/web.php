@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\cursoController;
+use App\Http\Controllers\documentoController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\moduloController;
 use Illuminate\Support\Facades\Route;
@@ -17,4 +18,8 @@ Route::get('/cursos', [cursoController::class, 'index'])->name('cursos');
 
 //Modulos
 Route::get('/modulos', [moduloController::class, 'index'])->name('modulos');
+
+//Documentos
+Route::get('/documentos', [documentoController::class, 'index'])->name('documentos');
+
 

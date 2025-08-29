@@ -46,6 +46,10 @@
   background-color: red;
 }
 
+.status.expirar::after {
+  background-color: orangered;
+}
+
 .modal-header {
     border-bottom: none;
 }
