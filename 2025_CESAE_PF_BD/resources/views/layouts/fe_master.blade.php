@@ -50,7 +50,7 @@
       <h5>Fernando</h5>
     </div>
 
-    <a href="#"><i class="bi bi-display"></i> Dashboard</a>
+    <a href="{{route ('casa')}}"><i class="bi bi-display"></i> Dashboard</a>
     <a href="{{ route('cursos') }}"><i class="bi bi-mortarboard"></i> Cursos</a>
     <a href="{{ route('modulos') }}"><i class="bi bi-journal-bookmark-fill"></i> Módulos</a>
     <a href="#"><i class="bi bi-people-fill"></i> Alunos</a>

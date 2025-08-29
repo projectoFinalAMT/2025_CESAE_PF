@@ -7,11 +7,14 @@ use App\Http\Controllers\moduloController;
 use App\Http\Controllers\financasController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/home', function () {
-    return view('welcome');
-});
+// Route::get('/home', function () {
+//     return view('welcome');
+// });
 
-Route::get('/home', [homeController::class, 'index'])->name('casa');
+
+// Dashboard
+Route::get('/dashboard', [homeController::class, 'index'])->name('casa');
+
 
 // Cursos
 Route::get('/cursos', [cursoController::class, 'index'])->name('cursos');
