@@ -1,0 +1,56 @@
+/* Oculta o checkbox padrão */
+.form-check-input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 0px !important;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+  transition: background-color 0.3s, color 0.3s;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Quando estiver marcado */
+.form-check-input:checked {
+  background-color: white; /* cor verde */
+  border-color: white;
+}
+
+/* Pequeno "check" dentro da caixa */
+.form-check-input:checked::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid green;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.form-check-input:focus {
+  outline: none;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.form-control:focus,
+.form-label:focus,
+.form-select:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: #ced4da;
+}
+
+#btn-selecao-curso{
+    border: 1px solid #ced4da; /* mesma cor dos inputs */
+    border-radius: 0.25rem;
+}
+
+.btn-adicionar-modulo{
+    margin-right: 50px;
+    margin-top: -50px;
+}
