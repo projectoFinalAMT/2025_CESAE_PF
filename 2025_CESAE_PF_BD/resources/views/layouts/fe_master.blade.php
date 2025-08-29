@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="{{ asset('assets/bootstrap.css') }}"> <!--Bootstrap css -->
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}"> <!--nosso css -->
 
+     <!-- Material Icons ou Symbols - botão Edit Lápis -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <!-- CSS específico da página -->
     @yield('css')
 
@@ -58,5 +61,9 @@
   </div>
 </div>
     @yield('content') <!--permite usar nas outras blades o layout-->
+
+    <!-- MDBootstrap JS -->  <!-- Permite usar a barra de progresso circular na página Finanças -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.js"></script>
+
 </body>
 </html>
