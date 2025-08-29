@@ -1,0 +1,71 @@
+#btn-nova-fatura {
+  border: none;
+  border-radius: 0px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+  transition: background-color 0.3s, color 0.3s;
+}
+#btn-nova-fatura:hover {
+  background-color: rgb(245, 244, 244);
+}
+
+.card-financas{
+  border: none;
+  border-radius: 0px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+}
+
+/*Barra de progresso circular*/
+.circular-progress {
+  --size: 80px;        /* tamanho do círculo */
+  --thickness: 12px;    /* espessura da barra */
+  --value: 0;          /* percentagem inicial */
+  --fg: #28a745;       /* cor da barra preenchida */
+  --bg: #e9ecef;       /* cor de fundo */
+
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* o anel é desenhado no pseudo-elemento */
+.circular-progress::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(var(--fg) calc(var(--value) * 1%), var(--bg) 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness)), black 0);
+          mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness)), black 0);
+}
+
+/* número sempre centrado */
+.circular-progress span {
+  position: relative; /* garante que o texto fica acima do ::before */
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #212529;
+}
+
+/*Botão Editar Objetivo*/
+.edit-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #6c757d;
+  transition: color 0.2s ease-in-out;
+}
+
+.edit-btn:hover {
+  color: #28a745;
+}
+
+.edit-btn i {
+  font-size: 20px;
+  line-height: 1;
+}
+
