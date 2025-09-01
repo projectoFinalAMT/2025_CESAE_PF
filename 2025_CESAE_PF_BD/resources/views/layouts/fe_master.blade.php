@@ -11,8 +11,9 @@
     <link rel="stylesheet" href="{{ asset('assets/bootstrap.css') }}"> <!--Bootstrap css -->
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}"> <!--nosso css -->
 
-     <!-- Material Icons ou Symbols - botão Edit Lápis -->
+     <!-- Material Icons ou Symbols-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"> <!--Versão outlined (mais simples)-->
 
     <!-- CSS específico da página -->
     @yield('css')
@@ -56,7 +57,7 @@
     <a href="#"><i class="bi bi-people-fill"></i> Alunos</a>
     <a href="#"><i class="bi bi-calendar-event-fill"></i> Calendário</a>
     <a href="{{ route('documentos') }}"><i class="bi bi-file-earmark-text-fill"></i> Documentos</a>
-    <a href="#"><i class="bi bi-currency-dollar"></i> Finanças</a>
+    <a href="{{ route('financas') }}"><i class="bi bi-currency-dollar"></i> Finanças</a>
     <a href="#" id="sair"><i class="bi bi-box-arrow-left"></i> Sair</a>
   </div>
 </div>
@@ -64,6 +65,9 @@
 
     <!-- MDBootstrap JS -->  <!-- Permite usar a barra de progresso circular na página Finanças -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.js"></script>
+
+    <!--Para poder usar a biblioteca de gráficos do chart (gráfico donut na página Finanças)-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
 </html>
