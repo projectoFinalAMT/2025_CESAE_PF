@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\cursoController;
-use App\Http\Controllers\documentoController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\instituicaoController;
+use App\Http\Controllers\cursoController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\moduloController;
 use App\Http\Controllers\financasController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\documentoController;
 
 // Route::get('/home', function () {
 //     return view('welcome');
@@ -15,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 // Dashboard
 Route::get('/dashboard', [homeController::class, 'index'])->name('casa');
+
 
 
 // Cursos
@@ -41,3 +44,21 @@ Route::post('/instituicoes', [InstituicaoController::class, 'store'])->name('ins
 Route::post('/instituicoes/delete', [instituicaoController::class, 'deletar'])->name('instituicoes.deletar');
 Route::put('/instituicoes/{id}/update', [instituicaoController::class, 'update'])->name('instituicoes.update');
 
+//Calendario
+//O middleware auth vai ser necessario para cada utilizador ver o seu calendario
+// Route::middleware('auth')->group(function () {
+
+    // Retorna todos os eventos do formador logado
+    Route::get('/events', [EventController::class, 'index']);
+    // Cria um novo evento
+    Route::post('/events', [EventController::class, 'store']);
+    // Atualiza um evento existente
+    Route::put('/events/{event}', [EventController::class, 'update']);
+    // Deleta um evento
+    Route::delete('/events/{event}', [EventController::class, 'destroy']);
+    // ver calendario
+   // Página do calendário (HTML)
+Route::get('/calendar', [ScheduleController::class, 'index'])->name('calendarioBladeView');
+
+
+// });
