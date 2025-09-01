@@ -1,0 +1,24 @@
+
+/* Remove sublinhado dos números dos dias */
+.fc .fc-daygrid-day-number {
+    text-decoration: none !important;
+    color: #000 !important; /* mantém preto */
+}
+
+/* Remove sublinhado dos nomes dos dias da semana */
+.fc .fc-col-header-cell-cushion {
+    text-decoration: none !important;
+    color: #000 !important; /* podes mudar a cor se quiseres */
+    font-weight: 600; /* deixa mais destacado */
+}
+
+/* Remove sublinhado dos eventos */
+.fc .fc-event,
+.fc .fc-event a {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+#calendar {
+    width: 100%;
+      }
