@@ -1,5 +1,9 @@
-.card-title i {
+.titlecard i {
     margin-left: 10px; /* ou qualquer valor */
+
+  }
+  .titlecard{
+    font-size: 17px;
 
   }
 
