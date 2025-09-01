@@ -25,11 +25,17 @@ Route::get('/alunos', [AlunosController::class, 'index'])->name('alunos_view');
 // Cursos
 Route::get('/cursos', [cursoController::class, 'index'])->name('cursos');
 Route::post('/cursos', [cursoController::class, 'store'])->name('curso.store');
-Route::post('/curso/delete', [cursoController::class, 'deletar'])->name('curso.deletar');
+Route::post('/cursos/delete', [cursoController::class, 'deletar'])->name('curso.deletar');
+Route::put('/cursos/{id}/update', [cursoController::class, 'update'])->name('curso.update');
+Route::get('/cursos/buscar', [CursoController::class, 'buscar'])->name('cursos.buscar');
 
 
 //Modulos
 Route::get('/modulos', [moduloController::class, 'index'])->name('modulos');
+Route::post('/modulos', [moduloController::class, 'store'])->name('modulo.store');
+Route::post('/modulos/delete', [moduloController::class, 'deletar'])->name('modulo.deletar');
+Route::put('/modulos/{id}/update', [moduloController::class, 'update'])->name('modulo.update');
+Route::get('/modulos/buscar', [moduloController::class, 'buscar'])->name(' modulo.buscar');
 
 //Documentos
 Route::get('/documentos', [documentoController::class, 'index'])->name('documentos');
@@ -45,6 +51,7 @@ Route::get('/instituicoes', [instituicaoController::class, 'index'])->name('inst
 Route::post('/instituicoes', [InstituicaoController::class, 'store'])->name('instituicoes.store');
 Route::post('/instituicoes/delete', [instituicaoController::class, 'deletar'])->name('instituicoes.deletar');
 Route::put('/instituicoes/{id}/update', [instituicaoController::class, 'update'])->name('instituicoes.update');
+Route::get('/instituicoes/buscar', [InstituicaoController::class, 'buscar'])->name('instituicoes.buscar');
 
 //Calendario
 //O middleware auth vai ser necessario para cada utilizador ver o seu calendario

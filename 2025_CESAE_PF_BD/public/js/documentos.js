@@ -36,37 +36,53 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener('DOMContentLoaded', function() {
     const confirmarEliminarModal = document.getElementById('confirmarEliminar');
     const formEliminar = document.getElementById('formEliminar');
+    const idsSelecionados = document.getElementById('idsSelecionados');
 
-    // Quando o modal abrir via botão, preenche o id do botão (single delete)
+    // Single delete via data-id
     confirmarEliminarModal.addEventListener('show.bs.modal', function(event) {
         const button = event.relatedTarget;
         const id = button.getAttribute('data-id');
-
-        // Só preenche se o botão tiver data-id
         if(id) {
-            document.getElementById('idsSelecionados').value = id;
+            idsSelecionados.value = id;
         }
     });
 
-    // Quando o form for submetido, pega os checkboxes (multi delete)
+    // Multi delete (cursos, instituições, módulos)
     formEliminar.addEventListener('submit', function(e) {
-        // Para cursos
+        // Cursos
         const checkboxesCursos = document.querySelectorAll('input[name="cursos[]"]:checked');
         const idsCursos = Array.from(checkboxesCursos).map(cb => cb.value);
 
-        // Para instituições
+        // Instituições
         const checkboxesInst = document.querySelectorAll('input[name="instituicoes[]"]:checked');
         const idsInst = Array.from(checkboxesInst).map(cb => cb.value);
 
-        // Decide quais IDs enviar (checkboxes têm prioridade se existirem)
-        const ids = idsCursos.length ? idsCursos : idsInst;
+        // Módulos (novo)
+        const checkboxesModulos = document.querySelectorAll('input[name="modulos[]"]:checked');
+        const idsModulos = Array.from(checkboxesModulos).map(cb => cb.value);
 
-        if(ids.length > 0) {
-            document.getElementById('idsSelecionados').value = ids.join(',');
+        // Prioridade: cursos > instituições > módulos
+        let ids = [];
+        if(idsCursos.length) {
+            ids = idsCursos;
+        } else if(idsInst.length) {
+            ids = idsInst;
+        } else if(idsModulos.length) {
+            ids = idsModulos;
         }
-        // Se não houver checkboxes marcados e data-id já estiver preenchido, mantém
+
+        if(ids.length) {
+            idsSelecionados.value = ids.join(',');
+        }
+
+        // Se não houver nenhum selecionado e hidden vazio
+        if(!ids.length && !idsSelecionados.value) {
+            e.preventDefault();
+            alert('Selecione pelo menos um item para deletar.');
+        }
     });
 });
+
 
 //tempo post sucess
 document.addEventListener('DOMContentLoaded', function () {
@@ -84,16 +100,18 @@ document.addEventListener('DOMContentLoaded', function() {
     buttons.forEach(button => {
         button.addEventListener('click', function() {
             const cursoId = this.dataset.cursoId;
-            const estadoAtual = parseInt(this.dataset.estado);
+            const estadoAtual = parseInt(this.dataset.estado); // 1 ou 2
 
             // Alterna localmente
             const novoEstado = estadoAtual === 1 ? 2 : 1;
             this.dataset.estado = novoEstado;
             this.textContent = novoEstado === 1 ? 'ativo' : 'inativo';
-            this.classList.toggle('ativo', novoEstado === 1);
-            this.classList.toggle('inativo', novoEstado === 2);
 
-            // Atualiza no backend
+            // Atualiza classes para CSS
+            this.classList.remove('ativo', 'inativo');
+            this.classList.add(novoEstado === 1 ? 'ativo' : 'inativo');
+
+            // Envia para backend
             fetch(`/cursos/${cursoId}/toggle-estado`, {
                 method: 'POST',
                 headers: {
@@ -101,9 +119,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 },
                 body: JSON.stringify({ estado: novoEstado })
-            })
-            .catch(err => console.error(err));
+            }).catch(err => console.error(err));
         });
     });
 });
+
+//pesquisa
+
+document.addEventListener('DOMContentLoaded', () => {
+   let myfilter= document.querySelector('input').getAttribute('id');
+    search(myfilter);
+});
+
+
+function search(filter){
+    const input = document.getElementById(filter);
+    const cards = document.querySelectorAll('.row.g-4 > .col-12');
+
+    input.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+
+        cards.forEach(card => {
+            const nome = card.querySelector('.card-title').textContent.toLowerCase();
+            if (nome.includes(query)) {
+                card.style.display = ''; // mostra
+            } else {
+                card.style.display = 'none'; // esconde
+            }
+        });
+    });
+}
+
+ // Previne o dropdown de fechar ao clicar nos checkboxes
+  document.querySelectorAll('.curso-checkbox').forEach(function(checkbox) {
+    checkbox.addEventListener('click', function(event) {
+      event.stopPropagation();
+    });
+  });
+
 

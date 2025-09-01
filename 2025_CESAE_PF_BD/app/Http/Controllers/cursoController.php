@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 class cursoController extends Controller
 {
      public function index(){
-        $cursos = Curso::all();
-         $instituicoes = Instituicao::all();
+        $instituicoes = Instituicao::all();
+        $cursos = Curso::withCount('modulos')->get();
         return view('cursos.cursos_home', compact('cursos', 'instituicoes'));
     }
 
@@ -44,12 +44,50 @@ class cursoController extends Controller
                      ->with('success', 'Curso criado com sucesso!');
 }
 
+public function update(Request $request, $id)
+{
+    $curso = Curso::findOrFail($id);
+
+    $validated = $request->validate([
+        'nome'         => 'required|string|max:255',
+        'instituicao'  => 'required|exists:instituicoes,id',
+        'data_inicio'  => 'required|date',
+        'data_fim'     => 'nullable|date|after_or_equal:data_inicio',
+        'total_horas'  => 'required|numeric|min:0',
+        'preco_hora'   => 'required|numeric|min:0',
+        'descricao'    => 'nullable|string',
+    ]);
+
+    $curso->update([
+        'titulo'          => $validated['nome'],
+        'instituicoes_id' => $validated['instituicao'],
+        'dataInicio'      => $validated['data_inicio'],
+        'dataFim'         => $validated['data_fim'],
+        'duracaoTotal'    => $validated['total_horas'],
+        'precoHora'       => $validated['preco_hora'],
+        'descricao'       => $validated['descricao'] ?? null,
+    ]);
+
+    return redirect()->route('cursos')->with('success', 'Curso atualizado com sucesso!');
+}
+
+
  public function deletar(Request $request)
 {
     $ids = explode(',', $request->ids);
     Curso::whereIn('id', $ids)->delete();
-    return redirect()->route('cursos')->with('success', 'Instituições eliminadas com sucesso!');
+    return redirect()->route('cursos')->with('success', 'Curso eliminado com sucesso!');
 }
+
+public function buscar(Request $request)
+{
+    $query = $request->input('q');
+
+    $cursos = Curso::where('titulo', 'like', "%{$query}%")->get();
+
+    return response()->json($cursos);
+}
+
 
 
 

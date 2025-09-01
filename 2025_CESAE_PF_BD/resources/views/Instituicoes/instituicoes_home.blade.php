@@ -29,7 +29,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold">Instituições</h2>
                 <div class="d-flex align-items-center gap-2">
-                    <input type="text" class="form-control w-auto" placeholder="Pesquisar Instituição..."
+                    <input type="text" class="form-control w-auto input"  placeholder="Pesquisar Instituição..."
                         id="pesquisa-instituicao">
                 </div>
             </div>
@@ -45,109 +45,15 @@
         </div>
 
         <!-- Modal Nova Instituicao -->
-        <div class="modal fade" id="novaInstituicaoModal" tabindex="-1" aria-labelledby="novaInstituicaoModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="col-12 col-md-8">
-                            <h5 class="modal-title" id="novaInstituicaoModalLabel">Cadastrar Nova Instituição</h5>
-                            <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <!-- Ajustado -->
-                        <form id="formInstituicao" method="POST" action="{{ route('instituicoes.store') }}">
-                            @csrf
-
-                            <!-- Nome da Instituição -->
-                            <div class="mb-3">
-                                <label for="nome_instituicao" class="form-label">Nome da Instituição*</label>
-                                <input type="text" class="form-control" id="nome_instituicao" name="nomeInstituicao"
-                                    required>
-                            </div>
-
-                            <!-- Morada -->
-                            <div class="mb-3">
-                                <label for="morada" class="form-label">Morada</label>
-                                <input type="text" class="form-control" id="morada" name="morada">
-                            </div>
-
-                            <!-- NIF e Telefone -->
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-6">
-                                    <label for="nif" class="form-label">NIF</label>
-                                    <input type="text" class="form-control" id="nif" name="NIF">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="telefone" class="form-label">Telefone</label>
-                                    <input type="tel" class="form-control" id="telefone" name="telefoneResponsavel">
-                                </div>
-                            </div>
-
-                            <!-- Email e Nome do Responsável -->
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Email*</label>
-                                    <input type="email" class="form-control" id="email" name="emailResponsavel"
-                                        required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nome_responsavel" class="form-label">Nome do Responsável</label>
-                                    <input type="text" class="form-control" id="nome_responsavel"
-                                        name="nomeResponsavel">
-                                </div>
-                            </div>
-
-                            <!-- Botão -->
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-novo-curso">
-                                    Gravar Instituição <i class="bi bi-check-lg text-success"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('componentes.instituicao.nova-instituicao')
 
 
 
         <!-- Modal de confirmação -->
-        <div class="modal fade" id="confirmarEliminar" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirmar eliminação</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <p>Tem certeza que deseja eliminar esta/s Instituição/ões?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{ route('instituicoes') }}" type="button" class="btn btn-novo-curso">
-                            Cancelar <i class="bi bi-check-lg text-success"></i>
-                        </a>
-
-                        <!-- Substituir botão por formulário -->
-                        <form id="formEliminar" method="POST" action="{{ route('instituicoes.deletar') }}">
-                            @csrf
-                            <!-- Campo hidden para os IDs selecionados -->
-                            <input type="hidden" name="ids" id="idsSelecionados" value="">
-                            <button type="submit" class="btn btn-novo-curso">
-                                Eliminar <i class="bi bi-x-lg text-danger"></i>
-                            </button>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('componentes.eliminar')
 
 
-      <div class="row g-4">
+      <div class="row g-4" id="grid-instituicoes">
     @foreach ($instituicoes as $instituicao)
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card card-cursos">
@@ -195,82 +101,7 @@
             </div>
 
             <!-- Modal Editar Instituição -->
-            <div class="modal fade" id="editarInstituicaoModal-{{ $instituicao->id }}" tabindex="-1"
-                aria-labelledby="editarInstituicaoModalLabel-{{ $instituicao->id }}" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-
-                        <!-- Cabeçalho -->
-                        <div class="modal-header">
-                            <div class="col-12 col-md-8">
-                                <h5 class="modal-title" id="editarInstituicaoModalLabel-{{ $instituicao->id }}">Editar Instituição</h5>
-                                <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
-                            </div>
-                            <button type="button" class="btn-close position-absolute top-0 end-0 m-2"
-                                data-bs-dismiss="modal" aria-label="Fechar"></button>
-                        </div>
-
-                        <!-- Corpo -->
-                        <div class="modal-body">
-                            <form method="POST" action="{{ route('instituicoes.update', $instituicao->id) }}">
-                                @csrf
-                                @method('PUT')
-
-                                <div class="mb-3">
-                                    <label for="nome_instituicao_{{ $instituicao->id }}" class="form-label">Nome da Instituição*</label>
-                                    <input type="text" class="form-control" id="nome_instituicao_{{ $instituicao->id }}"
-                                        name="nomeInstituicao" required value="{{ $instituicao->nomeInstituicao }}">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="morada_{{ $instituicao->id }}" class="form-label">Morada</label>
-                                    <input type="text" class="form-control" id="morada_{{ $instituicao->id }}"
-                                        name="morada" value="{{ $instituicao->morada }}">
-                                </div>
-
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label for="nif_{{ $instituicao->id }}" class="form-label">NIF</label>
-                                        <input type="text" class="form-control" id="nif_{{ $instituicao->id }}"
-                                            name="NIF" value="{{ $instituicao->NIF }}">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="telefone_{{ $instituicao->id }}" class="form-label">Telefone</label>
-                                        <input type="tel" class="form-control" id="telefone_{{ $instituicao->id }}"
-                                            name="telefoneResponsavel" value="{{ $instituicao->telefoneResponsavel }}">
-                                    </div>
-                                </div>
-
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label for="email_{{ $instituicao->id }}" class="form-label">Email*</label>
-                                        <input type="email" class="form-control" id="email_{{ $instituicao->id }}"
-                                            name="emailResponsavel" required value="{{ $instituicao->emailResponsavel }}">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="nome_responsavel_{{ $instituicao->id }}" class="form-label">Nome do Responsável</label>
-                                        <input type="text" class="form-control" id="nome_responsavel_{{ $instituicao->id }}"
-                                            name="nomeResponsavel" value="{{ $instituicao->nomeResponsavel }}">
-                                    </div>
-                                </div>
-
-                                <div class="text-center mt-4">
-                                    <button type="submit" class="btn btn-novo-curso">
-                                        Gravar Alterações <i class="bi bi-check-lg text-success"></i>
-                                    </button>
-
-                                    <button type="button" class="btn btn-novo-curso" data-bs-toggle="modal"
-                                        data-bs-target="#confirmarEliminar" data-id="{{ $instituicao->id }}">
-                                        Eliminar Instituição <i class="bi bi-x-lg text-danger"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+           @include('componentes.instituicao.editar-instituicao')
     @endforeach
         </div>
     @endsection

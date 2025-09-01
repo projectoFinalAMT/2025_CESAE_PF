@@ -33,7 +33,7 @@ class Curso extends Model
 
     public function modulos()
     {
-        return $this->hasMany(Modulo::class, 'cursos_id');
+        return $this->belongsToMany(Modulo::class, 'curso_modulo');
     }
 
 }

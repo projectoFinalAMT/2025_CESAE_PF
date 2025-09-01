@@ -11,17 +11,11 @@ class Modulo extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nomeModulo',
-        'descricao',
-        'duracaoHoras',
-        'cursos_id',
-    ];
+    protected $fillable = ['nomeModulo', 'descricao', 'duracaoHoras'];
 
-    // Relacionamento com Curso
-    public function curso()
+    public function cursos()
     {
-        return $this->belongsTo(Curso::class, 'cursos_id');
+        return $this->belongsToMany(Curso::class, 'curso_modulo');
     }
 
     // Relacionamento com Event
