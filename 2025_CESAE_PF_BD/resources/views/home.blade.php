@@ -1,13 +1,16 @@
 @extends('layouts.fe_master')
 @section('css')
-<!-- Font Awesome (versão 6 mais recente no CDN) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <!-- css bootstrap -->
-<link rel="stylesheet" href="{{asset ('css/dashboard_css/dashboard.css')}}"><!-- css interno -->
+<!-- css interno -->
+<link rel="stylesheet" href="{{asset ('css/dashboard_css/dashboard.css')}}">
+<link rel="stylesheet" href="{{ asset('css/cursos_home.css') }}">
 <script src="{{ asset('assets/bootstrap.js')}}" defer></script> <!--Script bootstrap -->
-
-
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+<!-- FullCalendar CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FullCalendar CSS PROPRIO -->
+<link rel="stylesheet" href="{{ asset('css/calendario/dashBladeCalendario.css') }}">
 
 
 @section('content')
@@ -31,7 +34,7 @@
         <div class="card-body">
             <div class="row d-flex justify-content-between" >
                 <div class="col-12 col-md-8">
-                <h5 class="card-title d-flex align-items-center justify-content-start">Cursos Ativos<i class="fa-solid fa-graduation-cap ms-4 "></i></h5>
+                <h5 class="titlecard">Cursos Ativos<i class="fa-solid fa-graduation-cap"></i></h5>
                 </div>
             </div>
                 <p class="card-text fw-bold fs-3">0</p>
@@ -47,9 +50,9 @@
      <div class="col-12 col-md-6 col-lg-3">
         <div class="card card-info">
           <div class="card-body">
-              <div class="row d-flex justify-content-between" >
+              <div class="row d-flex" >
                   <div class="col-12 col-md-8">
-                  <h5 class="card-title">Total alunos<i class="fa-solid fa-user"></i></h5>
+                  <h5 class="titlecard">Total alunos<i class="fa-solid fa-user"></i></h5>
                   </div>
               </div>
                   <p class="card-text fw-bold fs-3">0</p>
@@ -67,7 +70,7 @@
           <div class="card-body">
               <div class="row d-flex justify-content-between" >
                   <div class="col-12 col-md-8">
-                  <h5 class="card-title">Documento<i class="fa-solid fa-file"></i></h5>
+                  <h5 class="titlecard">Documento<i class="fa-solid fa-file"></i></h5>
                   </div>
               </div>
                   <p class="card-text fw-bold fs-3">0</p>
@@ -80,12 +83,12 @@
       </div>
 
        <!-- Card 4 -->
-    <div class="col-12 col-md-6 col-lg-3">
-        <div class="card card-info">
-          <div class="card-body">
-              <div class="row d-flex justify-content-between" >
+    <div class="col-12 col-md-6 col-lg-3 ">
+        <div class="card card-info ">
+          <div class="card-body ">
+              <div class="row d-flex" >
                   <div class="col-12 col-md-8">
-                  <h5 class="card-title">Aulas este mês<i class="fa-solid fa-calendar-days"></i></h5>
+                  <h5 class="titlecard">Aulas este mês<i class="fa-solid fa-calendar-days"></i></h5>
                   </div>
               </div>
                   <p class="card-text fw-bold fs-3">0</p>
@@ -96,57 +99,129 @@
           </div>
         </div>
       </div>
-
   </div>
 
 
-  <div class="container text-center">
+
+  <div class="container text-center ">
     <div class="row my-4">
+
         <!-- Full calendar -->
       <div class="col-sm-8">
 <div class="container">
     <div class="card">
         <div class="card-body">
             <div id="calendar"></div>
+
         </div>
+
     </div>
 </div>
       </div>
 
 <!-- card filter full calendar -->
-      <div class="col-sm-4">
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title d-flex align-items-center justify-content-center">
-                    Agendamentos
-                    <div class="dropdown">
-                      <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fa-solid fa-filter"></i>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Todos</a></li>
-                        <li><a class="dropdown-item" href="#">Pendentes</a></li>
-                        <li><a class="dropdown-item" href="#">Concluídos</a></li>
-                      </ul>
-                    </div>
-                  </h5>
-              <h6 class="card-subtitle mb-2 text-body-secondary">para hoje</h6>
-              <p class="card-text">Sem eventos a mostrar</p>
+<div class="col-sm-4">
+    <div id="filterBox" class="card" style="width: 18rem;">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <h5 class="card-title mb-0">Agendamentos</h5>
+          <div class="dropdown">
+            <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-filter"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">Todos</a></li>
+              <li><a class="dropdown-item" href="#">Pendentes</a></li>
+              <li><a class="dropdown-item" href="#">Concluídos</a></li>
+            </ul>
+          </div>
+        </div>
+        <p id="subtitle" class="card-subtitle mb-2 text-body-secondary">para hoje</p>
+        <p class="card-text">Sem eventos a mostrar</p>
+      </div>
+    </div>
+  </div>
 
+    </div>
+    </div>
+    {{-- MODAL: Criar/Editar Evento --}}
+<div class="modal fade" id="eventoModal" tabindex="-1" aria-labelledby="eventoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="eventoForm" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="eventoModalLabel">Novo evento</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" id="event_id">
+          <div class="mb-3">
+            <label class="form-label">Título (opcional)</label>
+            <input type="text" id="event_title" class="form-control" placeholder="Ex.: Reunião com coordenação">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Módulo (opcional)</label>
+            <select id="event_modulo" class="form-select">
+              <option value="">— Sem módulo —</option>
+
+              @foreach($modulos as $m)
+                <option value="{{ $m->id }}">{{ $m->nomeModulo }}</option>
+              @endforeach
+
+            </select>
+          </div>
+
+          <div class="row g-2">
+            <div class="col-6">
+              <label class="form-label">Início</label>
+              <input type="datetime-local" id="event_inicio" class="form-control">
+            </div>
+            <div class="col-6">
+              <label class="form-label">Fim</label>
+              <input type="datetime-local" id="event_fim" class="form-control">
             </div>
           </div>
-      </div>
+
+          <div class="mt-3">
+            <label class="form-label">Nota (opcional)</label>
+            <textarea id="event_nota" class="form-control" rows="2" placeholder="Ex.: trazer projector"></textarea>
+          </div>
+
+          <div id="eventoErro" class="text-danger mt-2" style="display:none;"></div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btnApagar" class="btn btn-outline-danger me-auto" style="display:none;">Apagar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar</button>
+        </div>
+      </form>
     </div>
+  </div>
 
+</div>
 
-    <!-- quick actions -->
-    <div class="row my-4">
-        <div id="fastAction" class="col-12">tetetete</div>
+<!-- quick actions -->
+    <div class="row my-4 justify-content-center">
+        <div id="fastAction" class="col-12">
+            <h5 class="title">Ações rápidas</h5>
+            <p id="subtitle">Acesso rápido às funcionalidades mais utilizadas</p>
 
+            <div class="m-4 d-flex gap-4 justify-content-center">
+
+                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-graduation-cap"></i>Novo Curso</button>
+
+                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-user"></i>Adicionar aluno</button>
+
+                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-file"></i>Upload Documento</button>
+
+                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-calendar-days"></i>Agendar aula</button>
+
+                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-calendar-days"></i>Registar instituição </button>
+           </div>
+        </div>
       </div>
-    </div>
-
-
 </div>
 
 {{-- <div class="container my-4">
@@ -204,4 +279,18 @@
 @endif--}}
 
 </div>
+
+
+
+@section('scripts')
+    <!-- IMPORTANTE: JS do FullCalendar (usa o bundle global) -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<!-- Passar CSRF token para o JS -->
+<script>
+    window.csrfToken = "{{ csrf_token() }}";
+</script>
+<!-- Nosso JS -->
+<script src="{{ asset('js/calendario.js') }}"></script>
+@endsection
+
 @endsection
