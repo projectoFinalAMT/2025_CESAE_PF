@@ -28,9 +28,6 @@
   color: #fff; /* texto branco */
 }
 
-
-
-
 .card-financas{
   border: none;
   border-radius: 0px;
@@ -42,7 +39,7 @@
   --size: 65px;        /* tamanho do círculo */
   --thickness: 12px;    /* espessura da barra */
   --value: 0;          /* percentagem inicial */
-  --fg: #28a745;       /* cor da barra preenchida */
+  --fg: #fabfb7;       /* cor da barra preenchida */
   --bg: #e9ecef;       /* cor de fundo */
 
   width: var(--size);
@@ -73,23 +70,8 @@
   color: #212529;
 }
 
-/*Botão Editar Objetivo*/
-.edit-btn {
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  color: #6c757d;
-  transition: color 0.2s ease-in-out;
-}
-
-.edit-btn:hover {
-  color: #28a745;
-}
-
-.edit-btn i {
-  font-size: 20px;
-  line-height: 1;
+#tituloValorExpectavel{
+    color: #fabfb7;
 }
 
 .card-recibos, .card-ganhos{
