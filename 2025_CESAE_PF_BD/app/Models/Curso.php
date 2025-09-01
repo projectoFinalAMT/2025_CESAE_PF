@@ -15,7 +15,7 @@ class Curso extends Model
 
     protected $fillable = [
         'titulo',
-        'descrição',
+        'descricao',
         'duracaoTotal',
         'precoHora',
         'dataInicio',
@@ -30,9 +30,10 @@ class Curso extends Model
         return $this->belongsTo(Instituicao::class, 'instituicoes_id');
     }
     // Relacionamento com Modulos
-    }
+
     public function modulos()
     {
         return $this->hasMany(Modulo::class, 'cursos_id');
     }
+
 }

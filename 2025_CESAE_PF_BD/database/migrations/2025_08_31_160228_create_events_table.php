@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
         // Dados do evento
         $table->string('title')->nullable(); // título exibido no calendário, em caso de aula pode ser nullable pois vai buscar o nome do modulo
-        $table->string('nota')->nullable(); // se quiser deixar alguma nota no agendamento (exemplo "na reuniao x falar do topico y")
         $table->dateTime('start');
         $table->dateTime('end');
 
-         // Relacionamentos
+        // Relacionamentos
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('id')->on('users');
 

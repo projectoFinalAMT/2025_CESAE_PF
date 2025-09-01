@@ -2,13 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homeController;
-use App\Http\Controllers\instituicaoController;
 use App\Http\Controllers\cursoController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\AlunosController;
 use App\Http\Controllers\moduloController;
 use App\Http\Controllers\financasController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\documentoController;
+use App\Http\Controllers\instituicaoController;
 
 // Route::get('/home', function () {
 //     return view('welcome');
@@ -18,7 +19,8 @@ use App\Http\Controllers\documentoController;
 // Dashboard
 Route::get('/dashboard', [homeController::class, 'index'])->name('casa');
 
-
+//alunos
+Route::get('/alunos', [AlunosController::class, 'index'])->name('alunos_view');
 
 // Cursos
 Route::get('/cursos', [cursoController::class, 'index'])->name('cursos');
