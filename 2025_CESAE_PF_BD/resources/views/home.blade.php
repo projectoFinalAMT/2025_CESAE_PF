@@ -4,6 +4,9 @@
 <!-- css interno -->
 <link rel="stylesheet" href="{{asset ('css/dashboard_css/dashboard.css')}}">
 <link rel="stylesheet" href="{{ asset('css/cursos_home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modulos_home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/documentos_home.css') }}">
+
 <script src="{{ asset('assets/bootstrap.js')}}" defer></script> <!--Script bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
 <!-- FullCalendar CSS -->
@@ -32,11 +35,13 @@
     <div class="col-12 col-md-6 col-lg-3">
       <div class="card card-info">
         <div class="card-body">
-            <div class="row d-flex justify-content-between" >
-                <div class="col-12 col-md-8">
-                <h5 class="titlecard">Cursos Ativos<i class="fa-solid fa-graduation-cap"></i></h5>
-                </div>
-            </div>
+           <div class="row d-flex justify-content-between">
+    <div class="col d-flex align-items-center">
+        <h5 class="titlecard mb-0">
+            Cursos Ativos <i class="fa-solid fa-graduation-cap ms-2"></i>
+        </h5>
+    </div>
+</div>
                 <p class="card-text fw-bold fs-3">0</p>
             <div class="d-flex justify-content-between px-3">
                <span class="card-text">0 novos</span>
@@ -50,11 +55,13 @@
      <div class="col-12 col-md-6 col-lg-3">
         <div class="card card-info">
           <div class="card-body">
-              <div class="row d-flex" >
-                  <div class="col-12 col-md-8">
-                  <h5 class="titlecard">Total alunos<i class="fa-solid fa-user"></i></h5>
-                  </div>
-              </div>
+               <div class="row d-flex justify-content-between">
+    <div class="col d-flex align-items-center">
+        <h5 class="titlecard mb-0">
+            Total Alunos <i class="fa-solid fa-user"></i>
+        </h5>
+    </div>
+</div>
                   <p class="card-text fw-bold fs-3">0</p>
               <div class="d-flex justify-content-between px-3">
                  <span class="card-text">0 novos</span>
@@ -68,11 +75,13 @@
     <div class="col-12 col-md-6 col-lg-3">
         <div class="card card-info">
           <div class="card-body">
-              <div class="row d-flex justify-content-between" >
-                  <div class="col-12 col-md-8">
-                  <h5 class="titlecard">Documento<i class="fa-solid fa-file"></i></h5>
-                  </div>
-              </div>
+               <div class="row d-flex justify-content-between">
+    <div class="col d-flex align-items-center">
+        <h5 class="titlecard mb-0">
+            Documentos <i class="fa-solid fa-file"></i>
+        </h5>
+    </div>
+</div>
                   <p class="card-text fw-bold fs-3">0</p>
               <div class="d-flex justify-content-between px-3">
                  <span class="card-text">0 a expirar em breve</span>
@@ -86,11 +95,13 @@
     <div class="col-12 col-md-6 col-lg-3 ">
         <div class="card card-info ">
           <div class="card-body ">
-              <div class="row d-flex" >
-                  <div class="col-12 col-md-8">
-                  <h5 class="titlecard">Aulas este mês<i class="fa-solid fa-calendar-days"></i></h5>
-                  </div>
-              </div>
+               <div class="row d-flex justify-content-between">
+    <div class="col d-flex align-items-center">
+        <h5 class="titlecard mb-0">
+            Aulas este mês <i class="fa-solid fa-calendar-days"></i>
+        </h5>
+    </div>
+</div>
                   <p class="card-text fw-bold fs-3">0</p>
               <div class="d-flex justify-content-between px-3">
                  <span class="card-text">0 esta semana</span>
@@ -208,18 +219,27 @@
             <h5 class="title">Ações rápidas</h5>
             <p id="subtitle">Acesso rápido às funcionalidades mais utilizadas</p>
 
-            <div class="m-4 d-flex gap-4 justify-content-center">
+            <div class="m-4 d-flex flex-wrap gap-3 justify-content-center">
+    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal" data-bs-target="#novoCursoModal">
+        <i class="fa-solid fa-graduation-cap"></i> Novo Curso
+    </button>
 
-                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-graduation-cap"></i>Novo Curso</button>
+    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal" data-bs-target="#novoCursoModal">
+        <i class="fa-solid fa-user"></i> Adicionar Aluno
+    </button>
 
-                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-user"></i>Adicionar aluno</button>
+    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal" data-bs-target="#novoCursoModal">
+        <i class="fa-solid fa-file"></i> Upload Documento
+    </button>
 
-                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-file"></i>Upload Documento</button>
+    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal" data-bs-target="#novoCursoModal">
+        <i class="fa-solid fa-calendar-days"></i> Agendar Aula
+    </button>
 
-                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-calendar-days"></i>Agendar aula</button>
-
-                <button id="fastActionButtons" class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoCursoModal" > <i class="fa-solid fa-calendar-days"></i>Registar instituição </button>
-           </div>
+    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal" data-bs-target="#novoCursoModal">
+        <i class="fa-solid fa-building"></i> Registar Instituição
+    </button>
+</div>
         </div>
       </div>
 </div>
