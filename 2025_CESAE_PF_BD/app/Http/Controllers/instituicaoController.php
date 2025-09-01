@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Instituicao;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class instituicaoController extends Controller
+{
+    public function index(){
+        $instituicoes = Instituicao::all();
+
+        return view('instituicoes.instituicoes_home', compact('instituicoes'));
+}
+
+public function store(Request $request)
+    {
+        // dd($request->all());
+        // Validação simples
+        $validated = $request->validate([
+           'nomeInstituicao'     => 'required|string|max:255',
+            'morada'              => 'nullable|string',
+            'NIF'                 => 'nullable|string|max:20',
+            'telefoneResponsavel' => 'nullable|string|max:20',
+            'emailResponsavel'    => 'required|email',
+            'nomeResponsavel'     => 'nullable|string|max:255',
+        ]);
+
+        // Criar registo
+        $instituicao = new Instituicao($validated);
+        $instituicao->users_id = 1; // user fixo para teste
+        $instituicao->save();
+
+        if ($request->input('redirect_to') === 'cursos') {
+        return redirect()->route('cursos')
+                         ->with('success', 'Instituição criada com sucesso!');
+    }
+
+    return redirect()->route('instituicoes')
+                     ->with('success', 'Instituição criada com sucesso!');
+}
+
+
+    public function deletar(Request $request)
+{
+    $ids = explode(',', $request->ids);
+    Instituicao::whereIn('id', $ids)->delete();
+    return redirect()->route('instituicoes')->with('success', 'Instituições eliminadas com sucesso!');
+}
+
+public function update(Request $request, $id)
+{
+    // Buscar a instituição
+    $instituicao = Instituicao::findOrFail($id);
+
+    // Validação
+    $validated = $request->validate([
+        'nomeInstituicao'     => 'required|string|max:255',
+        'morada'              => 'nullable|string',
+        'NIF'                 => 'nullable|string|max:20',
+        'telefoneResponsavel' => 'nullable|string|max:20',
+        'emailResponsavel'    => 'required|email',
+        'nomeResponsavel'     => 'nullable|string|max:255',
+    ]);
+
+    // Atualizar os campos
+    $instituicao->update($validated);
+
+    return redirect()->route('instituicoes')
+                     ->with('success', 'Instituição atualizada com sucesso!');
+}
+
+}

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Curso extends Model
 {
+     use HasFactory;
+
+    protected $table = 'cursos';
     use HasFactory;
 
     protected $fillable = [
@@ -22,6 +25,9 @@ class Curso extends Model
         'estado_cursos_id',
     ];
 
+    public function instituicao()
+    {
+        return $this->belongsTo(Instituicao::class, 'instituicoes_id');
     // Relacionamento com Modulos
     public function modulos()
     {

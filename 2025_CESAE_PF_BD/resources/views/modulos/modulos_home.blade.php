@@ -16,7 +16,7 @@
 </div>
 <!-- Botão Novo Modulo -->
 <div class="mb-4">
-    <button id="apagarSelecionados" class="btn btn-novo-curso" style="display:none;" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">Apagar Selecionados</button>
+     <button id="apagarSelecionados" class="btn btn-novo-curso" style="display:none;" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">Apagar Selecionados</button>
      <button class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoModuloModal">+ Novo Módulo</button>
 </div>
 
@@ -294,7 +294,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
       <div class="modal-body text-center">
-        <p>Tem certeza que deseja eliminar este Módulo?</p>
+        <p>Tem certeza que deseja eliminar este/s Módulo/s?</p>
       </div>
       <div class="modal-footer">
         <a href="{{ route('modulos') }}" type="button" class="btn btn-novo-curso">Cancelar <i class="bi bi-check-lg text-success"></i></a>
