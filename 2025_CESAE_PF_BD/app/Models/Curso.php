@@ -28,6 +28,7 @@ class Curso extends Model
     public function instituicao()
     {
         return $this->belongsTo(Instituicao::class, 'instituicoes_id');
+    }
     // Relacionamento com Modulos
     public function modulos()
     {

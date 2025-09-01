@@ -1,6 +1,6 @@
 .btn-novo-curso {
   border: none;
-  border-radius: 0px;
+  border-radius: 0px !important;
   box-shadow: 2px 0 5px rgba(0,0,0,0.3);
   transition: background-color 0.3s, color 0.3s;
 }
@@ -10,7 +10,7 @@
 }
 .card-cursos{
   border: none;
-  border-radius: 0px;
+  border-radius: 0px !important;
   box-shadow: 2px 0 5px rgba(0,0,0,0.3);
 }
 
