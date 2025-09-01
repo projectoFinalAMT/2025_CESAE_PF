@@ -48,7 +48,7 @@
 }
 
 .status.expirar::after {
-  background-color: orangered;
+  background-color: orange;
 }
 
 .modal-header {

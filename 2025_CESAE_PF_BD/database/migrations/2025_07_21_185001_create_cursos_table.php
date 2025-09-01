@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('dataInicio');
             $table->date('dataFim')->nullable();
             $table->unsignedBigInteger('instituicoes_id');
-            $table->foreign('instituicoes_id')->references('id')->on('instituicoes');
+            $table->foreign('instituicoes_id')->references('id')->on('instituicoes')->onDelete('cascade');
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('id')->on('users');
             $table->unsignedBigInteger('estado_cursos_id');

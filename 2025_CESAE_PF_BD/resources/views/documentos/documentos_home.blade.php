@@ -17,13 +17,12 @@
         <input type="text" class="form-control w-auto" placeholder="Pesquisar Documento..." id="pesquisa-documentos">
     </div>
 </div>
-<!-- Botão Novo Documento -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <button class="btn btn-novo-curso me-2 filtro-btn active">Documentos Pessoais</button>
         <button class="btn btn-novo-curso filtro-btn">Material de Apoio</button>
     </div>
-
+<!-- Botão Novo Documento -->
 <div class="mb-4">
      <button id="apagarSelecionados" class="btn btn-novo-curso" style="display:none;" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">Apagar Selecionados</button>
      <button class="btn btn-novo-curso me-2" data-bs-toggle="modal" data-bs-target="#novoDocumentoModal">+ Novo Documento</button>
@@ -46,8 +45,8 @@
 
   <!-- Botões de seleção -->
   <div class="mb-4">
-    <button type="button" class="btn btn-novo-curso me-2 tipo-btn" data-tipo="pessoal">Documento Pessoal</button>
-    <button type="button" class="btn btn-novo-curso tipo-btn" data-tipo="apoio">Material de Apoio</button>
+    <button type="button" class="btn btn-novo-curso me-2 tipo-btn filtro-btn active" data-tipo="pessoal">Documento Pessoal</button>
+    <button type="button" class="btn btn-novo-curso tipo-btn filtro-btn" data-tipo="apoio">Material de Apoio</button>
   </div>
 
   <!-- Formulário Documento Pessoal -->
@@ -96,7 +95,7 @@
 </div>
 
   <!-- Formulário Material de Apoio -->
-  <div id="form-apoio" class="form-tipo" style="display:block;">
+  <div id="form-apoio" class="form-tipo" style="display:none;">
     <div class="row g-3 mb-3">
       <div class="col-md-6">
         <label for="nome_apoio" class="form-label">Nome do Material*</label>
