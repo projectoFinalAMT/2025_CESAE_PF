@@ -71,4 +71,13 @@ public function update(Request $request, $id)
                      ->with('success', 'Instituição atualizada com sucesso!');
 }
 
+public function buscar(Request $request)
+{
+    $query = $request->input('q'); // pega o texto digitado
+    $instituicoes = Instituicao::where('nomeInstituicao', 'like', "%{$query}%")->get();
+
+    // Retorna JSON
+    return response()->json($instituicoes);
+}
+
 }
