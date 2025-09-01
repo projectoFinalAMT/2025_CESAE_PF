@@ -30,7 +30,7 @@ return new class extends Migration
             $table->foreign('metodos_pagamentos_id')->references('id')->on('metodos_pagamentos');
             $table->unsignedBigInteger('cursos_id');
             $table->foreign('cursos_id')->references('id')->on('cursos');
-            $table->unsignedBigInteger('modulos_id');
+            $table->unsignedBigInteger('modulos_id')->nullable();
             $table->foreign('modulos_id')->references('id')->on('modulos');
             $table->unsignedBigInteger('estado_faturas_id');
             $table->foreign('estado_faturas_id')->references('id')->on('estado_faturas');

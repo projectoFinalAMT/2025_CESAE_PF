@@ -1,24 +1,25 @@
 @extends('layouts.fe_master')
 
 @section('css')
-    <!-- FullCalendar CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
-        <!-- FullCalendar CSS PROPRIO -->
-    <link rel="stylesheet" href="{{ asset('css/calendario/bladeCalendario.css') }}">
 
 
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
 
+  <!-- Teu CSS -->
+  <link rel="stylesheet" href="{{ asset('css/calendario/bladeCalendario.css') }}">
 @endsection
 
 @section('content')
 <div class="content">
-
-<div class="container mt-4">
+  <div class="container mt-4">
     <h2>Calendário</h2>
+
     <div id="calendar"></div>
-</div>
-{{-- MODAL: Criar/Editar Evento --}}
-<div class="modal fade" id="eventoModal" tabindex="-1" aria-labelledby="eventoModalLabel" aria-hidden="true">
+
+
+  {{-- MODAL: Criar/Editar Evento --}}
+  <div class="modal fade" id="eventoModal" tabindex="-1" aria-labelledby="eventoModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <form id="eventoForm" class="modal-content">
         <div class="modal-header">
@@ -28,6 +29,7 @@
 
         <div class="modal-body">
           <input type="hidden" id="event_id">
+
           <div class="mb-3">
             <label class="form-label">Título (opcional)</label>
             <input type="text" id="event_title" class="form-control" placeholder="Ex.: Reunião com coordenação">
@@ -37,11 +39,9 @@
             <label class="form-label">Módulo (opcional)</label>
             <select id="event_modulo" class="form-select">
               <option value="">— Sem módulo —</option>
-
               @foreach($modulos as $m)
                 <option value="{{ $m->id }}">{{ $m->nomeModulo }}</option>
               @endforeach
-
             </select>
           </div>
 
@@ -72,21 +72,19 @@
       </form>
     </div>
   </div>
-
 </div>
 @endsection
 
 @section('scripts')
-    <!-- IMPORTANTE: JS do FullCalendar (usa o bundle global) -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-<!-- Passar CSRF token para o JS -->
-<script>
-    window.csrfToken = "{{ csrf_token() }}";
-</script>
-<!-- Nosso JS -->
-<script src="{{ asset('js/calendario.js') }}"></script>
-<script src="{{ asset('assets/bootstrap.js')}}" ></script> <!--Script bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" ></script>
+  <!-- Bootstrap JS (carrega primeiro p/ o modal funcionar) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- FullCalendar JS -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+  <!-- CSRF p/ fetch -->
+  <script>window.csrfToken = "{{ csrf_token() }}";</script>
+
+  <!-- Teu JS (por último) -->
+  <script src="{{ asset('js/calendario.js') }}"></script>
 @endsection
-

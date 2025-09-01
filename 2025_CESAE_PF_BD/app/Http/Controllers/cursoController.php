@@ -24,13 +24,13 @@ class cursoController extends Controller
         'data_fim'       => 'nullable|date|after_or_equal:data_inicio',
         'total_horas'    => 'required|numeric|min:0',
         'preco_hora'     => 'required|numeric|min:0',
-        'descrição'      => 'nullable|string',
+        'descricao'      => 'nullable|string',
     ]);
 
     // Criar curso
     $curso = new Curso();
     $curso->titulo            = $validated['nome'];
-    $curso->descrição         = $validated['descrição'] ?? null;
+    $curso->descricao         = $validated['descricao'] ?? null;
     $curso->duracaoTotal      = $validated['total_horas'];
     $curso->precoHora         = $validated['preco_hora'];
     $curso->dataInicio        = $validated['data_inicio'];
