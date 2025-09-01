@@ -32,8 +32,92 @@
                     </button>
                 </div>
 
+                <!-- Modal Nova Fatura Curso -->
+<div class="modal fade" id="editModalNovaFatura" tabindex="-1" aria-labelledby="editModalNovaFatura" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="col-12 col-md-8">
+            <h5 class="modal-title" id="editModalNovaFatura">Adicionar nova fatura</h5>
+            <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
+        </div>
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('curso.store') }}" method="POST">
+          @csrf
 
-                <!-- Modal Estático Nova Fatura -->
+          <!-- Nº Fatura -->
+          <div class="mb-3">
+            <label for="numeroFatura" class="form-label">Nº Fatura*</label>
+            <input type="text" class="form-control" id="numeroFatura" name="numeroFatura" required>
+          </div>
+
+          <!-- Valor -->
+          <div class="mb-3">
+            <label for="valorFatura" class="form-label">Valor*</label>
+            <input type="number" class="form-control" id="valorFatura" name="valorFatura" required>
+            <span class="input-group-text">€</span>
+          </div>
+
+          <!-- Datas -->
+          <div class="row g-3 mb-3">
+            <div class="col">
+              <label for="dataVencimento" class="form-label">Data Vencimento*</label>
+              <input type="date" class="form-control" id="dataVencimento" name="dataVencimento" required>
+            </div>
+            <div class="col">
+              <label for="dataEmissao" class="form-label">Data Emissão</label>
+              <input type="date" class="form-control" id="dataEmissao" name="dataEmissao">
+            </div>
+          </div>
+          <div class="col">
+              <label for="dataPagamento" class="form-label">Data Pagamento</label>
+              <input type="date" class="form-control" id="dataPagamento" name="dataPagamento">
+            </div>
+          </div>
+
+          <!-- Total horas e Preço por hora -->
+          <div class="row g-3 mb-3">
+            <div class="col">
+              <label for="percentagemIva" class="form-label">% IVA*</label>
+              <input type="number" step="0.01" class="form-control" id="percentagemIva" name="percentagemIva" required>
+            </div>
+            <div class="col">
+              <label for="baseCalculoIrs" class="form-label">Base Cálculo IRS*</label>
+              <div class="input-group">
+                <input type="number" step="0.01" class="form-control" id="baseCalculoIrs" name="baseCalculoIrs" required>
+                <span class="input-group-text">€</span>
+              </div>
+            </div>
+            <div class="col">
+              <label for="taxaIrs" class="form-label">Taxa IRS*</label>
+              <input type="number" step="0.01" class="form-control" id="taxaIrs" name="taxaIrs" required>
+            </div>
+          </div>
+
+          <!-- Descrição -->
+          <div class="mb-3">
+            <label for="observacoes" class="form-label">Observações</label>
+            <textarea class="form-control" id="observacoes" name="observacoes" rows="3"></textarea>
+          </div>
+
+          <!-- Botão submit -->
+          <div class="text-center">
+            <button type="submit" class="btn btn-novo-curso">
+                Adicionar Fatura<i class="bi bi-check-lg text-success"></i>
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+                {{-- <!-- Modal Estático Nova Fatura -->
                     <div class="modal fade" id="editModalNovaFatura" tabindex="-1"
                         aria-labelledby="editModalNovaFatura" aria-hidden="true">
                         <div class="modal-dialog">
@@ -90,7 +174,7 @@
                     </button>
                 </div>
 
-            </div>
+            </div> --}}
 
 
             <!--Grid ganhos/expectável/objetivo-->
