@@ -35,7 +35,7 @@ Route::get('/documentos', [documentoController::class, 'index'])->name('document
 
 // Finanças
 Route::get('/financas', [financasController::class, 'index'])->name('financas');
-Route::get('/financas_adicionar', [financasController::class, 'financas_adicionar'])->name('financas_adicionar');
+Route::post('/financas', [financasController::class, 'novaFatura'])->name('novaFatura_route');
 
 
 // Instituicoes

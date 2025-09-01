@@ -1,3 +1,42 @@
+// MODAL NOVA FATURA
+
+document.addEventListener("DOMContentLoaded", function () {
+  const qtd = document.getElementById("fatura-qtd");
+  const valor = document.getElementById("fatura-valor");
+  const ivaInput = document.getElementById("fatura-iva");
+  const irsInput = document.getElementById("fatura-irs");
+
+  const subtotalEl = document.getElementById("subtotal");
+  const ivaEl = document.getElementById("iva");
+  const irsEl = document.getElementById("irs");
+  const totalEl = document.getElementById("total");
+
+  function calcularTotais() {
+    const qtdVal = parseFloat(qtd.value) || 0;
+    const valorUnitario = parseFloat(valor.value) || 0;
+    const ivaPerc = parseFloat(ivaInput.value) || 0;
+    const irsPerc = parseFloat(irsInput.value) || 0;
+
+    const subtotal = qtdVal * valorUnitario;
+    const valorIva = subtotal * (ivaPerc / 100);
+    const valorIrs = subtotal * (irsPerc / 100);
+    const total = subtotal + valorIva - valorIrs;
+
+    subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
+    ivaEl.textContent = `€${valorIva.toFixed(2)}`;
+    irsEl.textContent = `-€${valorIrs.toFixed(2)}`;
+    totalEl.textContent = `€${total.toFixed(2)}`;
+  }
+
+  [qtd, valor, ivaInput, irsInput].forEach(input =>
+    input.addEventListener("input", calcularTotais)
+  );
+});
+
+
+
+
+
 // CARD GANHOS POR INSTITUIÇÃO
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -114,3 +153,4 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.hide();
   });
 });
+

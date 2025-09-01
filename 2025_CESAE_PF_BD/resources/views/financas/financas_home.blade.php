@@ -32,149 +32,318 @@
                     </button>
                 </div>
 
-                <!-- Modal Nova Fatura Curso -->
-<div class="modal fade" id="editModalNovaFatura" tabindex="-1" aria-labelledby="editModalNovaFatura" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="col-12 col-md-8">
-            <h5 class="modal-title" id="editModalNovaFatura">Adicionar nova fatura</h5>
-            <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
-        </div>
-        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
-      <div class="modal-body">
-        <form action="{{ route('curso.store') }}" method="POST">
-          @csrf
-
-          <!-- Nº Fatura -->
-          <div class="mb-3">
-            <label for="numeroFatura" class="form-label">Nº Fatura*</label>
-            <input type="text" class="form-control" id="numeroFatura" name="numeroFatura" required>
-          </div>
-
-          <!-- Valor -->
-          <div class="mb-3">
-            <label for="valorFatura" class="form-label">Valor*</label>
-            <input type="number" class="form-control" id="valorFatura" name="valorFatura" required>
-            <span class="input-group-text">€</span>
-          </div>
-
-          <!-- Datas -->
-          <div class="row g-3 mb-3">
-            <div class="col">
-              <label for="dataVencimento" class="form-label">Data Vencimento*</label>
-              <input type="date" class="form-control" id="dataVencimento" name="dataVencimento" required>
-            </div>
-            <div class="col">
-              <label for="dataEmissao" class="form-label">Data Emissão</label>
-              <input type="date" class="form-control" id="dataEmissao" name="dataEmissao">
-            </div>
-          </div>
-          <div class="col">
-              <label for="dataPagamento" class="form-label">Data Pagamento</label>
-              <input type="date" class="form-control" id="dataPagamento" name="dataPagamento">
-            </div>
-          </div>
-
-          <!-- Total horas e Preço por hora -->
-          <div class="row g-3 mb-3">
-            <div class="col">
-              <label for="percentagemIva" class="form-label">% IVA*</label>
-              <input type="number" step="0.01" class="form-control" id="percentagemIva" name="percentagemIva" required>
-            </div>
-            <div class="col">
-              <label for="baseCalculoIrs" class="form-label">Base Cálculo IRS*</label>
-              <div class="input-group">
-                <input type="number" step="0.01" class="form-control" id="baseCalculoIrs" name="baseCalculoIrs" required>
-                <span class="input-group-text">€</span>
-              </div>
-            </div>
-            <div class="col">
-              <label for="taxaIrs" class="form-label">Taxa IRS*</label>
-              <input type="number" step="0.01" class="form-control" id="taxaIrs" name="taxaIrs" required>
-            </div>
-          </div>
-
-          <!-- Descrição -->
-          <div class="mb-3">
-            <label for="observacoes" class="form-label">Observações</label>
-            <textarea class="form-control" id="observacoes" name="observacoes" rows="3"></textarea>
-          </div>
-
-          <!-- Botão submit -->
-          <div class="text-center">
-            <button type="submit" class="btn btn-novo-curso">
-                Adicionar Fatura<i class="bi bi-check-lg text-success"></i>
-            </button>
-          </div>
-
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-                {{-- <!-- Modal Estático Nova Fatura -->
-                    <div class="modal fade" id="editModalNovaFatura" tabindex="-1"
-                        aria-labelledby="editModalNovaFatura" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalNovaFatura">Adicionar Nova Fatura</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Fechar"></button>
+                <!-- Modal Nova Fatura -->
+                <div class="modal fade" id="editModalNovaFatura" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content rounded-0 shadow">
+                            <div class="modal-header">
+                                <div class="col-12 col-md-8">
+                                    <h5 class="modal-title">Adicionar nova fatura</h5>
+                                    <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
                                 </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="mb-3">
-                                            <label for="valorFatura" class="form-label">Valor da Fatura (€)</label>
-                                            <input type="number" class="form-control" id="valorFatura" value="">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="formNovaFatura" action="{{ route('novaFatura_route') }}" method="POST">
+                                    @csrf
+
+                                    <div class="row g-3 mb-3">
+
+                                        <!-- Instituição -->
+                                        <div class="col-md-6">
+                                            <label for="instituicao" class="form-label">Instituição*</label>
+                                            <select class="form-control" id="instituicao" name="instituicao" required>
+                                                <option value="" selected disabled>Selecione uma instituição</option>
+                                                @foreach ($instituicoes as $inst)
+                                                    <option value="{{ $inst->id }}">{{ $inst->nomeInstituicao }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="percentagem" class="form-label">Percentagem IVA (%)</label>
-                                            <input type="number" class="form-control" id="percentagem" value="">
+
+                                        <!-- Curso -->
+                                        <div class="col-md-6">
+                                            <label for="curso" class="form-label">Curso*</label>
+                                            <select class="form-control" id="curso" name="curso" required>
+                                                <option value="" selected disabled>Selecione um curso</option>
+                                                @foreach ($cursos as $curso)
+                                                    <option value="{{ $curso->id }}">{{ $curso->titulo }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-success"
-                                        data-bs-dismiss="modal">Guardar</button>
-                                </div>
+
+
+
+                                        <!-- Descrição -->
+                                        <div class="mb-3">
+                                            <label for="descricao" class="form-label">Descrição*</label>
+                                            <input type="text" class="form-control rounded-0" id="descricao"
+                                                name="descricao" placeholder="Ex: Formação em Excel - 6h" required>
+                                        </div>
+
+                                        <!-- Quantidade e Valor -->
+                                        <div class="row mb-3">
+                                            <div class="col-4">
+                                                <label class="form-label">Quantidade Horas</label>
+                                                <input type="number" class="form-control rounded-0" id="fatura-qtd"
+                                                    name="qtd" value="1">
+                                            </div>
+                                            <div class="col-8">
+                                                <label class="form-label">Valor unitário (€)</label>
+                                                <input type="number" class="form-control rounded-0" id="fatura-valor"
+                                                    name="valor" placeholder="0.00">
+                                            </div>
+                                        </div>
+
+                                        <!-- IVA & IRS -->
+                                        <div class="row mb-3">
+                                            <div class="col-6">
+                                                <label class="form-label">IVA (%)</label>
+                                                <input type="number" class="form-control rounded-0" id="fatura-iva"
+                                                    name="iva" value="0">
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label">IRS (%)</label>
+                                                <input type="number" class="form-control rounded-0" id="fatura-irs"
+                                                    name="irs" value="0">
+                                            </div>
+                                        </div>
+
+                                        <!-- Totais -->
+                                        <div class="border p-3 bg-light rounded-0 mb-3">
+                                            <p class="mb-1">Subtotal: <strong id="subtotal">€0,00</strong></p>
+                                            <p class="mb-1">IVA: <strong id="iva">€0,00</strong></p>
+                                            <p class="mb-1">IRS: <strong id="irs">-€0,00</strong></p>
+                                            <hr class="my-2">
+                                            <p class="mb-0 fw-bold"> Total líquido: <span class="text-primary"
+                                                    id="total">€0,00</span></p>
+                                        </div>
+
+                                        <!-- Datas -->
+                                        <div class="row g-3 mb-3">
+                                            <div class="col">
+                                                <label for="dataEmissao" class="form-label">Data Emissão*</label>
+                                                <input type="date" class="form-control rounded-0" id="dataEmissao"
+                                                    name="dataEmissao" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="dataPagamento" class="form-label">Data Pagamento</label>
+                                                <input type="date" class="form-control rounded-0" id="dataPagamento"
+                                                    name="dataPagamento">
+                                            </div>
+                                        </div>
+
+                                        <!-- Observações -->
+                                        <div class="mb-3">
+                                            <label for="observacoes" class="form-label">Observações</label>
+                                            <textarea class="form-control rounded-0" id="observacoes" name="observacoes" rows="3"></textarea>
+                                        </div>
+
+                                        <!-- Botão -->
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary rounded-0">Adicionar
+                                                Fatura</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                <!-- Grupo à direita -->
+                <!--CONFIRMAR COM SARA QUESTÃO MODAL NOVA FATURA - apagar os outros quando estiver resolvido -->
+
+                <!--Modal Nova Fatura-->
+                {{-- <div class="modal fade" id="editModalNovaFatura" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-0 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title">Nova Fatura</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Instituição já pré-selecionada -->
+        <div class="mb-3">
+          <label class="form-label fw-bold">Instituição</label>
+          <input type="text" class="form-control rounded-0" value="Instituto XPTO - Curso de Excel" readonly>
+        </div>
+
+        <!-- Serviço -->
+        <div class="mb-3">
+          <label class="form-label fw-bold">Descrição</label>
+          <input type="text" class="form-control rounded-0" placeholder="Ex: Formação em Excel - 6h">
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-4">
+            <label class="form-label fw-bold">Qtd</label>
+            <input type="number" class="form-control rounded-0" id="fatura-qtd" value="1">
+          </div>
+          <div class="col-8">
+            <label class="form-label fw-bold">Valor unitário (€)</label>
+            <input type="number" class="form-control rounded-0" id="fatura-valor" placeholder="0.00">
+          </div>
+        </div>
+
+        <!-- Impostos -->
+        <div class="row mb-3">
+          <div class="col-6">
+            <label class="form-label fw-bold">IVA (%)</label>
+            <input type="number" class="form-control rounded-0" id="fatura-iva" value="0">
+          </div>
+          <div class="col-6">
+            <label class="form-label fw-bold">IRS (%)</label>
+            <input type="number" class="form-control rounded-0" id="fatura-irs" value="0">
+          </div>
+        </div>
+
+        <!-- Totais -->
+        <div class="border p-3 bg-light rounded-0">
+          <p class="mb-1">Subtotal: <strong id="subtotal">€0,00</strong></p>
+          <p class="mb-1">IVA: <strong id="iva">€0,00</strong></p>
+          <p class="mb-1">IRS: <strong id="irs">-€0,00</strong></p>
+          <hr class="my-2">
+          <p class="mb-0 fw-bold">💰 Total líquido: <span class="text-primary" id="total">€0,00</span></p>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary rounded-0">Guardar Fatura</button>
+      </div>
+    </div>
+  </div>
+</div> --}}
+                {{-- <!-- Modal Nova Fatura Curso -->
+                <div class="modal fade" id="editModalNovaFatura" tabindex="-1" aria-labelledby="editModalNovaFatura"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="col-12 col-md-8">
+                                    <h5 class="modal-title" id="editModalNovaFatura">Adicionar nova fatura</h5>
+                                    <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
+                                </div>
+                                <button type="button" class="btn-close position-absolute top-0 end-0 m-2"
+                                    data-bs-dismiss="modal" aria-label="Fechar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('novaFatura_route') }}" method="POST">
+                                    @csrf
+
+                                    <!-- Nº Fatura -->
+                                    <div class="mb-3">
+                                        <label for="numeroFatura" class="form-label">Nº Fatura*</label>
+                                        <input type="text" class="form-control" id="numeroFatura" name="numeroFatura"
+                                            required>
+                                    </div>
+
+                                    <!-- Instituição -->
+                                    <div class="mb-3">
+                                        <label for="instituicao" class="form-label">Instituição*</label>
+                                        <select class="form-control" id="instituicao" name="instituicao" required>
+                                            <option value="" selected disabled>Selecione uma instituição</option>
+                                            @foreach ($instituicoes as $inst)
+                                                <option value="{{ $inst->id }}">{{ $inst->nomeInstituicao }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Curso -->
+                                    <div class="mb-3">
+                                        <label for="curso" class="form-label">Curso*</label>
+                                        <select class="form-control" id="curso" name="curso" required>
+                                            <option value="" selected disabled>Selecione um curso</option>
+                                            @foreach ($cursos as $curso)
+                                                <option value="{{ $curso->id }}">{{ $curso->titulo }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Valor -->
+                                    <div class="row g-3 mb-3">
+                                        <div class="col">
+                                            <label for="valorFatura" class="form-label">Valor*</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="valorFatura"
+                                                    name="valorFatura" required>
+                                                <span class="input-group-text">€</span>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label for="valorIVA" class="form-label">IVA*</label>
+                                            <input type="number" class="form-control" id="valorIVA" name="valorIVA"
+                                                required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="valorIRS" class="form-label">IRS*</label>
+                                            <input type="number" class="form-control" id="valorIRS" name="valorIRS"
+                                                required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Datas -->
+                                    <div class="row g-3 mb-3">
+                                        <div class="col">
+                                            <label for="dataEmissao" class="form-label">Data Emissão*</label>
+                                            <input type="date" class="form-control" id="dataEmissao" name="dataEmissao"
+                                                required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="dataPagamento" class="form-label">Data Pagamento</label>
+                                            <input type="date" class="form-control" id="dataPagamento"
+                                                name="dataPagamento">
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Observações -->
+                                    <div class="mb-3">
+                                        <label for="observacoes" class="form-label">Observações</label>
+                                        <textarea class="form-control" id="observacoes" name="observacoes" rows="3"></textarea>
+                                    </div>
+
+                                    <!-- Botão submit -->
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-novo-curso">
+                                            Adicionar Fatura<i class="bi bi-check-lg text-success"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+
+
+
+                <!-- Filtros à direita -->
                 <div class="d-flex flex-wrap align-items-center">
                     <!-- Grupo de filtros -->
                     <div class="btn-group me-2 mb-2 mb-md-0" role="group" aria-label="Filtros de período">
-                        <input type="radio" class="btn-check" name="periodo" id="btnEsteMes" autocomplete="off" checked>
+                        <input type="radio" class="btn-check" name="periodo" id="btnEsteMes" autocomplete="off"
+                            checked>
                         <label class="btn btn-filtro active" for="btnEsteMes">Este mês</label>
 
                         <input type="radio" class="btn-check" name="periodo" id="btnUltimoMes" autocomplete="off">
                         <label class="btn btn-filtro" for="btnUltimoMes">Último mês</label>
 
-                        <input type="radio" class="btn-check" name="periodo" id="btnEsteAno" autocomplete="off">
-                        <label class="btn btn-filtro" for="btnEsteAno">Este ano</label>
-
-                        <input type="radio" class="btn-check" name="periodo" id="btnAnoPassado" autocomplete="off">
-                        <label class="btn btn-filtro" for="btnAnoPassado">Ano passado</label>
+                        <input type="radio" class="btn-check" name="periodo" id="btnTrimestral" autocomplete="off">
+                        <label class="btn btn-filtro" for="btnTrimestral">Trimestral</label>
                     </div>
 
                     <!-- Botão de calendário -->
-                    <button type="button" class="btn btn-filtro">
-                        <i class="material-icons-outlined me-1">calendar_today</i>
-                        Select period
-                    </button>
-                </div>
+                    <div class="col">
+                        <input type="date" class="form-control rounded-0" id="dataInicio" name="dataInicio" required>
+                    </div>
+                    <div class="col">
+                        <input type="date" class="form-control rounded-0" id="dataFim" name="dataFim" required>
+                    </div>
 
-            </div> --}}
+                </div>
+            </div>
 
 
             <!--Grid ganhos/expectável/objetivo-->
@@ -183,7 +352,7 @@
                 <div class="row">
 
                     <!-- Card 1 -->
-                    <div class="col-12 col-md-6 col-lg-4 d-flex">
+                    <div class="col-12 col-md-6 d-flex">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
@@ -191,27 +360,41 @@
                                     <div class="col-12 col-md-8">
                                         <h5 class="card-title">Ganhos até agora</h5>
                                     </div>
+                                </div>
 
-                                    <!-- Percentagem centrada verticalmente à direita -->
-                                    <div class="col-12 col-md-4">
-                                        <span
-                                            class="d-inline-flex align-items-center px-2 py-1 border rounded-pill bg-white position-absolute top-50 end-0 translate-middle-y me-3">
-                                            <i class="bi bi-arrow-up text-success me-1"></i>
-                                            <span class="text-dark">12,5%</span>
-                                        </span>
+                                <div class="row mt-2 align-items-center">
+                                    <!-- Texto à esquerda -->
+                                    <div class="col-8">
+                                        <!-- Valor em destaque -->
+                                        <div class="text-amount mb-1">
+                                            <h3 class="text-info fw-bold mb-0">1200€</h3>
+                                        </div>
+
+                                        <!-- Valor IVA -->
+                                        <div class="text-amount mt-2">
+                                            <h6 class="text-black-50">Valor IVA </h6>
+                                        </div>
+
+                                        <!-- Valor IRS -->
+                                        <div class="text-amount mt-1">
+                                            <h6 class="text-black-50">Valor IRS</h6>
+                                        </div>
+                                    </div>
+
+                                    <!-- Progresso circular à direita -->
+                                    <div class="col-4 d-flex justify-content-center">
+                                        <div class="circular-progress" style="--value:60">
+                                            <span>60%</span>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- Valor em destaque -->
-                                <div class="text-amount mt-4">
-                                    <h3 class="text-primary fw-bold mb-0">1200€</h3>
-                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Card 2 -->
-                    <div class="col-12 col-md-6 col-lg-4 d-flex">
+                    <div class="col-12 col-md-6 d-flex">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
@@ -219,89 +402,27 @@
                                     <div class="col-12 col-md-8">
                                         <h5 class="card-title">Expectável</h5>
                                     </div>
-
-                                    <!-- Percentagem centrada verticalmente à direita -->
-                                    <div class="col-12 col-md-4">
-                                        <span
-                                            class="d-inline-flex align-items-center px-2 py-1 border rounded-pill bg-white position-absolute top-50 end-0 translate-middle-y me-3">
-                                            <i class="bi bi-arrow-down text-danger me-1"></i>
-                                            <span class="text-dark">12,5%</span>
-                                        </span>
-                                    </div>
                                 </div>
 
-                                <!-- Valor em destaque -->
-                                <div class="text-amount mt-4">
-                                    <h3 class="text-danger fw-bold mb-0">1300€</h3>
+                                <!-- Conteúdo -->
+                                <div class="text-amount mt-2 mb-1" id="tituloValorExpectavel">
+                                    <h3 class="fw-bold mb-0">2000€</h3>
+                                </div>
+
+                                <div class="text-amount mt-2">
+                                    <h6 class="text-black-50">Valor IVA </h6>
+                                </div>
+
+                                <div class="text-amount mt-1">
+                                    <h6 class="text-black-50">Valor IRS</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Card 3 -->
-                    <div class="col-12 col-md-6 col-lg-4 d-flex">
-                        <div class="card card-financas h-100 w-100">
-                            <div class="card-body">
-                                <div class="row d-flex justify-content-between">
-                                    <!-- Título -->
-                                    <div class="col-12 col-md-8">
-                                        <h5 class="card-title">Objetivo</h5>
-                                    </div>
-
-                                    <!-- Ícone lápis no canto -->
-                                    <div class="col-12 col-md-4 d-flex align-items-center">
-                                        <button class="edit-btn position-absolute top-0 end-0 m-3" data-bs-toggle="modal"
-                                            data-bs-target="#editModalObjetivo">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Valor + Barra de progresso -->
-                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <h3 class="text-success fw-bold mb-0">2000€</h3>
-                                    <div class="circular-progress" style="--value:40">
-                                        <span>40%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Modal Estático Objetivo-->
-                    <div class="modal fade" id="editModalObjetivo" tabindex="-1" aria-labelledby="editModalObjetivo"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalObjetivo">Editar Objetivo</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Fechar"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="mb-3">
-                                            <label for="valorObjetivo" class="form-label">Valor do objetivo (€)</label>
-                                            <input type="number" class="form-control" id="valorObjetivo"
-                                                value="2000">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="percentagem" class="form-label">Percentagem (%)</label>
-                                            <input type="number" class="form-control" id="percentagem" value="40">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-success"
-                                        data-bs-dismiss="modal">Guardar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
+
 
             <!-- Grid Ganhos por Instituição & Recibos -->
             <div class="container mt-4">
