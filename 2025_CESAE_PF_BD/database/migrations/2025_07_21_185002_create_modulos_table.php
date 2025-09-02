@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('nomeModulo');
             $table->text('descricao')->nullable();
             $table->decimal('duracaoHoras');
-            $table->unsignedBigInteger('cursos_id');
-            $table->foreign('cursos_id')->references('id')->on('cursos');
             $table->timestamps();
         });
     }

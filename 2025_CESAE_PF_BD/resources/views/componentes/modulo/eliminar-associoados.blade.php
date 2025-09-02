@@ -1,4 +1,4 @@
-<div class="modal fade" id="confirmarEliminar" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="confirmarEliminarAssociados" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -14,10 +14,10 @@
                                 Cancelar <i class="bi bi-check-lg text-success"></i>
                             </a>
 
-                            <form id="formEliminar" method="POST" action="{{ route('modulo.deletar') }}">
+                            <form id="formEliminar" method="POST" action="{{ route('curso-modulo.remover') }}">
                                 @csrf
                                 <input type="hidden" name="curso_id" id="cursoSelecionado" value="">
-                                <input type="hidden" name="ids" id="idsSelecionados" value="">
+                                <input type="hidden" name="ids" id="idsSelecionadosModulo" value="">
                                 <button type="submit" class="btn btn-novo-curso">
                                     Eliminar <i class="bi bi-x-lg text-danger"></i>
                                 </button>

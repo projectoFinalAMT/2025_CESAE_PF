@@ -15,7 +15,7 @@
                             <!-- Ajustado -->
                             <form id="formInstituicao" method="POST" action="{{ route('instituicoes.store') }}">
                                 @csrf
-                                <input type="hidden" name="redirect_to" value="cursos">
+                                <input type="hidden" name="redirect_to" value="instituicoes">
                                 <!-- Nome da Instituição -->
                                 <div class="mb-3">
                                     <label for="nome_instituicao" class="form-label">Nome da Instituição*</label>
