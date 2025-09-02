@@ -12,12 +12,14 @@
     font-weight: 600; /* deixa mais destacado */
 }
 
-/* Remove sublinhado dos eventos */
+
+/* Eventos - deixar o FullCalendar controlar a cor */
 .fc .fc-event,
 .fc .fc-event a {
     text-decoration: none !important;
-    color: inherit !important;
+    color: inherit !important; /* herda o textColor do JS */
 }
+
 
 #calendar {
     width: 100%;

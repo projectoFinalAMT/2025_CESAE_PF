@@ -11,12 +11,12 @@ class Modulo extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nomeModulo', 'descricao', 'duracaoHoras'];
+    protected $fillable = ['nomeModulo', 'descricao', 'duracaoHoras','cor'];
 
-   public function cursos()
-{
-    return $this->belongsToMany(Curso::class, 'curso_modulo', 'modulo_id', 'curso_id');
-}
+    public function cursos()
+    {
+        return $this->belongsToMany(Curso::class, 'curso_modulo', 'modulo_id', 'curso_id')
+        ->withTimestamps();    }
 
     // Relacionamento com Event
     public function events()

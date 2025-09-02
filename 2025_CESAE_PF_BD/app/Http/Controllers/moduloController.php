@@ -65,7 +65,7 @@ class moduloController extends Controller
         // Associa aos cursos selecionados (pivot)
         $modulo->cursos()->sync($validated['cursos']);
 
-        return redirect()->back()->with('success', 'Módulo criado com sucesso!');
+        return back()->with('success', 'Módulo criado com sucesso!');
     }
 
     /**
@@ -118,4 +118,20 @@ class moduloController extends Controller
     Modulo::whereIn('id', $ids)->delete();
     return redirect()->route('modulos')->with('success', 'Módulo eliminado com sucesso!');
 }
+
+//função para o calendario para filtrar modulos por curso
+public function byCurso($cursoId)
+{
+    // N↔N: filtra módulos que estejam ligados ao curso via pivot
+    $mods = \App\Models\Modulo::whereHas('cursos', function ($q) use ($cursoId) {
+        $q->where('cursos.id', $cursoId);
+    })
+    ->orderBy('nomeModulo')
+    ->get(['id', 'nomeModulo']); // cursos_id já não interessa
+
+// devolve JSON no formato esperado pelo teu JS
+return response()->json($mods);
+}
+
+
 }

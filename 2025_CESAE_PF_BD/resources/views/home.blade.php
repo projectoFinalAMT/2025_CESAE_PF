@@ -132,7 +132,7 @@
                     </div>
 
                     <!-- card filter full calendar -->
-                    <div class="col-sm-4">
+                    <div id="cardFilterCalendar" class="col-sm-4">
                         <div id="filterBox" class="card" style="width: 18rem;">
                             <div class="card-body">
                                 <div class="d-flex align-items-center justify-content-between">
@@ -143,16 +143,33 @@
                                             <i class="fa-solid fa-filter"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end" id="filterDropdown">
-                                            <li><a class="dropdown-item" href="#" data-filter="all">Todos</a></li>
+                                            <li><a class="dropdown-item" href="#" data-filter="all">Hoje</a></li>
                                             <li><a class="dropdown-item" href="#" data-filter="livre">Horario livre</a></li>
                                             <li><a class="dropdown-item" href="#" data-filter="reuniao">Reuniões</a></li>
                                             <li><a class="dropdown-item" href="#" data-filter="aula">Aulas</a></li>
                                         </ul>
                                     </div>
                                 </div>
-                                <p id="subtitle" class="card-subtitle mb-2 text-body-secondary">Tudo</p>
-                                <ul id="listaDB"></ul>
-                            </div>
+                                <p id="subtitle" class="card-subtitle mb-2">Hoje</p>
+
+                                <div class="container text-center">
+                                    <!-- Header -->
+                                    <div class="row apontamento-header">
+                                        <div class="col-6">Hora</div>
+                                        <div class="col-6">Evento</div>
+                                    </div>
+                                    <!-- Conteúdo -->
+                                    @foreach($apontamentosHoje as $a)
+                                        <div class="row align-items-start apontamento-row">
+                                            <div class="col-6" value="{{ $a->id }}">
+                                                {{ date('H:i', strtotime($a->start)) }}
+                                            </div>
+                                            <div class="col-6">
+                                                {{ $a->title }}
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                         </div>
                     </div>
 
@@ -177,16 +194,24 @@
                             </div>
 
                             <div class="mb-3">
+                                <label class="form-label">Curso (opcional)</label>
+                                <select id="event_curso" class="form-select">
+                                  <option value="">— Sem Curso —</option>
+                                  @foreach($mCurso as $c)
+                                    <option value="{{ $c->id }}">{{ $c->titulo }}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+
+                              <div class="mb-3">
                                 <label class="form-label">Módulo (opcional)</label>
                                 <select id="event_modulo" class="form-select">
-                                    <option value="">— Sem módulo —</option>
-
-                                    @foreach ($modulos as $m)
-                                        <option value="{{ $m->id }}">{{ $m->nomeModulo }}</option>
-                                    @endforeach
-
+                                  <option value="">— Sem módulo —</option>
+                                  @foreach($modulos as $m)
+                                    <option value="{{ $m->id }}">{{ $m->nomeModulo }}</option>
+                                  @endforeach
                                 </select>
-                            </div>
+                              </div>
 
                             <div class="row g-2">
                                 <div class="col-6">

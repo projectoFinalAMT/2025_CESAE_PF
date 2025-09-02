@@ -33,7 +33,7 @@ class Curso extends Model
 
     public function modulos()
     {
-        return $this->belongsToMany(Modulo::class, 'curso_modulo');
-    }
+        return $this->belongsToMany(Modulo::class, 'curso_modulo', 'curso_id', 'modulo_id')
+        ->withTimestamps();    }
 
 }
