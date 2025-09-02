@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('events', function (Blueprint $table) {
-            $table->string('nota')->nullable()->after('title'); // se quiser deixar alguma nota no agendamento (exemplo "na reuniao x falar do topico y")
-
+        Schema::table('financas', function (Blueprint $table) {
+            $table->bigInteger('id_curso')->after('IRSTaxa')->nullable();
+            $table->bigInteger('id_modulo')->after('id_curso')->nullable();
         });
     }
 
@@ -22,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('events', function (Blueprint $table) {
-            $table->dropColumn('nota');
+        Schema::table('financas', function (Blueprint $table) {
+            $table->dropColumn('id_curso');
+            $table->dropColumn('id_modulo');
         });
     }
 };

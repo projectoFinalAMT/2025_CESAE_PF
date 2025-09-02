@@ -12,13 +12,13 @@
             <!-- Título -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold">Módulos</h2>
-                <input type="text" class="form-control w-auto ms-auto" placeholder="Pesquisar Módulo..."
+                <input type="text" class="form-control w-auto ms-auto input" placeholder="Pesquisar Módulo..."
                     id="pesquisa-modulos">
             </div>
             <!-- Botão Novo Modulo -->
             <div class="mb-4">
-                <button id="apagarSelecionados" class="btn btn-novo-curso" style="display:none;" data-bs-toggle="modal"
-                    data-bs-target="#confirmarEliminar">Apagar Selecionados</button>
+                <button id="apagarSelecionadosAssociados" class="btn btn-novo-curso" style="display:none;"
+                    data-bs-toggle="modal" data-bs-target="#confirmarEliminarAssociados">Apagar Selecionados</button>
                 <button class="btn btn-novo-curso" data-bs-toggle="modal" data-bs-target="#novoModuloModal">+ Novo
                     Módulo</button>
             </div>
@@ -26,272 +26,71 @@
             <!-- Modal Novo Módulo -->
             @include('componentes.modulo.novo-modulo')
 
-
-            <!-- Modal Ver Detalhes -->
-            <div class="modal fade" id="verDetalhesModal" tabindex="-1" aria-labelledby="verDetalhesModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-
-                        <!-- Cabeçalho -->
-                        <div class="modal-header">
-                            <div class="col-12 col-md-8">
-                                <h5 class="modal-title" id="verDetalhesModalLabel">Detalhes do Módulo</h5>
-                            </div>
-                            <button type="button" class="btn-close position-absolute top-0 end-0 m-2"
-                                data-bs-dismiss="modal" aria-label="Fechar"></button>
-                        </div>
-
-                        <!-- Corpo -->
-                        <div class="modal-body">
-                            <form>
-                                <!-- Nome do módulo e Cursos -->
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Nome do Módulo*</label>
-                                        <input type="text" class="form-control" value="React Básico" readonly>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Cursos*</label>
-                                        <div class="dropdown">
-                                            <button id="btn-selecao-curso" class="btn dropdown-toggle w-100" type="button"
-                                                id="dropdownCursos" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Cursos com esse Módulo
-                                            </button>
-                                            <ul class="dropdown-menu w-100 p-2" aria-labelledby="dropdownCursos"
-                                                style="max-height:105px; overflow-y:auto;">
-                                                <li>
-                                                    <div
-                                                        class="form-check d-flex justify-content-between align-items-center">
-                                                        <label class="form-check-label" for="curso1">Desenvolvimento
-                                                            Web</label>
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                            value="1" id="curso1">
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div
-                                                        class="form-check d-flex justify-content-between align-items-center">
-                                                        <label class="form-check-label" for="curso2">Banco de
-                                                            Dados</label>
-                                                        <input class="form-check-input" type="checkbox" value="2"
-                                                            id="curso2">
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div
-                                                        class="form-check d-flex justify-content-between align-items-center">
-                                                        <label class="form-check-label" for="curso3">Inteligência
-                                                            Artificial</label>
-                                                        <input class="form-check-input" type="checkbox" value="3"
-                                                            id="curso3">
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div
-                                                        class="form-check d-flex justify-content-between align-items-center">
-                                                        <label class="form-check-label" for="curso4">Software
-                                                            Developer</label>
-                                                        <input class="form-check-input" type="checkbox" value="4"
-                                                            id="curso4">
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Total horas -->
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Total horas*</label>
-                                        <input type="number" class="form-control" value="120" readonly>
-                                    </div>
-                                </div>
-
-                                <!-- Descrição e documento -->
-                                <div class="row g-3 mb-3 justify-content-between">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Descrição</label>
-                                        <textarea class="form-control" rows="3" readonly>Este é um módulo de exemplo.</textarea>
-                                    </div>
-                                    <div
-                                        class="col-md-4 d-flex flex-column gap-2 justify-content-center btn-adicionar-modulo">
-                                        <button type="button" class="btn btn-novo-curso"><i
-                                                class="bi bi-file-earmark-text-fill"></i> Ver Documentos</button>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <button type="button" class="btn btn-novo-curso" data-bs-target="#editarModuloModal"
-                                        data-bs-toggle="modal" data-bs-dismiss="modal">
-                                        <i class="bi bi-pencil-fill"></i> Editar Módulo
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Modal Editar Módulo -->
-            <div class="modal fade" id="editarModuloModal" tabindex="-1" aria-labelledby="editarModuloModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-
-                        <!-- Cabeçalho -->
-                        <div class="modal-header">
-                            <div class="col-12 col-md-8">
-                                <h5 class="modal-title" id="editarModuloModalLabel">Editar Módulo</h5>
-                                <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
-                            </div>
-                            <button type="button" class="btn-close position-absolute top-0 end-0 m-2"
-                                data-bs-dismiss="modal" aria-label="Fechar"></button>
-                        </div>
-
-                        <!-- Corpo -->
-                        <div class="modal-body">
-                            <form>
-                                <!-- Nome do módulo e Cursos -->
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Nome do Módulo*</label>
-                                        <input type="text" class="form-control" value="React Básico">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Cursos*</label>
-                                        <div class="dropdown">
-                                            <button id="btn-selecao-curso" class="btn dropdown-toggle w-100"
-                                                type="button" id="dropdownCursos" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                Selecionar Cursos
-                                            </button>
-                                            <ul class="dropdown-menu w-100 p-2" aria-labelledby="dropdownCursos"
-                                                style="max-height:105px; overflow-y:auto;">
-                                                <li>
-                                                    <div
-                                                        class="form-check d-flex justify-content-between align-items-center">
-                                                        <label class="form-check-label" for="curso1">Desenvolvimento
-                                                            Web</label>
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                            value="1" id="curso1">
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div
-                                                        class="form-check d-flex justify-content-between align-items-center">
-                                                        <label class="form-check-label" for="curso2">Banco de
-                                                            Dados</label>
-                                                        <input class="form-check-input" type="checkbox" value="2"
-                                                            id="curso2">
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div
-                                                        class="form-check d-flex justify-content-between align-items-center">
-                                                        <label class="form-check-label" for="curso3">Inteligência
-                                                            Artificial</label>
-                                                        <input class="form-check-input" type="checkbox" value="3"
-                                                            id="curso3">
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div
-                                                        class="form-check d-flex justify-content-between align-items-center">
-                                                        <label class="form-check-label" for="curso4">Software
-                                                            Developer</label>
-                                                        <input class="form-check-input" type="checkbox" value="4"
-                                                            id="curso4">
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Total horas -->
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Total horas*</label>
-                                        <input type="number" class="form-control" value="120">
-                                    </div>
-                                </div>
-
-                                <!-- Descrição e documento -->
-                                <div class="row g-3 mb-3 justify-content-between">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Descrição</label>
-                                        <textarea class="form-control" rows="3">Este é um módulo de exemplo.</textarea>
-                                    </div>
-                                    <div
-                                        class="col-md-4 d-flex flex-column gap-2 justify-content-center btn-adicionar-modulo">
-                                        <button type="button" class="btn btn-novo-curso"><i
-                                                class="bi bi-file-earmark-text-fill"></i> Ver Documentos</button>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-novo-curso">
-                                        Gravar Alterações <i class="bi bi-check-lg text-success"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-novo-curso" data-bs-toggle="modal"
-                                        data-bs-target="#confirmarEliminar">
-                                        Eliminar Módulo <i class="bi bi-x-lg text-danger"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal de confirmação -->
+            <!-- Modal de eliminar -->
             @include('componentes.modulo.eliminar')
 
-
+            <!-- Modal de eliminar associados  -->
+            @include('componentes.modulo.eliminar-associoados')
 
             <!-- Grid de módulos -->
-            <div class="row g-4">
-    @foreach ($modulos as $modulo)
-        @php
-            $cursosPorInstituicao = $modulo->cursos->groupBy(function ($curso) {
-                return $curso->instituicao->id ?? 0;
-            });
-        @endphp
+            <div class="row g-4" id="grid-modulos">
+                @foreach ($modulos as $modulo)
+                    @foreach ($modulo->cursos as $curso)
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card card-cursos flex-fill d-flex flex-column position-relative">
+                                <!-- Checkbox -->
+                                <div class="form-check position-absolute top-0 end-0 m-2">
+                                    @if (isset($cursoModuloIds[$modulo->id][$curso->id]))
+                                        <input class="form-check-input" type="checkbox"
+                                            value="{{ $cursoModuloIds[$modulo->id][$curso->id] }}"
+                                            data-curso-modulo-id="{{ $cursoModuloIds[$modulo->id][$curso->id] }}"
+                                            id="selecionarModulo{{ $modulo->id }}-{{ $curso->id }}" name="modulos[]">
+                                        <label class="form-check-label"
+                                            for="selecionarModulo{{ $modulo->id }}-{{ $curso->id }}"></label>
+                                    @endif
+                                </div>
 
-        @foreach ($cursosPorInstituicao as $instituicaoId => $cursos)
-            <div class="col-12 col-md-6 col-lg-4 d-flex">
-                <div class="card card-cursos flex-fill d-flex flex-column position-relative">
-                    <!-- Checkbox no canto superior direito -->
-                    <div class="form-check position-absolute top-0 end-0 m-2">
-                        <input class="form-check-input" type="checkbox" value="{{ $modulo->id }}"
-                               id="selecionarModulo{{ $modulo->id }}" name="modulos[]">
-                        <label class="form-check-label" for="selecionarModulo{{ $modulo->id }}"></label>
-                    </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">{{ $modulo->nomeModulo }}</h5>
+                                    <h6 class="card-subtitle fw-light mb-2">
+                                        {{ $curso->titulo }}
+                                        ({{ $curso->instituicao->nomeInstituicao ?? 'Instituição não disponível' }})
+                                    </h6>
 
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ $modulo->nomeModulo }}</h5>
-                        <h6 class="card-subtitle fw-light mb-2">
-                            {{ $cursos->first()->instituicao->nomeInstituicao ?? 'Instituição não disponível' }}
-                        </h6>
+                                    <p class="card-text fw-light flex-grow-1" style="overflow: hidden;">
+                                        {{ $modulo->descricao ?? '' }}
+                                    </p>
 
-                        <p class="card-text fw-light flex-grow-1" style="overflow: hidden;">
-                            {{ $modulo->descricao ?? '' }}
-                        </p>
+                                    <div class="d-flex justify-content-between px-3 mt-2">
+                                        <span class="card-text"><i class="bi bi-file-earmark-text-fill"></i> 0
+                                            Documentos</span>
+                                        <span class="card-text"><i class="bi bi-clock"></i>
+                                            {{ $modulo->duracaoHoras }}h</span>
+                                    </div>
 
-                        <div class="d-flex justify-content-between px-3 mt-2">
-                            <span class="card-text"><i class="bi bi-file-earmark-text-fill"></i> 0 Documentos</span>
-                            <span class="card-text"><i class="bi bi-clock"></i> {{ $modulo->duracaoHoras }}h</span>
+                                    <div class="d-flex justify-content-end mt-4">
+                                        <button class="btn btn-sm btn-novo-curso me-2" data-bs-toggle="modal"
+                                            data-bs-target="#verDetalhesModal-{{ $modulo->id }}">
+                                            <i class="bi bi-eye-fill"></i> Ver detalhes
+                                        </button>
+                                        <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
+                                            data-id="{{ $modulo->id }}" data-curso="{{ $curso->id }}"
+                                            data-curso="{{ $curso->id }}" data-bs-target="#confirmarEliminar"><i
+                                                class="bi bi-trash-fill"></i>
+                                            Apagar</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    @endforeach
 
-                        <div class="d-flex justify-content-end mt-3">
-                            <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
-                                    data-bs-target="#verDetalhesModal{{ $modulo->id }}">Ver detalhes</button>
-                        </div>
-                    </div>
-                </div>
+                    <!-- Modal detalhes-->
+                    @include('componentes.modulo.detalhes-modulo')
+
+                    <!-- Modal editar-->
+                    @include('componentes.modulo.editar-modulo')
+                @endforeach
             </div>
-        @endforeach
-    @endforeach
-</div>
-        @endsection
+        </div>
+    </div>
+@endsection
