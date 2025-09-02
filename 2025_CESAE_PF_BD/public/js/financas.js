@@ -1,10 +1,13 @@
-// MODAL NOVA FATURA
-
 document.addEventListener("DOMContentLoaded", function () {
   const qtd = document.getElementById("fatura-qtd");
   const valor = document.getElementById("fatura-valor");
   const ivaInput = document.getElementById("fatura-iva");
   const irsInput = document.getElementById("fatura-irs");
+
+  const valorTotalInput = document.getElementById('valor_total');
+  const valorIvaInput = document.getElementById('valor_iva');
+  const valorIrsInput = document.getElementById('valor_irs');
+
 
   const subtotalEl = document.getElementById("subtotal");
   const ivaEl = document.getElementById("iva");
@@ -22,16 +25,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const valorIrs = subtotal * (irsPerc / 100);
     const total = subtotal + valorIva - valorIrs;
 
+    valorTotalInput.value=total;
+    valorIvaInput.value=valorIva;
+    valorIrsInput.value=valorIrs;
+
     subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
     ivaEl.textContent = `€${valorIva.toFixed(2)}`;
     irsEl.textContent = `-€${valorIrs.toFixed(2)}`;
     totalEl.textContent = `€${total.toFixed(2)}`;
+
+    return { qtdVal, valorUnitario, valorIva, valorIrs, total };
   }
 
   [qtd, valor, ivaInput, irsInput].forEach(input =>
     input.addEventListener("input", calcularTotais)
   );
+
 });
+
 
 
 
