@@ -1,112 +1,92 @@
-@extends('layouts.fe_master')
-
-@section('css')
+@extends('layouts.fe_master') @section('css')
     <link rel="stylesheet" href="{{ asset('css/financas_home.css') }}">
-@endsection
-
-@section('scripts')
+    @endsection @section('scripts')
     <script src="{{ asset('js/financas.js') }}" defer></script>
-@endsection
-
-@section('content')
-    <div class="content">
+    @endsection @section('content') <div class="content">
         <div class="container my-4">
 
             <!-- Título -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="fw-bold">Gestão Financeira</h2>
-                <input type="text" class="form-control  w-auto ms-auto" placeholder="Pesquisar Fatura..."
-                    id="pesquisa-fatura">
-                {{-- ms-auto → margem à esquerda automática, empurra o input para o final da linha.
-    w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. --}}
+                <h2 class="fw-bold">Gestão Financeira</h2> <input type="text" class="form-control w-auto ms-auto"
+                    placeholder="Pesquisar Fatura..." id="pesquisa-fatura"> {{-- ms-auto → margem à esquerda automática, empurra o input para o final da linha. w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. --}}
             </div>
 
             <!-- Container flex responsivo - permite alinhar botão fatura + grupo de filtros + botão calendário -->
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
 
-                <!-- Botão Nova Fatura -->
-                <div class="mb-2 mb-md-0">
-                    <button class="btn" id="btn-nova-fatura" data-bs-toggle="modal"
-                        data-bs-target="#editModalNovaFatura">
-                        + Nova Fatura
-                    </button>
-                </div>
 
-                <!-- Modal Nova Fatura -->
+                <!-- Botão Nova Fatura -->
+                <div class="mb-2 mb-md-0"> <button class="btn" id="btn-nova-fatura" data-bs-toggle="modal"
+                        data-bs-target="#editModalNovaFatura"> + Nova Fatura </button> </div> <!-- Modal Nova Fatura -->
                 <div class="modal fade" id="editModalNovaFatura" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content rounded-0 shadow">
                             <div class="modal-header">
                                 <div class="col-12 col-md-8">
-                                    <h5 class="modal-title">Adicionar nova fatura</h5>
-                                    <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    <h5 class="modal-title">Adicionar nova fatura</h5> <small
+                                        class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
+                                </div> <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="formNovaFatura" action="{{ route('novaFatura_route') }}" method="POST">
-                                    @csrf
+                                <form id="formNovaFatura" action="{{ route('novaFatura_route') }}" method="POST"> @csrf
 
+                                    <input type="hidden" id="valor_total" value="" name="valor_total">
+                                    <input type="hidden" id="valor_iva" value="" name="valor_iva">
+                                    <input type="hidden" id="valor_irs" value="" name="valor_irs">
                                     <div class="row g-3 mb-3">
 
                                         <!-- Instituição -->
-                                        <div class="col-md-6">
-                                            <label for="instituicao" class="form-label">Instituição*</label>
-                                            <select class="form-control" id="instituicao" name="instituicao" required>
+                                        <div class="col-md-6"> <label for="instituicao"
+                                                class="form-label">Instituição*</label> <select class="form-control"
+                                                id="instituicao" name="instituicao" required>
                                                 <option value="" selected disabled>Selecione uma instituição</option>
                                                 @foreach ($instituicoes as $inst)
                                                     <option value="{{ $inst->id }}">{{ $inst->nomeInstituicao }}
                                                     </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                                    @endforeach
+                                            </select> </div>
 
-                                        <!-- Curso -->
-                                        <div class="col-md-6">
-                                            <label for="curso" class="form-label">Curso*</label>
-                                            <select class="form-control" id="curso" name="curso" required>
+                                            <!-- Curso -->
+                                        <div class="col-md-6"> <label for="curso" class="form-label">Curso</label>
+                                            <select class="form-control" id="curso" name="curso">
                                                 <option value="" selected disabled>Selecione um curso</option>
                                                 @foreach ($cursos as $curso)
                                                     <option value="{{ $curso->id }}">{{ $curso->titulo }}</option>
+                                                    @endforeach
+                                            </select> </div>
+
+                                            <!-- Módulo -->
+                                        <div class="col-md-6"> <label for="curso" class="form-label">Módulo</label>
+                                            <select class="form-control" id="modulo" name="modulo">
+                                                <option value="" selected disabled>Selecione um módulo</option>
+                                                @foreach ($modulos as $modulo)
+                                                    <option value="{{ $modulo->id }}">{{ $modulo->nomeModulo }}</option>
                                                 @endforeach
-                                            </select>
-                                        </div>
+                                            </select> </div>
 
-
-
-                                        <!-- Descrição -->
-                                        <div class="mb-3">
-                                            <label for="descricao" class="form-label">Descrição*</label>
+                                            <!-- Descrição -->
+                                        <div class="mb-3"> <label for="descricao" class="form-label">Descrição*</label>
                                             <input type="text" class="form-control rounded-0" id="descricao"
-                                                name="descricao" placeholder="Ex: Formação em Excel - 6h" required>
-                                        </div>
+                                                name="descricao" placeholder="Ex: Formação em Excel - 6h" required> </div>
 
-                                        <!-- Quantidade e Valor -->
+                                                <!-- Quantidade e Valor -->
                                         <div class="row mb-3">
-                                            <div class="col-4">
-                                                <label class="form-label">Quantidade Horas</label>
-                                                <input type="number" class="form-control rounded-0" id="fatura-qtd"
-                                                    name="qtd" value="1">
-                                            </div>
-                                            <div class="col-8">
-                                                <label class="form-label">Valor unitário (€)</label>
-                                                <input type="number" class="form-control rounded-0" id="fatura-valor"
-                                                    name="valor" placeholder="0.00">
-                                            </div>
+                                            <div class="col-4"> <label class="form-label">Quantidade Horas</label> <input
+                                                    type="number" class="form-control rounded-0" id="fatura-qtd"
+                                                    name="qtd" value="1"> </div>
+                                            <div class="col-8"> <label class="form-label">Valor unitário (€)</label> <input
+                                                    type="number" class="form-control rounded-0" id="fatura-valor"
+                                                    name="valor" placeholder="0.00"> </div>
                                         </div>
 
                                         <!-- IVA & IRS -->
                                         <div class="row mb-3">
-                                            <div class="col-6">
-                                                <label class="form-label">IVA (%)</label>
-                                                <input type="number" class="form-control rounded-0" id="fatura-iva"
-                                                    name="iva" value="0">
-                                            </div>
-                                            <div class="col-6">
-                                                <label class="form-label">IRS (%)</label>
-                                                <input type="number" class="form-control rounded-0" id="fatura-irs"
-                                                    name="irs" value="0">
-                                            </div>
+                                            <div class="col-6"> <label class="form-label">IVA (%)</label> <input
+                                                    type="number" class="form-control rounded-0" id="fatura-iva"
+                                                    name="iva" value="0"> </div>
+                                            <div class="col-6"> <label class="form-label">IRS (%)</label> <input
+                                                    type="number" class="form-control rounded-0" id="fatura-irs"
+                                                    name="irs" value="0"> </div>
                                         </div>
 
                                         <!-- Totais -->
@@ -121,29 +101,25 @@
 
                                         <!-- Datas -->
                                         <div class="row g-3 mb-3">
-                                            <div class="col">
-                                                <label for="dataEmissao" class="form-label">Data Emissão*</label>
-                                                <input type="date" class="form-control rounded-0" id="dataEmissao"
-                                                    name="dataEmissao" required>
-                                            </div>
-                                            <div class="col">
-                                                <label for="dataPagamento" class="form-label">Data Pagamento</label>
-                                                <input type="date" class="form-control rounded-0" id="dataPagamento"
-                                                    name="dataPagamento">
-                                            </div>
+                                            <div class="col"> <label for="dataEmissao" class="form-label">Data
+                                                    Emissão*</label> <input type="date" class="form-control rounded-0"
+                                                    id="dataEmissao" name="dataEmissao" required> </div>
+                                            <div class="col"> <label for="dataPagamento" class="form-label">Data
+                                                    Pagamento</label> <input type="date" class="form-control rounded-0"
+                                                    id="dataPagamento" name="dataPagamento"> </div>
                                         </div>
 
                                         <!-- Observações -->
-                                        <div class="mb-3">
-                                            <label for="observacoes" class="form-label">Observações</label>
+                                        <div class="mb-3"> <label for="observacoes"
+                                                class="form-label">Observações</label>
                                             <textarea class="form-control rounded-0" id="observacoes" name="observacoes" rows="3"></textarea>
                                         </div>
 
+
+
                                         <!-- Botão -->
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary rounded-0">Adicionar
-                                                Fatura</button>
-                                        </div>
+                                        <div class="text-center"> <button type="submit"
+                                                class="btn btn-primary rounded-0">Adicionar Fatura</button> </div>
                                     </div>
                                 </form>
                             </div>

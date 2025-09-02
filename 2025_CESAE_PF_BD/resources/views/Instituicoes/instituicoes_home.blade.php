@@ -50,7 +50,7 @@
 
 
         <!-- Modal de confirmação -->
-        @include('componentes.eliminar')
+        @include('componentes.instituicao.eliminar')
 
 
       <div class="row g-4" id="grid-instituicoes">

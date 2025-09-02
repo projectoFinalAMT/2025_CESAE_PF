@@ -10,6 +10,7 @@ use App\Http\Controllers\financasController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\documentoController;
 use App\Http\Controllers\instituicaoController;
+use App\Http\Controllers\loginController;
 
 // Route::get('/home', function () {
 //     return view('welcome');
@@ -69,5 +70,7 @@ Route::get('/instituicoes/buscar', [InstituicaoController::class, 'buscar'])->na
    // Página do calendário (HTML)
 Route::get('/calendar', [ScheduleController::class, 'index'])->name('calendarioBladeView');
 
+// Login
+Route::get('/login', [loginController::class, 'login'])->name('loginRoute');
 
 // });
