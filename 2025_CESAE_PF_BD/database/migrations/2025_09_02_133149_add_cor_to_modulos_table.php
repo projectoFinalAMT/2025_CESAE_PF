@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('events', function (Blueprint $table) {
-            $table->string('nota')->nullable()->after('title'); // se quiser deixar alguma nota no agendamento (exemplo "na reuniao x falar do topico y")
-
+        Schema::table('modulos', function (Blueprint $table) {
+            $table->string('cor', 9)->nullable()->after('descricao'); // ex: #FF8800
         });
+
     }
 
     /**
@@ -22,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('events', function (Blueprint $table) {
-            $table->dropColumn('nota');
+        Schema::table('modulos', function (Blueprint $table) {
+            $table->dropColumn('cor');
         });
     }
 };

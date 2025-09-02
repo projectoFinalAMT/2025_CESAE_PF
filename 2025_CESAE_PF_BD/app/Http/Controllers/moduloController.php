@@ -20,26 +20,23 @@ class moduloController extends Controller
 
     public function store(Request $request)
     {
-        // Validação
         $validated = $request->validate([
-            'nome'         => 'required|string|max:255',
-            'descricao'    => 'nullable|string',
-            'duracao_horas'=> 'required|numeric|min:0',
-            'cursos'       => 'required|array',
-            'cursos.*'     => 'exists:cursos,id',
+            'nome'           => 'required|string|max:255',
+            'descricao'      => 'nullable|string',
+            'duracao_horas'  => 'required|numeric|min:0',
+            'cursos'         => 'required|array',
+            'cursos.*'       => 'exists:cursos,id',
         ]);
 
-        // Criar módulo
-        $modulo = Modulo::create([
+        $modulo = \App\Models\Modulo::create([
             'nomeModulo'   => $validated['nome'],
             'descricao'    => $validated['descricao'] ?? null,
             'duracaoHoras' => $validated['duracao_horas'],
         ]);
 
-        // Associar aos cursos selecionados
         $modulo->cursos()->sync($validated['cursos']);
 
-        return redirect()->back()->with('success', 'Módulo criado com sucesso!');
+        return back()->with('success', 'Módulo criado com sucesso!');
     }
 
      public function deletar(Request $request)
@@ -48,4 +45,20 @@ class moduloController extends Controller
     Modulo::whereIn('id', $ids)->delete();
     return redirect()->route('modulos')->with('success', 'Módulo eliminado com sucesso!');
 }
+
+//função para o calendario para filtrar modulos por curso
+public function byCurso($cursoId)
+{
+    // N↔N: filtra módulos que estejam ligados ao curso via pivot
+    $mods = \App\Models\Modulo::whereHas('cursos', function ($q) use ($cursoId) {
+        $q->where('cursos.id', $cursoId);
+    })
+    ->orderBy('nomeModulo')
+    ->get(['id', 'nomeModulo']); // cursos_id já não interessa
+
+// devolve JSON no formato esperado pelo teu JS
+return response()->json($mods);
+}
+
+
 }

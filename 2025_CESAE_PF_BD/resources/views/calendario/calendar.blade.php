@@ -31,12 +31,22 @@
           <input type="hidden" id="event_id">
 
           <div class="mb-3">
-            <label class="form-label">Título (opcional)</label>
+            <label class="form-label">Título</label>
             <input type="text" id="event_title" class="form-control" placeholder="Ex.: Reunião com coordenação">
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Módulo (opcional)</label>
+            <label class="form-label">Curso</label>
+            <select id="event_curso" class="form-select">
+              <option value="">— Sem Curso —</option>
+              @foreach($mCurso as $c)
+                <option value="{{ $c->id }}">{{ $c->titulo }}</option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Módulo </label>
             <select id="event_modulo" class="form-select">
               <option value="">— Sem módulo —</option>
               @foreach($modulos as $m)

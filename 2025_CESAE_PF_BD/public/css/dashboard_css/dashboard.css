@@ -41,15 +41,41 @@ margin-right: 10px;  }
     box-shadow: 2px 0 5px rgba(0,0,0,0.3);
 }
 
-#subtitle{
-    font-size: 12px;
-
-
-
-}
 .title{
     padding-top: 20px;
     font-size: 20px;
     margin-bottom: 0; /* remove espaço abaixo do h5 */
 
 }
+
+
+/*FILTRO CALENDARIO*/
+
+
+#subtitle{
+    font-size: 15px;
+    padding: 7px;
+    color: rgb(231, 162, 252);
+}
+
+.apontamento-header {
+    font-weight: bold;
+    background-color: #f8f9fa; /* cinzento clarinho estilo bootstrap */
+    border-bottom: 2px solid #ccc;
+    padding: 10px 0;
+}
+
+.apontamento-row {
+    font-size: 1.0rem;
+    padding: 3px;
+}
+
+.apontamento-row:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+}
+
+.apontamento-row > .col-6 {
+    padding: 5px 10px;
+}
+
+/* . FILTRO CALENDARIO*/

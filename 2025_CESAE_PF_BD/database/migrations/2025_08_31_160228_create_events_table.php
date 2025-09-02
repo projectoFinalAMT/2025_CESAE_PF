@@ -21,7 +21,6 @@ return new class extends Migration
         // Relacionamentos
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('id')->on('users');
-
             $table->unsignedBigInteger('modulos_id')->nullable();
             $table->foreign('modulos_id')->references('id')->on('modulos');
 

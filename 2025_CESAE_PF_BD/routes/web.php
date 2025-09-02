@@ -65,6 +65,11 @@ Route::get('/instituicoes/buscar', [InstituicaoController::class, 'buscar'])->na
     Route::put('/events/{event}', [EventController::class, 'update']);
     // Deleta um evento
     Route::delete('/events/{event}', [EventController::class, 'destroy']);
+    //modulos por curso para o calendario
+Route::get('/cursos/{curso}/modulos', [moduloController::class, 'byCurso'])
+->name('cursos.modulos');
+
+
     // ver calendario
    // Página do calendário (HTML)
 Route::get('/calendar', [ScheduleController::class, 'index'])->name('calendarioBladeView');
