@@ -44,6 +44,10 @@ Route::post('/curso-modulo/remover', [CursoModuloController::class, 'removerAsso
 
 //Documentos
 Route::get('/documentos', [documentoController::class, 'index'])->name('documentos');
+Route::post('/documentos', [documentoController::class, 'store'])->name('documento.store');
+Route::post('/documentos/delete', [documentoController::class, 'deletar'])->name('documento.deletar');
+Route::put('/documento/{id}/update', [documentoController::class, 'update'])->name('documento.update');
+Route::get('/documento/buscar', [documentoController::class, 'buscar'])->name(' documento.buscar');
 
 
 // Finanças
