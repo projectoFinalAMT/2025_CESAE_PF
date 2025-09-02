@@ -9,6 +9,7 @@ use App\Http\Controllers\moduloController;
 use App\Http\Controllers\financasController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\documentoController;
+use App\Http\Controllers\CursoModuloController;
 use App\Http\Controllers\instituicaoController;
 
 // Route::get('/home', function () {
@@ -37,8 +38,16 @@ Route::post('/modulos/delete', [moduloController::class, 'deletar'])->name('modu
 Route::put('/modulos/{id}/update', [moduloController::class, 'update'])->name('modulo.update');
 Route::get('/modulos/buscar', [moduloController::class, 'buscar'])->name(' modulo.buscar');
 
+//Eliminar Modulo/Curso
+Route::post('/curso-modulo/remover', [CursoModuloController::class, 'removerAssociacao'])->name('curso-modulo.remover');
+
+
 //Documentos
 Route::get('/documentos', [documentoController::class, 'index'])->name('documentos');
+Route::post('/documentos', [documentoController::class, 'store'])->name('documento.store');
+Route::post('/documentos/delete', [documentoController::class, 'deletar'])->name('documento.deletar');
+Route::put('/documento/{id}/update', [documentoController::class, 'update'])->name('documento.update');
+Route::get('/documento/buscar', [documentoController::class, 'buscar'])->name(' documento.buscar');
 
 
 // Finanças
