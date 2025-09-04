@@ -22,25 +22,34 @@ class financasController extends Controller
 
     dd($request->all());
     $validated = $request->validate([
-        'numeroFatura'   => 'required|string|max:255',
+        'numeroFatura'   => 'required|string|max:255', // tenho que fazer drop disto
+        'descricao'      => 'required|string|max:255',
+        'quantidade_horas' => 'required|numeric|min:0',
+        'valor_unitario' => 'required|numeric|min:0',
+        'valor_semImposto' => 'required|numeric|min:0', // subtotal
+        'IVAPercetagem'  => 'required|numeric|min:0', // % IVA
+        'baseCalculoIRS' => 'required|numeric|', // % IRS
+        'IRSTaxa'        => 'required|numeric|min:0', // Valor IRS calculado
         'valor_total'    => 'required|numeric|min:0',
-        'IRSTaxa'        => 'required|numeric|min:0',
-        'IVAPercetagem'  => 'required|numeric|min:0',
         'dataEmissao'    => 'required|date',
         'dataPagamento'  => 'nullable|date|after_or_equal:dataEmissao',
-        'observacoes'    => 'nullable|string',
+        'observacoes'    => 'nullable|string|max:255',
         'instituicao'    => 'required|exists:instituicoes,id', // ID da instituição já salva
         'curso'          => 'nullable|numeric|min:0',
         'modulo'         => 'nullable|numeric|min:0',
-        'observacoes'    => 'nullable|string',
     ]);
 
     // Criar nova fatura
     $financas = new Financa();
-    $financas->numeroFatura      = $validated['numeroFatura'];
+    $financas->numeroFatura      = $validated['numeroFatura']; // tenho que fazer drop disto
+    $financas->descricao         = $validated['descricao'];
+    $financas->quantidade_horas  = $validated['quantidade_horas'];
+    $financas->valor_unitario    = $validated['valor_unitario'];
+    $financas->valor_semImposto  = $validated['valor_semImposto'];
+    $financas->IVAPercetagem     = $validated['IVAPercetagem'];
+    $financas->baseCalculoIRS    = $validated['baseCalculoIRS'];
+    $financas->IRSTaxa           = $validated['IRSTaxa'];
     $financas->valor             = $validated['valor_total'];
-    $financas->IRSTaxa           = $validated['irs'];
-    $financas->IVAPercetagem     = $validated['iva'];
     $financas->dataEmissao       = $validated['dataEmissao'];
     $financas->dataPagamento     = $validated['dataPagamento'] ?? null;
     $financas->observacoes       = $validated['observacoes'] ?? null;
