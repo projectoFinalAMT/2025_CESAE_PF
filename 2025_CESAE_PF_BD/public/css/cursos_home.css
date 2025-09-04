@@ -8,6 +8,10 @@
 .btn-novo-curso:hover {
   background-color: rgb(245, 244, 244);
 }
+
+#corCurso:hover{
+background-color: white !important;
+}
 .card-cursos{
   border: none;
   border-radius: 0px !important;
@@ -56,8 +60,29 @@
 }
 
 .btn-adicionar{
-    margin-top: 48px;
+    margin-top: 51px;
 }
+
+#corAparecer{
+    width: 20px;
+    height: 20px;
+
+    display: inline-block;
+}
+
+.btn-novo-curso.btn-nova-cor {
+  padding: 2px;
+}
+
+.color-preview {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+
 
 /*para elimar a seta no input[type=number] */
 /* Para Chrome, Edge, Safari */
@@ -72,3 +97,5 @@ input[type=number] {
     -moz-appearance: textfield;
   appearance: textfield;
 }
+
+

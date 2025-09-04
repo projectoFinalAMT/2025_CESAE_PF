@@ -12,10 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 (c) => c.checked
             );
 
-            if(apagarBtn){ apagarBtn.style.display = algumSelecionado
-                ? "inline-block"
-                : "none";}
-
+            if (apagarBtn) {
+                apagarBtn.style.display = algumSelecionado
+                    ? "inline-block"
+                    : "none";
+            }
         });
     });
 });
@@ -40,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
 
 //Eliminar Card
 document.addEventListener("DOMContentLoaded", function () {
@@ -69,13 +69,19 @@ document.addEventListener("DOMContentLoaded", function () {
         const ids = [];
 
         // Cursos selecionados
-        document.querySelectorAll('input[name="cursos[]"]:checked').forEach((cb) => ids.push(cb.value));
+        document
+            .querySelectorAll('input[name="cursos[]"]:checked')
+            .forEach((cb) => ids.push(cb.value));
 
         // Instituições selecionadas
-        document.querySelectorAll('input[name="instituicoes[]"]:checked').forEach((cb) => ids.push(cb.value));
+        document
+            .querySelectorAll('input[name="instituicoes[]"]:checked')
+            .forEach((cb) => ids.push(cb.value));
 
         // Módulos selecionados
-        document.querySelectorAll('input[name="modulos[]"]:checked').forEach((cb) => ids.push(cb.value));
+        document
+            .querySelectorAll('input[name="modulos[]"]:checked')
+            .forEach((cb) => ids.push(cb.value));
 
         // Se nenhum item selecionado
         if (ids.length === 0 && !idsSelecionados.value) {
@@ -90,7 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
 
 //Aparecer Botão Selecionado Assiciado
 document.addEventListener("DOMContentLoaded", () => {
@@ -114,20 +119,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //eliminar Modolo/Curso
 document.addEventListener("DOMContentLoaded", function () {
-    const btnApagarSelecionados = document.getElementById("apagarSelecionadosAssociados");
-    const idsSelecionadosInput = document.getElementById("idsSelecionadosModulo");
+    const btnApagarSelecionados = document.getElementById(
+        "apagarSelecionadosAssociados"
+    );
+    const idsSelecionadosInput = document.getElementById(
+        "idsSelecionadosModulo"
+    );
 
-
-
+    if (!btnApagarSelecionados || !idsSelecionadosInput) return; // evita o erro
 
     btnApagarSelecionados.addEventListener("click", function () {
-
         // Pega apenas checkboxes marcados
-        const selecionados = Array.from(document.querySelectorAll('input[name="modulos[]"]:checked'))
-                                  .map(cb => cb.dataset.cursoModuloId)
-                                  .filter(id => id); // remove vazios
+        const selecionados = Array.from(
+            document.querySelectorAll('input[name="modulos[]"]:checked')
+        )
+            .map((cb) => cb.dataset.cursoModuloId)
+            .filter((id) => id); // remove vazios
 
-        if(selecionados.length === 0) {
+        if (selecionados.length === 0) {
             alert("Selecione pelo menos um módulo.");
             return;
         }
@@ -135,13 +144,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Preenche o hidden input do form
 
         idsSelecionadosInput.value = selecionados.join(",");
-
-
     });
-
 });
-
-
 
 //tempo post sucess
 document.addEventListener("DOMContentLoaded", function () {
@@ -211,3 +215,52 @@ function search(filter) {
         });
     });
 }
+
+//Adicionar Cor
+document.addEventListener("DOMContentLoaded", function () {
+    const btnAdicionarCor = document.getElementById("btnAdicionarCor");
+    const inputCor = document.getElementById("inputCor");
+    const colorPreview = document.getElementById('colorPreview');
+
+    // valor inicial do banco (se existir)
+    if (inputCor.value) {
+        colorPreview.style.backgroundColor = inputCor.value;
+    }
+
+    // abrir seletor ao clicar no botão
+    btnAdicionarCor.addEventListener("click", function () {
+        inputCor.click();
+    });
+
+    // atualizar o quadradinho ao escolher cor
+    inputCor.addEventListener("input", function () {
+        colorPreview.style.backgroundColor = inputCor.value;
+    });
+});
+
+
+// Adicionar Cor nos modais de edição
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".btn-adicionar-cor").forEach((btn) => {
+        const id = btn.id.split("-")[1]; // pega o ID da instituição
+        const inputCor = document.getElementById(`inputCor-${id}`);
+        const colorPreview = document.getElementById(`colorPreview-${id}`);
+
+        // atualiza o quadradinho no carregamento
+        if (inputCor && colorPreview) {
+            colorPreview.style.backgroundColor = inputCor.value || '#f5f4f4';
+        }
+
+        // ao clicar, abre o seletor de cor
+        btn.addEventListener("click", function () {
+            if (inputCor) inputCor.click();
+        });
+
+        // ao escolher cor, atualiza o quadradinho
+        if (inputCor && colorPreview) {
+            inputCor.addEventListener("input", function () {
+                colorPreview.style.backgroundColor = inputCor.value;
+            });
+        }
+    });
+});

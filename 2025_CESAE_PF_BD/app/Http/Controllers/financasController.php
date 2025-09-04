@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curso;
-use App\Models\Instituicao;
 use App\Models\Modulo;
+use App\Models\Financa;
+use App\Models\Instituicao;
 use Illuminate\Http\Request;
 
 class financasController extends Controller

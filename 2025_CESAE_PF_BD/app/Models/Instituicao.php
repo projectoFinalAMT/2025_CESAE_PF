@@ -20,6 +20,7 @@ class Instituicao extends Model
         'emailResponsavel',
         'nomeResponsavel',
         'telefoneResponsavel',
+        'cor',
         'users_id',
     ];
 }

@@ -25,6 +25,7 @@ class cursoController extends Controller
         'total_horas'    => 'required|numeric|min:0',
         'preco_hora'     => 'required|numeric|min:0',
         'descricao'      => 'nullable|string',
+
     ]);
 
     // Criar curso
@@ -38,6 +39,7 @@ class cursoController extends Controller
     $curso->instituicoes_id   = $validated['instituicao']; // liga à instituição já existente
     $curso->users_id          = 1; // usuário logado
     $curso->estado_cursos_id  = 1; // por exemplo, estado "ativo" padrão
+
     $curso->save();
 
     return redirect()->route('cursos')
@@ -56,6 +58,8 @@ public function update(Request $request, $id)
         'total_horas'  => 'required|numeric|min:0',
         'preco_hora'   => 'required|numeric|min:0',
         'descricao'    => 'nullable|string',
+        'cor'          => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/', // valida HEX
+
     ]);
 
     $curso->update([
@@ -66,8 +70,9 @@ public function update(Request $request, $id)
         'duracaoTotal'    => $validated['total_horas'],
         'precoHora'       => $validated['preco_hora'],
         'descricao'       => $validated['descricao'] ?? null,
+        'cor'             => $validated['cor'] ?? $curso->cor, // mantém cor antiga se não mudar
     ]);
-
+    
     return redirect()->route('cursos')->with('success', 'Curso atualizado com sucesso!');
 }
 
