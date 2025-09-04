@@ -25,6 +25,7 @@ public function store(Request $request)
             'telefoneResponsavel' => 'nullable|string|max:20',
             'emailResponsavel'    => 'required|email',
             'nomeResponsavel'     => 'nullable|string|max:255',
+            'cor'            => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/', // validação simples para HEX
         ]);
 
         // Criar registo
@@ -62,6 +63,7 @@ public function update(Request $request, $id)
         'telefoneResponsavel' => 'nullable|string|max:20',
         'emailResponsavel'    => 'required|email',
         'nomeResponsavel'     => 'nullable|string|max:255',
+        'cor'                 => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/', // valida HEX
     ]);
 
     // Atualizar os campos

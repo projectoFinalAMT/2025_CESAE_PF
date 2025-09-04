@@ -93,7 +93,7 @@
                             <!-- Rodapé -->
                             <div class="d-flex justify-content-end">
                                 <button class="btn btn-sm btn-novo-curso me-2" data-bs-toggle="modal"
-                                    data-bs-target="#editarInstituicaoModal-{{ $instituicao->id }}"><i class="bi bi-pencil-fill"></i>  
+                                    data-bs-target="#editarInstituicaoModal-{{ $instituicao->id }}"><i class="bi bi-pencil-fill"></i>
                                     Editar
                                 </button>
                                 <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"

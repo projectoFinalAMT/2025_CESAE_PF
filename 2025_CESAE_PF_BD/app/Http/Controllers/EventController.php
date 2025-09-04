@@ -89,7 +89,7 @@ class EventController extends Controller
         $finalTitle = $this->buildTitle($request->title, $request->cursos_id, $request->modulos_id);
 
         $event->update([
-            'title'      => $requset->title,
+            'title'      => $request->title,
             'modulos_id' => $request->modulos_id,
             'start'      => $request->start,
             'end'        => $request->end,

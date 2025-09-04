@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Curso;
 use App\Models\Modulo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class moduloController extends Controller
 {
@@ -45,56 +46,59 @@ class moduloController extends Controller
     /**
      * Armazena um novo módulo e associa aos cursos selecionados.
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'duracao_horas' => 'required|numeric|min:0',
-            'cursos' => 'required|array',
-            'cursos.*' => 'exists:cursos,id',
-        ]);
+   public function store(Request $request)
+{
+    $validated = $request->validate([
+        'nome' => 'required|string|max:255',
+        'descricao' => 'nullable|string',
+        'duracao_horas' => 'required|numeric|min:0',
+        'cursos' => 'required|array',
+        'cursos.*' => 'exists:cursos,id',
 
-        // Cria o módulo
-        $modulo = Modulo::create([
-            'nomeModulo' => $validated['nome'],
-            'descricao' => $validated['descricao'] ?? null,
-            'duracaoHoras' => $validated['duracao_horas'],
-        ]);
+    ]);
 
-        // Associa aos cursos selecionados (pivot)
-        $modulo->cursos()->sync($validated['cursos']);
+    // Cria o módulo
+    $modulo = Modulo::create([
+        'nomeModulo'   => $validated['nome'],
+        'descricao'    => $validated['descricao'] ?? null,
+        'duracaoHoras' => $validated['duracao_horas'],
 
-        return back()->with('success', 'Módulo criado com sucesso!');
-    }
+    ]);
 
+    // Associa aos cursos selecionados (pivot)
+    $modulo->cursos()->sync($validated['cursos']);
+
+    return back()->with('success', 'Módulo criado com sucesso!');
+}
     /**
      * Atualiza um módulo existente e sincroniza os cursos.
      */
-    public function update(Request $request, $id)
-    {
-        $modulo = Modulo::findOrFail($id);
+   public function update(Request $request, $id)
+{
+    $modulo = Modulo::findOrFail($id);
 
-        $validated = $request->validate([
-            'nomeModulo' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'duracaoHoras' => 'required|numeric|min:0',
-            'cursos' => 'required|array',
-            'cursos.*' => 'exists:cursos,id',
-        ]);
+    $validated = $request->validate([
+        'nomeModulo'   => 'required|string|max:255',
+        'descricao'    => 'nullable|string',
+        'duracaoHoras' => 'required|numeric|min:0',
+        'cursos'       => 'required|array',
+        'cursos.*'     => 'exists:cursos,id',
 
-        // Atualiza dados do módulo
-        $modulo->update([
-            'nomeModulo' => $validated['nomeModulo'],
-            'descricao' => $validated['descricao'] ?? null,
-            'duracaoHoras' => $validated['duracaoHoras'],
-        ]);
+    ]);
 
-        // Sincroniza os cursos associados
-        $modulo->cursos()->sync($validated['cursos']);
+    // Atualiza dados do módulo
+    $modulo->update([
+        'nomeModulo'   => $validated['nomeModulo'],
+        'descricao'    => $validated['descricao'] ?? null,
+        'duracaoHoras' => $validated['duracaoHoras'],
 
-        return redirect()->back()->with('success', 'Módulo atualizado com sucesso!');
-    }
+    ]);
+
+    // Sincroniza os cursos associados
+    $modulo->cursos()->sync($validated['cursos']);
+
+    return redirect()->back()->with('success', 'Módulo atualizado com sucesso!');
+}
 
     /**
      * Deleta um ou mais módulos, considerando IDs separados por vírgula.
@@ -106,7 +110,7 @@ class moduloController extends Controller
 
     if($cursoId){
         // Remove só a associação módulo-curso
-        \DB::table('curso_modulo')
+        DB::table('curso_modulo')
             ->where('modulo_id', $ids[0])
             ->where('curso_id', $cursoId)
             ->delete();
@@ -123,7 +127,7 @@ class moduloController extends Controller
 public function byCurso($cursoId)
 {
     // N↔N: filtra módulos que estejam ligados ao curso via pivot
-    $mods = \App\Models\Modulo::whereHas('cursos', function ($q) use ($cursoId) {
+    $mods = Modulo::whereHas('cursos', function ($q) use ($cursoId) {
         $q->where('cursos.id', $cursoId);
     })
     ->orderBy('nomeModulo')

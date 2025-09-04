@@ -66,11 +66,23 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="descricao" class="form-label">Descrição</label>
-                        <textarea class="form-control" id="descricao" name="descricao" rows="3">{{ $curso->descricao ?? 'Descrição não informada' }}</textarea>
-                    </div>
+                    <div class="row g-3 mb-3">
+                          <!-- Coluna da descrição -->
+                          <div class="col-md-8">
+                              <label for="descricao" class="form-label">Descrição</label>
+                              <textarea class="form-control" id="descricao" name="descricao" rows="3" value="{{ $curso->descricao }}"></textarea>
+                          </div>
 
+                          <!-- Coluna dos botões -->
+                          <div class="col-md-4 d-flex flex-column justify-content-start gap-2 btn-adicionar">
+                              <button type="button" class="btn btn-novo-curso">
+                                  <i class="bi bi-people-fill"></i> Adicionar Alunos
+                              </button>
+                              <button type="button" class="btn btn-novo-curso">
+                                  <i class="bi bi-journal-bookmark-fill"></i> Adicionar Módulos
+                              </button>
+                          </div>
+                      </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-novo-curso">
                             Gravar Alterações <i class="bi bi-check-lg text-success"></i>
