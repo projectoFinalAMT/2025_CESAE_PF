@@ -39,6 +39,9 @@ margin-right: 10px;  }
     border: none;
     border-radius: 0px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+    height: 600px;          /* altura fixa */
+    overflow-y: auto;       /* ativa scroll vertical */
+    overflow-x: hidden;
 }
 
 .title{
