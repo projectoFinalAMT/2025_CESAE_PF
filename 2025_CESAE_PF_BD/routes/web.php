@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\cursoController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\loginController;
 use App\Http\Controllers\AlunosController;
 use App\Http\Controllers\moduloController;
 use App\Http\Controllers\financasController;
@@ -11,7 +12,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\documentoController;
 use App\Http\Controllers\CursoModuloController;
 use App\Http\Controllers\instituicaoController;
-use App\Http\Controllers\loginController;
+use App\Http\Controllers\RecebimentoController;
 
 // Route::get('/home', function () {
 //     return view('welcome');
@@ -37,7 +38,6 @@ Route::post('/cursos/delete', [cursoController::class, 'deletar'])->name('curso.
 Route::put('/cursos/{id}/update', [cursoController::class, 'update'])->name('curso.update');
 Route::get('/cursos/buscar', [cursoController::class, 'buscar'])->name('cursos.buscar');
 
-
 //Modulos
 Route::get('/modulos', [moduloController::class, 'index'])->name('modulos');
 Route::post('/modulos', [moduloController::class, 'store'])->name('modulo.store');
@@ -60,6 +60,8 @@ Route::get('/documento/buscar', [documentoController::class, 'buscar'])->name(' 
 // Finanças
 Route::get('/financas', [financasController::class, 'index'])->name('financas');
 Route::post('/financas', [financasController::class, 'novaFatura'])->name('novaFatura_route');
+Route::get('/ver-instituicoes', [RecebimentoController::class, 'listarInstituicoes']);
+Route::get('ver-ganhos', [RecebimentoController::class, 'ganhosPorInstituicao']);
 
 
 // Instituicoes

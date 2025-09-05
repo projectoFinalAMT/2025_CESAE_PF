@@ -74,7 +74,7 @@
     color: #fabfb7;
 }
 
-.card-recibos, .card-ganhos{
+.card-fatura, .card-ganhos{
   border: none;
   border-radius: 0px;
   box-shadow: 2px 0 5px rgba(0,0,0,0.3);
@@ -116,5 +116,13 @@
 
 #icon-filter:hover {
   color: #28a745;
+}
+
+
+/*TABELA FATURAS*/
+
+#faturasTabela{
+    height: 350px;
+    overflow: auto;
 }
 
