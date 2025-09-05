@@ -1,6 +1,7 @@
 @extends('layouts.fe_master')
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/cursos_home.css') }}">
+     <link rel="stylesheet" href="{{ asset('css/modulos_home.css') }}">
 @endsection
 @section('scripts')
     <script src="{{ asset('js/cursos.js') }}" defer></script>
