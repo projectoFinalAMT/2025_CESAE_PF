@@ -19,6 +19,35 @@ public function index()
         ->distinct()
         ->orderBy('nomeModulo')
         ->get();
+public function update(Request $request, $id)
+{
+    $curso = Curso::findOrFail($id);
+
+    $validated = $request->validate([
+        'nome'         => 'required|string|max:255',
+        'instituicao'  => 'required|exists:instituicoes,id',
+        'data_inicio'  => 'required|date',
+        'data_fim'     => 'nullable|date|after_or_equal:data_inicio',
+        'total_horas'  => 'required|numeric|min:0',
+        'preco_hora'   => 'required|numeric|min:0',
+        'descricao'    => 'nullable|string',
+        'cor'          => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/', // valida HEX
+
+    ]);
+
+    $curso->update([
+        'titulo'          => $validated['nome'],
+        'instituicoes_id' => $validated['instituicao'],
+        'dataInicio'      => $validated['data_inicio'],
+        'dataFim'         => $validated['data_fim'],
+        'duracaoTotal'    => $validated['total_horas'],
+        'precoHora'       => $validated['preco_hora'],
+        'descricao'       => $validated['descricao'] ?? null,
+        'cor'             => $validated['cor'] ?? $curso->cor, // mantém cor antiga se não mudar
+    ]);
+
+    return redirect()->route('cursos')->with('success', 'Curso atualizado com sucesso!');
+}
 
     $cursos = Curso::withCount('modulos')->get();
 
@@ -136,7 +165,15 @@ public function index()
 }
 
 
+//pagina alunos
+public function byInstituicao($instituicaoId) {
+    $cursos = Curso::where('instituicoes_id', $instituicaoId)
+        ->select('id','titulo')
+        ->orderBy('titulo')
+        ->get();
 
+    return response()->json($cursos);
+}
 
 
 }

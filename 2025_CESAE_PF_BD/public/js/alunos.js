@@ -1,71 +1,97 @@
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
-  const linhas = Array.from(document.querySelectorAll('#tabelaAlunos tbody tr'));
-  const ddInst = document.getElementById('filterDropdownInst');
-  const ddCurso = document.getElementById('filterDropdownCurs');
-  const pesquisa = document.getElementById('pesquisaAlunos');
-  const btnLimpar = document.getElementById('btnLimpar');
+  const selInst   = document.getElementById('instituicao_ids');
+  const selCurso  = document.getElementById('curso_ids');
+  const selModulo = document.getElementById('modulo_ids');
 
-  const state = { inst: '', curso: '', q: '' };
+  const values = (sel) => Array.from(sel?.selectedOptions || []).map(o => o.value);
 
-  function aplica() {
-    linhas.forEach(tr => {
-      const inst = (tr.dataset.instituicao || '').toLowerCase();
-      const curso = (tr.dataset.curso || '').toLowerCase();
-      const nome = (tr.children[1]?.textContent || '').toLowerCase();
-      const email = (tr.children[2]?.textContent || '').toLowerCase();
-
-      const okInst = !state.inst || inst === state.inst;
-      const okCurso = !state.curso || curso === state.curso;
-      const okQ = !state.q || nome.includes(state.q) || email.includes(state.q);
-
-      tr.style.display = (okInst && okCurso && okQ) ? '' : 'none';
-    });
+  function resetSelect(selectEl, placeholder = null) {
+    if (!selectEl) return;
+    selectEl.innerHTML = '';
+    if (placeholder) {
+      const opt = document.createElement('option');
+      opt.disabled = true; opt.textContent = placeholder;
+      selectEl.appendChild(opt);
+    }
+    selectEl.disabled = true;
   }
 
-  function handleMenuClick(menu, key, e) {
-    const a = e.target.closest('a.dropdown-item');
-    if (!a) return;
-    e.preventDefault();
-
-    // marcar ativo visualmente
-    menu.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
-    a.classList.add('active');
-
-    // guardar estado (sempre em lowercase para comparar)
-    state[key] = (a.dataset.valor || '').toLowerCase();
-    aplica();
+  function enableIfHasOptions(selectEl) {
+    if (!selectEl) return;
+    selectEl.disabled = selectEl.options.length === 0;
   }
 
-  ddInst.addEventListener('click', (e) => handleMenuClick(ddInst, 'inst', e));
-  ddCurso.addEventListener('click', (e) => handleMenuClick(ddCurso, 'curso', e));
+  // Carrega cursos para um array de instituições (merge de resultados)
+  async function loadCursosByInsts(instIds) {
+    resetSelect(selCurso);
+    resetSelect(selModulo);
 
-  // pesquisa por nome/email
-  const pesquisaInput = document.getElementById('pesquisaAlunos');
-  if (pesquisaInput) {
-    pesquisaInput.addEventListener('input', () => {
-      state.q = pesquisaInput.value.toLowerCase().trim();
-      aplica();
-    });
+    if (!instIds || instIds.length === 0) return;
+
+    const vistos = new Set();
+
+    for (const id of instIds) {
+      try {
+        const res = await fetch(`/instituicoes/${id}/cursos`, { headers: { 'Accept': 'application/json' }});
+        if (!res.ok) throw new Error('Falha ao carregar cursos.');
+        const cursos = await res.json(); // [{id, titulo}, ...]
+        cursos.forEach(c => {
+          if (vistos.has(c.id)) return;
+          vistos.add(c.id);
+          const o = document.createElement('option');
+          o.value = c.id;
+          o.textContent = c.titulo ?? c.nome ?? `Curso #${c.id}`;
+          selCurso.appendChild(o);
+        });
+      } catch (e) {
+        console.error(e);
+        alert(e.message || 'Erro a carregar cursos.');
+      }
+    }
+
+    enableIfHasOptions(selCurso);
   }
 
-  btnLimpar.addEventListener('click', (e) => {
-    e.preventDefault();
-    state.inst = ''; state.curso = ''; state.q = '';
-    if (pesquisaInput) pesquisaInput.value = '';
+  // Carrega módulos para um array de cursos (merge de resultados)
+  async function loadModulosByCursos(cursoIds) {
+    resetSelect(selModulo);
 
-    // reset visual dos menus (primeiro item "Todas/Todos" fica active)
-    [ddInst, ddCurso].forEach(menu => {
-      const first = menu.querySelector('.dropdown-item');
-      menu.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
-      if (first) first.classList.add('active');
-    });
+    if (!cursoIds || cursoIds.length === 0) return;
 
-    aplica();
+    const vistos = new Set();
+
+    for (const id of cursoIds) {
+      try {
+        const res = await fetch(`/cursos/${id}/modulos`, { headers: { 'Accept': 'application/json' }});
+        if (!res.ok) throw new Error('Falha ao carregar módulos.');
+        const modulos = await res.json(); // [{id, nomeModulo}, ...]
+        modulos.forEach(m => {
+          if (vistos.has(m.id)) return;
+          vistos.add(m.id);
+          const o = document.createElement('option');
+          o.value = m.id;
+          o.textContent = m.nomeModulo ?? `Módulo #${m.id}`;
+          selModulo.appendChild(o);
+        });
+      } catch (e) {
+        console.error(e);
+        alert(e.message || 'Erro a carregar módulos.');
+      }
+    }
+
+    enableIfHasOptions(selModulo);
+  }
+
+  // Eventos
+  selInst?.addEventListener('change', () => loadCursosByInsts(values(selInst)));
+  selCurso?.addEventListener('change', () => loadModulosByCursos(values(selCurso)));
+
+  // Ao abrir o modal, limpa dependentes 
+  const modalEl = document.getElementById('alunoModal');
+  modalEl?.addEventListener('show.bs.modal', () => {
+    resetSelect(selCurso);
+    resetSelect(selModulo);
   });
-
-  aplica(); // inicial
 });
 

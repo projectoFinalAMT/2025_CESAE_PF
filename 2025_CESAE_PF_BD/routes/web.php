@@ -23,13 +23,19 @@ Route::get('/dashboard', [homeController::class, 'index'])->name('casa');
 
 //alunos
 Route::get('/alunos', [AlunosController::class, 'index'])->name('alunos_view');
+Route::post('/alunoadicionar', [AlunosController::class, 'store'])->name('alunos.store');
+// Endpoints AJAX para selects dependentes
+Route::get('/instituicoes/{id}/cursos', [CursoController::class, 'byInstituicao']);
+Route::get('/cursos/{id}/modulos', [ModuloController::class, 'byCurso']);
+//. alunos
+
 
 // Cursos
 Route::get('/cursos', [cursoController::class, 'index'])->name('cursos');
 Route::post('/cursos', [cursoController::class, 'store'])->name('curso.store');
 Route::post('/cursos/delete', [cursoController::class, 'deletar'])->name('curso.deletar');
 Route::put('/cursos/{id}/update', [cursoController::class, 'update'])->name('curso.update');
-Route::get('/cursos/buscar', [CursoController::class, 'buscar'])->name('cursos.buscar');
+Route::get('/cursos/buscar', [cursoController::class, 'buscar'])->name('cursos.buscar');
 
 
 //Modulos
@@ -66,7 +72,6 @@ Route::get('/instituicoes/buscar', [InstituicaoController::class, 'buscar'])->na
 //Calendario
 //O middleware auth vai ser necessario para cada utilizador ver o seu calendario
 // Route::middleware('auth')->group(function () {
-
     // Retorna todos os eventos do formador logado
     Route::get('/events', [EventController::class, 'index']);
     // Cria um novo evento
@@ -78,13 +83,14 @@ Route::get('/instituicoes/buscar', [InstituicaoController::class, 'buscar'])->na
     //modulos por curso para o calendario
 Route::get('/cursos/{curso}/modulos', [moduloController::class, 'byCurso'])
 ->name('cursos.modulos');
-
-
-    // ver calendario
-   // Página do calendário (HTML)
+// Página do calendário (HTML)
 Route::get('/calendar', [ScheduleController::class, 'index'])->name('calendarioBladeView');
+//download eventos calendario
+Route::get('/events/export', [EventController::class, 'exportExcel'])->name('events.export');
+
+
 
 // Login
 Route::get('/login', [loginController::class, 'login'])->name('loginRoute');
 
-// });
+

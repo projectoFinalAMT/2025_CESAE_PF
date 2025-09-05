@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Modulo;
+use App\Models\Instituicao;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -11,7 +12,7 @@ class Curso extends Model
      use HasFactory;
 
     protected $table = 'cursos';
-    use HasFactory;
+
 
     protected $fillable = [
         'titulo',
@@ -43,6 +44,7 @@ class Curso extends Model
             return $modulo;
         });
     }
+       
 
 
 }

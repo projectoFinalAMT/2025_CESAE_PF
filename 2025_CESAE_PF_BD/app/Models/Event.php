@@ -20,6 +20,7 @@ class Event extends Model
         'end',
         'users_id',
         'modulos_id',
+        'cursos_id'
     ];
 
     // Relacionamento com User (formador)
@@ -37,14 +38,8 @@ class Event extends Model
     // Acesso facilitado ao curso do módulo
     public function curso()
     {
-        return $this->hasOneThrough(
-            Curso::class,      // Modelo final (Curso)
-            Modulo::class,     // Modelo intermédio (Modulo)
-            'id',              // Chave local da tabela Modulo na relação (modulos.id)
-            'id',              // Chave local da tabela Curso (cursos.id)
-            'modulos_id',      // Chave local do Event para Modulo
-            'cursos_id'        // Chave estrangeira de Modulo para Curso
-        );
+        return $this->belongsTo(Curso::class, 'cursos_id');
+
     }
 
     //cor texto
@@ -70,27 +65,43 @@ class Event extends Model
         $cursoId = null;
         $cursoTitulo = null;
         $moduloNome = null;
-        $bg = '#3788d8'; // cor default quando não há módulo
+
+        // cor por defeito
+        $bg = '#3788d8';
         $text = '#ffffff';
 
         if ($this->modulo) {
             $moduloNome = $this->modulo->nomeModulo ?? null;
 
-            // se o módulo tiver cor, usa-a
-            if (!empty($this->modulo->cor)) {
-                $bg = $this->modulo->cor;
-                $text = $this->pickTextColor($bg);
-            }
+            $curso = $this->modulo
+                ->cursos()
+                ->with('instituicao') // precisa para ler nome/cor
+                ->first();
 
-            // se usas relação N:N curso<->módulo, obter o primeiro curso
-            $curso = $this->modulo->cursos()->select('cursos.id','cursos.titulo')->first();
             if ($curso) {
-                $cursoId = $curso->id;
-                $cursoTitulo = $curso->titulo;
+                $cursoId     = $curso->id;
+                $cursoTitulo = $curso->titulo ?? $curso->nomeCurso ?? null;
+
+                if ($curso->instituicao) {
+                    // cor vem da instituição
+                    $bg = $curso->instituicao->cor ?? $bg;
+                }
+            }
+        }
+        elseif ($this->curso) {
+            $cursoId     = $this->curso->id;
+            $cursoTitulo = $this->curso->titulo ?? $this->curso->nomeCurso ?? null;
+
+            if ($this->curso->instituicao) {
+                $bg = $this->curso->instituicao->cor ?? $bg;
             }
         }
 
-        // título conforme lógica que definimos
+
+            $text = $this->pickTextColor($bg);
+
+
+        // já vem pronto do DB (pois no controller usamos buildTitle)
         $title = $this->title ?? ($moduloNome ?? $cursoTitulo ?? 'Evento');
 
         return [
@@ -98,20 +109,40 @@ class Event extends Model
             'title'        => $title,
             'start'        => $this->start,
             'end'          => $this->end,
+            'color'        => $bg,
+            'textColor'    => $text,
 
-            // cores para o FullCalendar
-            'backgroundColor' => $bg,
-            'borderColor'     => $bg,
-            'textColor'       => $text,
-
-            // extra props para o teu JS
             'nota'         => $this->nota,
             'modulos_id'   => $this->modulos_id,
             'curso_id'     => $cursoId,
             'curso_titulo' => $cursoTitulo,
             'modulo_nome'  => $moduloNome,
+            'instituicao_cor' => $bg,
+
         ];
     }
 
+
+//destruir todos os eventos tabela
+    public function destroyAll(Request $request)
+    {
+        $count = Event::where('users_id', Auth::id())->delete();
+
+        return response()->json([
+            'success' => true,
+            'deleted' => $count,
+            'message' => "Apagados {$count} evento(s).",
+        ]);
+    }
+
+    //exportar excel
+    public function exportExcel(Request $request)
+    {
+        $range = $request->query('range'); // today | week | all
+        $range = in_array($range, ['today','week']) ? $range : 'all';
+
+        $filename = 'agenda_' . now()->format('Ymd_His') . '.xlsx';
+        return Excel::download(new EventsExport($range), $filename);
+    }
 
 }
