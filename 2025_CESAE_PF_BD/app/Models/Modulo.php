@@ -11,7 +11,8 @@ class Modulo extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nomeModulo', 'descricao', 'duracaoHoras','cor'];
+    protected $fillable = ['nomeModulo', 'descricao', 'duracaoHoras'];
+
 
     public function cursos()
     {
@@ -35,9 +36,9 @@ class Modulo extends Model
             return $curso;
         });
     }
-// Modulo.php
-public function todosCursosPorInstituicao()
-{
+    // Modulo.php
+    public function todosCursosPorInstituicao()
+    {
     $cursos = Curso::with('instituicao')->get();
 
     // Marca os cursos que pertencem a este módulo
@@ -54,6 +55,24 @@ public function todosCursosPorInstituicao()
 
 public function cursoModulos() {
     return $this->hasMany(CursoModulo::class, 'modulo_id', 'id');
+}
+
+public function curso()
+{
+    return $this->belongsTo(Curso::class, 'cursos_id');
+}
+
+
+public function alunos()
+{
+    return $this->belongsToMany(
+            Alunos::class,
+            'alunos_modulos',
+            'modulos_id',
+            'alunos_id'
+        )
+        ->withPivot('notaAluno', 'estado_alunos_id')
+        ->withTimestamps();
 }
 
 }

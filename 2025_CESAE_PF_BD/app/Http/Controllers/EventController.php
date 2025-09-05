@@ -6,14 +6,16 @@ use App\Models\Curso;
 use App\Models\Event;
 use App\Models\Modulo;
 use Illuminate\Http\Request;
+use App\Exports\EventsExport;             
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EventController extends Controller
 {
     // Retorna todos os eventos em JSON (com relações para o front)
     public function index()
     {
-        $events = Event::with('modulo.cursos')->get();
+        $events = Event::with('modulo.cursos.instituicao','curso.instituicao')->get();
         $calendarEvents = $events->map(fn($e) => $e->toCalendarArray());
 
         return response()->json($calendarEvents);
@@ -29,9 +31,11 @@ class EventController extends Controller
             'start'      => 'required|date',
             'end'        => 'required|date|after_or_equal:start',
             'nota'       => 'nullable|string|max:255',
+
+
         ]);
 
-        // (opcional) validar consistência curso↔módulo se ambos vierem
+
         if ($request->filled('cursos_id') && $request->filled('modulos_id')) {
             $belongs = Modulo::where('id', $request->modulos_id)
                 ->whereHas('cursos', fn($q) => $q->where('cursos.id', $request->cursos_id))
@@ -48,6 +52,7 @@ class EventController extends Controller
 
         $event = Event::create([
             'title'      => $finalTitle,
+            'cursos_id'  => $request->cursos_id,
             'modulos_id' => $request->modulos_id,
             'start'      => $request->start,
             'end'        => $request->end,
@@ -89,7 +94,8 @@ class EventController extends Controller
         $finalTitle = $this->buildTitle($request->title, $request->cursos_id, $request->modulos_id);
 
         $event->update([
-            'title'      => $request->title,
+            'title'      => $finalTitle,
+            'cursos_id'  => $request->cursos_id,
             'modulos_id' => $request->modulos_id,
             'start'      => $request->start,
             'end'        => $request->end,
@@ -120,15 +126,60 @@ class EventController extends Controller
      */
     private function buildTitle(?string $title, ?int $cursoId, ?int $moduloId): string
     {
-        $cursoNome  = $cursoId  ? (Curso::find($cursoId)->titulo ?? null) : null;
-        $moduloNome = $moduloId ? (Modulo::find($moduloId)->nomeModulo ?? null) : null;
+        $cursoNome  = null;
+        $instNome   = null;
+        $moduloNome = null;
 
-        if ($title && $moduloNome) return "{$title} {$moduloNome}";
-        if ($title && $cursoNome)  return "{$title} {$cursoNome}";
-        if (!$title && $moduloNome) return $moduloNome;
-        if (!$title && $cursoNome)  return $cursoNome;
-        if (!$title && $cursoNome && $moduloNome) return $moduloNome;
+        if ($moduloId) {
+            $mod = \App\Models\Modulo::with(['cursos.instituicao'])->find($moduloId);
+            if ($mod) {
+                $moduloNome = $mod->nomeModulo ?? null;
 
-        return $title ?: 'Evento';
+                $curso = $mod->cursos->first();
+                if ($curso) {
+                    $cursoNome = $curso->titulo ?? $curso->nomeCurso ?? null;
+
+                    $inst = $curso->instituicao;
+                    if ($inst) {
+                        $instNome = $inst->nomeInstituicao ?? null; // <- usa a coluna certa
+                    }
+                }
+            }
+        } elseif ($cursoId) {
+            $curso = \App\Models\Curso::with('instituicao')->find($cursoId);
+            if ($curso) {
+                $cursoNome = $curso->titulo ?? $curso->nomeCurso ?? null;
+
+                $inst = $curso->instituicao;
+                if ($inst) {
+                    $instNome = $inst->nomeInstituicao ?? null; // <- usa a coluna certa
+                }
+            }
+        }
+
+        // Regras de título
+        if ($title && $moduloNome)       { $base = "{$title} {$moduloNome}"; }
+        elseif ($title && $cursoNome)    { $base = "{$title} {$cursoNome}"; }
+        elseif (!$title && $moduloNome)  { $base = $moduloNome; }
+        elseif (!$title && $cursoNome)   { $base = $cursoNome; }
+        else                             { $base = $title ?: 'Evento'; }
+
+        // Sufixo (Instituição) se existir
+        if ($instNome) {
+            $base .= " ({$instNome})";
+        }
+
+        return $base;
     }
+
+    //exportar excell
+    public function exportExcel(Request $request)
+    {
+        // podes filtrar por range se quiseres (exemplo: week, month)
+        $range = $request->get('range', 'all');
+
+        return Excel::download(new EventsExport($range), 'agenda.xlsx');
+    }
+
+
 }

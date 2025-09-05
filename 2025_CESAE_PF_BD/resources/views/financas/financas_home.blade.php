@@ -17,7 +17,10 @@
 
                 <!-- Botão Nova Fatura -->
                 <div class="mb-2 mb-md-0"> <button class="btn" id="btn-nova-fatura" data-bs-toggle="modal"
-                        data-bs-target="#editModalNovaFatura"> + Nova Fatura </button> </div> <!-- Modal Nova Fatura -->
+                        data-bs-target="#editModalNovaFatura"> + Nova Fatura </button> </div>
+
+
+                        <!-- Modal Nova Fatura -->
                 <div class="modal fade" id="editModalNovaFatura" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content rounded-0 shadow">
