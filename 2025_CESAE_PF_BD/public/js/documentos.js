@@ -220,7 +220,7 @@ function search(filter) {
 document.addEventListener("DOMContentLoaded", function () {
     const btnAdicionarCor = document.getElementById("btnAdicionarCor");
     const inputCor = document.getElementById("inputCor");
-    const colorPreview = document.getElementById('colorPreview');
+    const colorPreview = document.getElementById("colorPreview");
 
     // valor inicial do banco (se existir)
     if (inputCor.value) {
@@ -238,7 +238,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
 // Adicionar Cor nos modais de edição
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".btn-adicionar-cor").forEach((btn) => {
@@ -248,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // atualiza o quadradinho no carregamento
         if (inputCor && colorPreview) {
-            colorPreview.style.backgroundColor = inputCor.value || '#f5f4f4';
+            colorPreview.style.backgroundColor = inputCor.value || "#f5f4f4";
         }
 
         // ao clicar, abre o seletor de cor
@@ -264,3 +263,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+

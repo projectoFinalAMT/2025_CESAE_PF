@@ -67,22 +67,57 @@
                     </div>
 
                     <div class="row g-3 mb-3">
-                          <!-- Coluna da descrição -->
-                          <div class="col-md-8">
-                              <label for="descricao" class="form-label">Descrição</label>
-                              <textarea class="form-control" id="descricao" name="descricao" rows="3" value="{{ $curso->descricao }}"></textarea>
-                          </div>
+                        <!-- Coluna da descrição -->
+                        <div class="col-md-8">
+                            <label for="descricao" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="descricao" name="descricao" rows="3" value="{{ $curso->descricao }}"></textarea>
+                        </div>
 
-                          <!-- Coluna dos botões -->
-                          <div class="col-md-4 d-flex flex-column justify-content-start gap-2 btn-adicionar">
-                              <button type="button" class="btn btn-novo-curso">
-                                  <i class="bi bi-people-fill"></i> Adicionar Alunos
-                              </button>
-                              <button type="button" class="btn btn-novo-curso">
-                                  <i class="bi bi-journal-bookmark-fill"></i> Adicionar Módulos
-                              </button>
-                          </div>
-                      </div>
+                        <!-- Coluna dos botões -->
+                        <div class="col-md-4 d-flex flex-column justify-content-start gap-2 btn-adicionar">
+                            <button type="button" class="btn btn-novo-curso">
+                                <i class="bi bi-people-fill"></i> Adicionar Alunos
+                            </button>
+                            <!-- Botão add modulos -->
+                            <button type="button" class="btn btn-novo-curso" data-bs-toggle="collapse"
+                                data-bs-target="#modulosCollapse">
+                                <i class="bi bi-journal-bookmark-fill"></i> Adicionar Módulos
+                            </button>
+                            <!-- Collapse do botão "Adicionar Módulos" -->
+                            <div class="collapse mt-2" id="modulosCollapse">
+                                <div class="card card-body modulo-bloco">
+                                    @foreach ($curso->modulosComAssociacao() as $modulo)
+                                        @if ($modulo->cursos->count() > 0)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    value="{{ $modulo->id }}" id="modulo{{ $modulo->id }}"
+                                                    name="modulos[]" {{ $modulo->associado ? 'checked' : '' }}>
+
+                                                <label class="form-check-label" for="modulo{{ $modulo->id }}">
+                                                    <div class="texto-truncado" title="{{ $modulo->nomeModulo }}">
+                                                        {{ $modulo->nomeModulo }}
+                                                    </div>
+
+                                                    <div class="modulo-cursos">
+                                                        @foreach ($modulo->cursos as $modCurso)
+                                                            <div class="text-muted small texto-truncado w-100"
+                                                                title="{{ $modCurso->titulo }} - {{ $modCurso->instituicao->nomeInstituicao ?? 'Instituição não disponível' }}">
+                                                                ({{ $modCurso->titulo }} -
+                                                                {{ $modCurso->instituicao->nomeInstituicao ?? 'Instituição não disponível' }})
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        @endif
+                                    @endforeach
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-novo-curso">
                             Gravar Alterações <i class="bi bi-check-lg text-success"></i>

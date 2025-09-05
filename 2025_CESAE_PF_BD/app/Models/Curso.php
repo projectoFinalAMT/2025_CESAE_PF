@@ -37,10 +37,14 @@ class Curso extends Model
         return $this->belongsToMany(Modulo::class, 'curso_modulo', 'curso_id', 'modulo_id')
         ->withTimestamps();    }
 
+   public function modulosComAssociacao()
+    {
+        return Modulo::with('cursos.instituicao')->get()->map(function ($modulo) {
+            $modulo->associado = $this->modulos->contains($modulo->id);
+            return $modulo;
+        });
+    }
        
-
-
-
 
 
 }

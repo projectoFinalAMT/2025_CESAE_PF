@@ -2,25 +2,27 @@
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between">
-                <div class="col-12 col-md-7">
+            <div class="modal-header position-relative flex-column flex-md-row align-items-start">
+                <!-- Título -->
+                <div class="mb-2 mb-md-0 col-md-7">
                     <h5 class="modal-title" id="novaInstituicaoModalLabel">Cadastrar Nova Instituição</h5>
                     <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
                 </div>
-                <form id="formInstituicao" method="POST" action="{{ route('instituicoes.store') }}">
-                    @csrf
-                    <input type="hidden" name="redirect_to" value="instituicoes">
-                    <!-- Coluna da direita (X + botão cor) -->
-                    <div class="d-flex flex-column align-items-end">
-                        <button type="button" class="btn-close mb-3" data-bs-dismiss="modal"
-                            aria-label="Fechar"></button>
-                        <button type="button" class="btn btn-novo-curso btn-adicionar-cor" id="btnAdicionarCor">
-                            <i class="bi bi-palette-fill"></i> Adicionar Cor*
-                            <span id="colorPreview" class="color-preview"></span>
-                        </button>
-                        <input type="color" id="inputCor" name="cor" class="d-none" value="#f5f4f4">
-                    </div>
+
+                <!-- Botão Adicionar Cor -->
+                <div class="mt-4 w-md-auto d-flex justify-content-center justify-content-end">
+                    <button type="button" class="btn btn-novo-curso btn-adicionar-cor" id="btnAdicionarCor">
+                        <i class="bi bi-palette-fill"></i> Adicionar Cor*
+                        <span id="colorPreview" class="color-preview"></span>
+                    </button>
+                    <input type="color" id="inputCor" name="cor" class="d-none" value="#f5f4f4">
+                </div>
+
+                <!-- Botão X absoluto -->
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"
+                    aria-label="Fechar"></button>
             </div>
+
 
             <div class="modal-body">
 

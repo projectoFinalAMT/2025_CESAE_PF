@@ -6,6 +6,7 @@ use App\Models\Curso;
 use App\Models\Modulo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class moduloController extends Controller
 {
@@ -103,25 +104,54 @@ class moduloController extends Controller
     /**
      * Deleta um ou mais módulos, considerando IDs separados por vírgula.
      */
-    public function deletar(Request $request)
+  public function deletar(Request $request)
 {
-    $ids = explode(',', $request->ids);
-    $cursoId = $request->curso_id; // do hidden input
 
-    if($cursoId){
-        // Remove só a associação módulo-curso
-        DB::table('curso_modulo')
-            ->where('modulo_id', $ids[0])
-            ->where('curso_id', $cursoId)
-            ->delete();
+   
+    $cursoId = $request->curso_id;
+    $ids = array_map('intval', explode(',', $request->ids));
 
-        return redirect()->route('modulos')->with('success', 'Associação módulo-curso removida com sucesso!');
+    if (empty($ids)) {
+        return redirect()->back()->with('error', 'Nenhum módulo selecionado.');
     }
 
-    // Caso queira deletar o módulo globalmente
-    Modulo::whereIn('id', $ids)->delete();
-    return redirect()->route('modulos')->with('success', 'Módulo eliminado com sucesso!');
+    if ($cursoId) {
+        $curso = Curso::find($cursoId);
+
+        if (!$curso) {
+            return redirect()->back()->with('error', 'Curso não encontrado.');
+        }
+
+        // Remove a associação do curso aos módulos selecionados
+        $curso->modulos()->detach($ids);
+
+        // Para cada módulo, verifica se ainda tem cursos associados
+        $modulos = Modulo::whereIn('id', $ids)->get();
+
+        foreach ($modulos as $modulo) {
+
+            // Aqui: só deleta se não tiver mais nenhum curso associado
+            if ($modulo->cursos()->count() === 0) {
+                //dd($modulo);
+                // $modulo->delete();
+                $modulo->where('id', $modulo->id)->delete();
+            }
+        }
+
+        return redirect()->route('modulos')->with('success', 'Associação(s) removida(s) e módulos órfãos apagados com sucesso!');
+    }
+
+    // Se não houver curso_id, apagar os módulos globalmente
+    $modulos = Modulo::whereIn('id', $ids)->get();
+    foreach ($modulos as $modulo) {
+        // remove todas associações
+        $modulo->cursos()->detach();
+        $modulo->delete();
+    }
+
+    return redirect()->route('modulos')->with('success', 'Módulo(s) eliminado(s) com sucesso!');
 }
+
 
 //função para o calendario para filtrar modulos por curso
 public function byCurso($cursoId)

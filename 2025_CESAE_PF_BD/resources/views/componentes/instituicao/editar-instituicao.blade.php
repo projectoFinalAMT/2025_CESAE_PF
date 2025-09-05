@@ -4,27 +4,37 @@
          <div class="modal-content">
 
              <!-- Cabeçalho -->
-             <div class="modal-header">
-                 <div class="col-12 col-md-8">
+             <div class="modal-header position-relative flex-column flex-md-row align-items-start">
+                 <!-- Coluna do título -->
+                 <div class="mb-2 mb-md-0 col-md-7">
                      <h5 class="modal-title" id="editarInstituicaoModalLabel-{{ $instituicao->id }}">Editar Instituição
                      </h5>
                      <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
                  </div>
-                 <form method="POST" action="{{ route('instituicoes.update', $instituicao->id) }}">
+
+                 <!-- Formulário -->
+                 <form method="POST" action="{{ route('instituicoes.update', $instituicao->id) }}"
+                     class="w-100 d-flex flex-column flex-md-row justify-content-end align-items-start">
                      @csrf
                      @method('PUT')
-                     <!-- Coluna da direita (X + botão cor) -->
-                     <div class="d-flex flex-column align-items-end">
-                         <button type="button" class="btn-close mb-3" data-bs-dismiss="modal"
-                             aria-label="Fechar"></button>
+
+                     <!-- Botão Adicionar Cor -->
+                     <div class="mt-4 w-md-auto d-flex justify-content-center justify-content-end">
                          <button type="button" class="btn btn-novo-curso btn-adicionar-cor"
                              id="btnAdicionarCor-{{ $instituicao->id }}">
                              <i class="bi bi-palette-fill"></i> Alterar Cor*
-                              <span id="colorPreview-{{ $instituicao->id }}" class="color-preview"></span>
+                             <span id="colorPreview-{{ $instituicao->id }}" class="color-preview"></span>
                          </button>
-                         <input type="color" id="inputCor-{{ $instituicao->id }}" name="cor" class="d-none" value="{{ $instituicao->cor ? $instituicao->cor : "#f5f4f4" }}">
+                         <input type="color" id="inputCor-{{ $instituicao->id }}" name="cor" class="d-none"
+                             value="{{ $instituicao->cor ? $instituicao->cor : '#f5f4f4' }}">
                      </div>
+                 </form>
+
+                 <!-- Botão X absoluto -->
+                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"
+                     aria-label="Fechar"></button>
              </div>
+
 
              <!-- Corpo -->
              <div class="modal-body">

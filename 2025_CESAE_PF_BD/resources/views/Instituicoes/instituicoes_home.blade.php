@@ -39,8 +39,6 @@
                     data-bs-target="#confirmarEliminar">Apagar Selecionados</button>
                 <button class="btn btn-novo-curso me-2" data-bs-toggle="modal" data-bs-target="#novaInstituicaoModal">+ Nova
                     Instituição</button>
-                <button id="apagarSelecionados" class="btn btn-novo-curso" style="display:none;" data-bs-toggle="modal"
-                    data-bs-target="#confirmarEliminar">Apagar Selecionados</button>
             </div>
         </div>
 

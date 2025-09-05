@@ -78,9 +78,43 @@
                               <button type="button" class="btn btn-novo-curso">
                                   <i class="bi bi-people-fill"></i> Adicionar Alunos
                               </button>
-                              <button type="button" class="btn btn-novo-curso">
+                              <!-- Botão dentro do modal -->
+                              <button type="button" class="btn btn-novo-curso" data-bs-toggle="collapse"
+                                  data-bs-target="#modulosCollapse">
                                   <i class="bi bi-journal-bookmark-fill"></i> Adicionar Módulos
                               </button>
+
+
+                              <!-- Collapse do botão "Adicionar Módulos" -->
+                              <div class="collapse mt-2" id="modulosCollapse">
+                                  <div class="card card-body modulo-bloco" style="max-height: 200px; overflow-y: auto;">
+                                      @foreach ($modulos as $modulo)
+                                          @if ($modulo->cursos->count() > 0)
+                                              <div class="form-check mb-3">
+                                                  <input class="form-check-input" type="checkbox"
+                                                      value="{{ $modulo->id }}" id="modulo{{ $modulo->id }}"
+                                                      name="modulos[]">
+
+                                                  <label class="form-check-label" for="modulo{{ $modulo->id }}">
+                                                      <div class="texto-truncado" title="{{ $modulo->nomeModulo }}">
+                                                          {{ $modulo->nomeModulo }}
+                                                      </div>
+                                                  </label>
+
+                                                  <div class="modulo-cursos ms-4 mt-1">
+                                                      @foreach ($modulo->cursos as $curso)
+                                                          <div class="text-muted small texto-truncado w-100"
+                                                              title="{{ $curso->titulo }} - {{ $curso->instituicao->nomeInstituicao ?? 'Instituição não disponível' }}">
+                                                              ({{ $curso->titulo }} -
+                                                              {{ $curso->instituicao->nomeInstituicao ?? 'Instituição não disponível' }})
+                                                          </div>
+                                                      @endforeach
+                                                  </div>
+                                              </div>
+                                          @endif
+                                      @endforeach
+                                  </div>
+                              </div>
                           </div>
                       </div>
 

@@ -38,7 +38,6 @@
   <!-- Sidebar offcanvas -->
   <div class="offcanvas-lg offcanvas-start bg-dark text-white sidebar" tabindex="-1" id="sidebarMenu">
   <div class="offcanvas-header d-lg-none">
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
 
   <div class="offcanvas-body p-0 d-flex flex-column">

@@ -83,6 +83,37 @@ background-color: white !important;
 }
 
 
+.texto-truncado {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;    /* garante que cada texto ocupe linha própria */
+    max-width: 100%;
+}
+
+/* Bloco do módulo para evitar sobreposição */
+.modulo-bloco {
+    display: block;    /* cada módulo ocupa altura própria */
+    margin-bottom: 1rem;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 200px; /* espaçamento entre módulos */
+}
+
+/* Lista de cursos dentro do módulo */
+.modulo-cursos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem; /* espaçamento entre cursos */
+    margin-top: 0.25rem; /* separa do nome do módulo */
+}
+
+/* Mantém o texto do módulo com cor normal, mesmo com checkbox desabilitado */
+.modulo-bloco .form-check-label {
+    color: #212529 !important; /* cor padrão do texto */
+    opacity: 1 !important;     /* remove o efeito “apagado” */
+}
+
 
 /*para elimar a seta no input[type=number] */
 /* Para Chrome, Edge, Safari */
