@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const valorTotalInput = document.getElementById('valor_total');
   const valorIvaInput = document.getElementById('valor_iva');
   const valorIrsInput = document.getElementById('valor_irs');
+  const valorSubtotalInput = document.getElementById('valor_subtotal')
 
 
   const subtotalEl = document.getElementById("subtotal");
@@ -28,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     valorTotalInput.value=total;
     valorIvaInput.value=valorIva;
     valorIrsInput.value=valorIrs;
+    valorSubtotalInput.value=subtotal;
 
     subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
     ivaEl.textContent = `€${valorIva.toFixed(2)}`;
@@ -126,11 +128,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// CARD RECIBOS
+// CARD FATURAS
 document.addEventListener("DOMContentLoaded", () => {
-  const linhasTabela = document.querySelectorAll("#tabelaRecibos tr");
+  const linhasTabela = document.querySelectorAll("#tabelaFaturas tr");
 
-  document.getElementById("btnAplicarFiltroRecibos").addEventListener("click", () => {
+  document.getElementById("btnAplicarFiltroFaturas").addEventListener("click", () => {
     // Obter filtros
     const instituicoes = [...document.querySelectorAll("#filtroInstituicao input:checked")].map(el => el.value);
     const estados = [...document.querySelectorAll("#filtroEstado input:checked")].map(el => el.value);
@@ -160,8 +162,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Fechar modal depois de aplicar
-    const modal = bootstrap.Modal.getInstance(document.getElementById("modalFiltroRecibos"));
+    const modal = bootstrap.Modal.getInstance(document.getElementById("modalFiltroFaturas"));
     modal.hide();
   });
 });
 
+
+// TOAST TEMPORÁRIO
+document.addEventListener('DOMContentLoaded', function () {
+    const toastEl = document.getElementById('successToast');
+    if(toastEl){
+        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+        toast.show();
+    }
+});
