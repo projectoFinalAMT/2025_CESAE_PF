@@ -72,7 +72,7 @@ public function update(Request $request, $id)
         'descricao'       => $validated['descricao'] ?? null,
         'cor'             => $validated['cor'] ?? $curso->cor, // mantém cor antiga se não mudar
     ]);
-    
+
     return redirect()->route('cursos')->with('success', 'Curso atualizado com sucesso!');
 }
 
@@ -94,7 +94,15 @@ public function buscar(Request $request)
 }
 
 
+//pagina alunos
+public function byInstituicao($instituicaoId) {
+    $cursos = Curso::where('instituicoes_id', $instituicaoId)
+        ->select('id','titulo')
+        ->orderBy('titulo')
+        ->get();
 
+    return response()->json($cursos);
+}
 
 
 }

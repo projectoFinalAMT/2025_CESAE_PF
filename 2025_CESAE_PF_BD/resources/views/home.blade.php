@@ -1,5 +1,6 @@
 @extends('layouts.fe_master')
 @section('css')
+<!--font awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- css bootstrap -->
     <!-- css interno -->
@@ -136,7 +137,7 @@
     <div id="filterBox" class="card" style="width: 18rem;">
         <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
-                <h5 class="card-title mb-0">Agendamentos</h5>
+                <h5 class="card-title mb-0 ">Agendamentos</h5>
                 <div class="dropdown">
                     <button class="btn btn-light btn-sm dropdown-toggle" type="button"
                         data-bs-toggle="dropdown">
@@ -144,15 +145,15 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" id="filterDropdown">
                         <li><a class="dropdown-item" href="#" data-filter="all">Hoje</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="livre">Horario livre</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="reuniao">Por instituição</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="aula">Por Módulo</a></li>
-                        <li><a class="dropdown-item" href="#" data-filter="aula">Por Curso</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="livre">Amanhã</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="reuniao">Semana</a></li>
+                        <li><a class="dropdown-item" href="#" data-filter="aula">Horário Livre</a></li>
                     </ul>
                 </div>
             </div>
 
-            <p id="subtitle" class="card-subtitle mb-2">Hoje</p>
+            <p id="subtitles" class="card-subtitle mb-2">Todos</p>
+
 
             <div class="container text-center">
                 <!-- Header -->
@@ -161,10 +162,11 @@
                     <div class="col-6">Evento</div>
                 </div>
                 <!-- Conteúdo -->
+                <div id="apontamentosRow">
                 @foreach($apontamentosHoje as $a)
                     <div class="row align-items-start apontamento-row">
                         <div class="col-6" value="{{ $a->id }}">
-                            {{ date('H:i', strtotime($a->start)) }}
+                            {{ date('H:i', strtotime($a->start)) }} - {{ date('H:i', strtotime($a->end)) }}
                         </div>
                         <div class="col-6">
                             {{ $a->title }}
@@ -172,6 +174,7 @@
                     </div>
                 @endforeach
             </div>
+        </div>
         </div>
     </div>
 </div>
@@ -185,6 +188,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Fechar"></button>
                         </div>
+                        <p class="informacaoAgenda">*Deve selecionar um título ou Curso para o agendamento se realizar</p>
 
                         <div class="modal-body">
                             <input type="hidden" id="event_id">

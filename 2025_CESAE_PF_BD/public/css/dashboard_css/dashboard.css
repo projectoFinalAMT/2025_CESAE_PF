@@ -55,10 +55,10 @@ margin-right: 10px;  }
 /*FILTRO CALENDARIO*/
 
 
-#subtitle{
+#subtitles{
     font-size: 15px;
     padding: 7px;
-    color: rgb(231, 162, 252);
+    color: rgb(0, 111, 20);
 }
 
 .apontamento-header {
@@ -82,3 +82,8 @@ margin-right: 10px;  }
 }
 
 /* . FILTRO CALENDARIO*/
+
+.informacaoAgenda{
+    font-size: 10px;
+}
+
