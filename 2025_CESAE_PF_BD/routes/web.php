@@ -24,10 +24,12 @@ Route::get('/dashboard', [homeController::class, 'index'])->name('casa');
 
 //alunos
 Route::get('/alunos', [AlunosController::class, 'index'])->name('alunos_view');
+// Route::get('/alunoinfo', [AlunosController::class, 'alunoinfo'])->name('alunos_info');
 Route::post('/alunoadicionar', [AlunosController::class, 'store'])->name('alunos.store');
 // Endpoints AJAX para selects dependentes
 Route::get('/instituicoes/{id}/cursos', [CursoController::class, 'byInstituicao']);
 Route::get('/cursos/{id}/modulos', [ModuloController::class, 'byCurso']);
+Route::get('/fichaaluno',[AlunosController::class,'fichaaluno']);
 //. alunos
 
 
