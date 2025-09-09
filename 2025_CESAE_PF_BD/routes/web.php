@@ -62,6 +62,10 @@ Route::get('/documento/buscar', [documentoController::class, 'buscar'])->name(' 
 // Finanças
 Route::get('/financas', [financasController::class, 'index'])->name('financas');
 Route::post('/financas', [financasController::class, 'novaFatura'])->name('novaFatura_route');
+Route::put('/financas/{financa}/update', [financasController::class, 'update'])->name('faturaUpdate_route');
+Route::post('/financas/delete', [financasController::class, 'apagar'])->name('apagarFatura_route');
+
+
 Route::get('/ver-instituicoes', [RecebimentoController::class, 'listarInstituicoes']);
 Route::get('ver-ganhos', [RecebimentoController::class, 'ganhosPorInstituicao']);
 

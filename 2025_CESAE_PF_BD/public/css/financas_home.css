@@ -126,3 +126,8 @@
     overflow: auto;
 }
 
+
+#buttonAlterarEstado{
+    background-color: #6c757d; /* cor mais escura do secundary */
+    color: #fff; /* texto branco para contraste */
+}
