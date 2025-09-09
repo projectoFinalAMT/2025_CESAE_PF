@@ -301,7 +301,7 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
 
               <!-- Observações -->
               <div class="col-12">
-                <label for="observacoes" class="form-label">Observações</label>
+                <label for="observacoes" class="form-label">Observaçõess</label>
                 <textarea class="form-control rounded-0" id="observacoes" name="observacoes" rows="3"></textarea>
               </div>
             </div>
