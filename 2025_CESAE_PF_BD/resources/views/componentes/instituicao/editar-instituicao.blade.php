@@ -38,7 +38,9 @@
 
              <!-- Corpo -->
              <div class="modal-body">
-
+ <form method="POST" action="{{ route('instituicoes.update', $instituicao->id) }}">
+                    @csrf
+                    @method('PUT')
                  <div class="mb-3">
                      <label for="nome_instituicao_{{ $instituicao->id }}" class="form-label">Nome da
                          Instituição*</label>

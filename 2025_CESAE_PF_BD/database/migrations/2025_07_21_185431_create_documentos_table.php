@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('nome');
             $table->text('caminhoDocumento');
             $table->date('dataValidade');
-            $table->unsignedBigInteger('categoriaDocumentos_id');
-            $table->foreign('categoriaDocumentos_id')->references('id')->on('categoriaDocumentos');
+            $table->unsignedBigInteger('categoria_documentos_id');
+            $table->foreign('categoriad_ocumentos_id')->references('id')->on('categoria_documentos');
             $table->unsignedBigInteger('formato_documentos_id');
             $table->foreign('formato_documentos_id')->references('id')->on('formato_documentos');
             $table->unsignedBigInteger('estado_documentos_id');

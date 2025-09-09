@@ -1,5 +1,5 @@
-<div class="modal fade" id="verDetalhesModal-{{ $modulo->id }}" tabindex="-1" aria-labelledby="verDetalhesModalLabel-{{ $modulo->id }}"
-    aria-hidden="true">
+<div class="modal fade" id="verDetalhesModal-{{ $modulo->id }}" tabindex="-1"
+    aria-labelledby="verDetalhesModalLabel-{{ $modulo->id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -48,14 +48,43 @@
                     </div>
 
                     <!-- Descrição e documento -->
-                    <div class="row g-3 mb-3 justify-content-between">
+                    <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <label class="form-label">Descrição</label>
                             <textarea class="form-control" rows="3" readonly> {{ $modulo->descricao ?? '' }}</textarea>
                         </div>
-                        <div class="col-md-4 d-flex flex-column gap-2 justify-content-center btn-adicionar-modulo">
-                            <button type="button" class="btn btn-novo-curso"><i
-                                    class="bi bi-file-earmark-text-fill"></i> Ver Documentos</button>
+                        <!-- Botão para collapse de módulos -->
+                        <div class="col-md-4 d-flex flex-column gap-2 ms-5">
+                            <button type="button" class="btn btn-novo-curso mt-2" data-bs-toggle="collapse"
+                                data-bs-target="#modulosCollapse-{{ $modulo->id }}" aria-expanded="false"
+                                aria-controls="modulosCollapse-{{ $modulo->id }}">
+                                <i class="bi bi-file-earmark-text-fill"></i> Ver Documentos
+                            </button>
+
+                            <!-- Collapse de módulos -->
+                            <div class="collapse mt-2" id="modulosCollapse-{{ $modulo->id }}">
+                                <div class="card card-body modulo-bloco" style="max-height: 200px; overflow-y: auto;">
+                                    @foreach ($modulo->documentosComAssociacao() as $doc)
+                                        @if ($doc->associado)
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox"
+                                                    value="{{ $doc->id }}"
+                                                    id="verDoc{{ $doc->id }}-{{ $modulo->id }}" checked
+                                                    disabled>
+
+                                                <label class="form-check-label"
+                                                    for="verDoc{{ $doc->id }}-{{ $modulo->id }}">
+                                                    <div class="texto-truncado" title="{{ $doc->nome }}">
+                                                        {{ $doc->nome }}({{ strtoupper($doc->formatoDocumento->nomeFormato ?? 'PDF') }})
+                                                    </div>
+                                                </label>
+                                                <a href="{{ asset('storage/' . $doc->caminhoDocumento) }}" class="btn btn-sm" id="preview"
+                                        target="_self"><i class="bi bi-eye-fill"></i></a>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="text-center">

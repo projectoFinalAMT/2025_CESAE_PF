@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ asset('css/documentos_home.css') }}">
 @endsection
 @section('scripts')
+    <script src="{{ asset('js/cursos.js') }}" defer></script>
     <script src="{{ asset('js/documentos.js') }}" defer></script>
 @endsection
 @section('content')
@@ -47,7 +48,7 @@
 
 
 
-        <!-- Modal de confirmação -->
+        <!-- Modal de confirmação eliminar -->
         @include('componentes.instituicao.eliminar')
 
 

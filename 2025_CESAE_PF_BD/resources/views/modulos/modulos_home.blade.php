@@ -4,11 +4,27 @@
     <link rel="stylesheet" href="{{ asset('css/modulos_home.css') }}">
 @endsection
 @section('scripts')
+    <script src="{{ asset('js/cursos.js') }}" defer></script>
     <script src="{{ asset('js/documentos.js') }}" defer></script>
 @endsection
 @section('content')
     <div class="content">
         <div class="container my-4">
+              <!-- Toast de sucesso -->
+            @if (session('success'))
+                <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+                    <div id="successToast" class="toast align-items-center text-bg-success border-0 show" role="alert"
+                        aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ session('success') }}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                                aria-label="Fechar"></button>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <!-- Título -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold">Módulos</h2>
@@ -62,7 +78,7 @@
                                     </p>
 
                                     <div class="d-flex justify-content-between px-3 mt-2">
-                                        <span class="card-text"><i class="bi bi-file-earmark-text-fill"></i> 0
+                                        <span class="card-text"><i class="bi bi-file-earmark-text-fill"></i> {{ $modulo->documentos_count ?? 0 }}
                                             Documentos</span>
                                         <span class="card-text"><i class="bi bi-clock"></i>
                                             {{ $modulo->duracaoHoras }}h</span>

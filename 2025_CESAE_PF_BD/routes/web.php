@@ -13,6 +13,7 @@ use App\Http\Controllers\documentoController;
 use App\Http\Controllers\CursoModuloController;
 use App\Http\Controllers\instituicaoController;
 use App\Http\Controllers\RecebimentoController;
+use App\Http\Controllers\DocumentoModuloController;
 
 // Route::get('/home', function () {
 //     return view('welcome');
@@ -37,6 +38,7 @@ Route::post('/cursos', [cursoController::class, 'store'])->name('curso.store');
 Route::post('/cursos/delete', [cursoController::class, 'deletar'])->name('curso.deletar');
 Route::put('/cursos/{id}/update', [cursoController::class, 'update'])->name('curso.update');
 Route::get('/cursos/buscar', [cursoController::class, 'buscar'])->name('cursos.buscar');
+Route::post('/cursos/{curso}/toggle-estado', [CursoController::class, 'toggleEstado'])->name('cursos.toggleEstado');
 
 //Modulos
 Route::get('/modulos', [moduloController::class, 'index'])->name('modulos');
@@ -55,6 +57,8 @@ Route::post('/documentos', [documentoController::class, 'store'])->name('documen
 Route::post('/documentos/delete', [documentoController::class, 'deletar'])->name('documento.deletar');
 Route::put('/documento/{id}/update', [documentoController::class, 'update'])->name('documento.update');
 Route::get('/documento/buscar', [documentoController::class, 'buscar'])->name(' documento.buscar');
+//Eliminar Modulo/Documento
+Route::post('/documento-modulo/remover', [DocumentoModuloController::class, 'removerAssociacao'])->name('documento-modulo.remover');
 
 
 // Finanças

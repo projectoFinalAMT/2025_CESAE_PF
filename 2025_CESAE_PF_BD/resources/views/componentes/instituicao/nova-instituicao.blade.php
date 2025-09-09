@@ -8,6 +8,8 @@
                     <h5 class="modal-title" id="novaInstituicaoModalLabel">Cadastrar Nova Instituição</h5>
                     <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
                 </div>
+                 <form method="POST" action="{{ route('instituicoes.store') }}">
+                    @csrf
 
                 <!-- Botão Adicionar Cor -->
                 <div class="mt-4 w-md-auto d-flex justify-content-center justify-content-end">
