@@ -18,6 +18,7 @@ class AlunosController extends Controller
         $instituicoes  = Instituicao::all();
         $cursos        = Curso::all();
         $modulos       = Modulo::all();
+        
 
         $novosAlunos = Alunos::whereMonth('created_at', now()->month)
             ->whereYear('created_at', now()->year)

@@ -110,6 +110,14 @@
     </tbody>
   </table>
 
+
+  <div class="informacaoAluno">
+    <div class="nomeAluno"></div>
+    <div class="emailAluno"></div>
+    <div class="telefone"></div>
+    <div class="tabelaNotas"></div>
+  </div>
+
   @section('scripts')
   <script src="{{ asset('js/alunos.js') }}"></script>
 
