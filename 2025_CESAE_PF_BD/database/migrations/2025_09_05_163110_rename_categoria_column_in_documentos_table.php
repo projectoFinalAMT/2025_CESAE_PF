@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categoria_documentos', function (Blueprint $table) {
-            $table->id();
-            $table->string('categoria');
-            $table->timestamps();
+        Schema::table('documentos', function (Blueprint $table) {
+            $table->renameColumn('categoriaDocumentos_id', 'categoria_documento_id');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categoria_documentos');
+        Schema::table('documentos', function (Blueprint $table) {
+             $table->renameColumn('categoria_documento_id', 'categoriaDocumentos_id');
+        });
     }
 };

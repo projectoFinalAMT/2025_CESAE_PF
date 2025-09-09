@@ -75,7 +75,7 @@
                                         </div>
                                     </div>
 
-                                    <p class="card-text fw-light">{{ $curso->descricao ?? 'Descrição não informada' }}</p>
+                                    <p class="card-text fw-light">{{ $curso->descricao ?? '' }}</p>
 
                                     @php
                                         $totalHoras = $curso->duracaoTotal ?? 0;

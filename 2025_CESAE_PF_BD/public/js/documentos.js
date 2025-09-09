@@ -23,24 +23,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //formulario Doc
 document.addEventListener("DOMContentLoaded", () => {
-    const botoesTipo = document.querySelectorAll(".tipo-btn");
-    const formularios = document.querySelectorAll(".form-tipo");
+    const botoesFiltro = document.querySelectorAll(".filtro-btn");
+    const cardsApoio = document.querySelectorAll(".card-apoio");
+    const cardsPessoais = document.querySelectorAll(".card-pessoal");
 
-    botoesTipo.forEach((botao) => {
+
+    botoesFiltro.forEach((botao) => {
         botao.addEventListener("click", () => {
-            // remover "active" de todos os botões e ativar o clicado
-            botoesTipo.forEach((b) => b.classList.remove("active"));
+            // tirar active de todos
+            botoesFiltro.forEach((b) => b.classList.remove("active"));
             botao.classList.add("active");
 
-            // esconder todos os formulários
-            formularios.forEach((f) => (f.style.display = "none"));
-
-            // mostrar só o formulário correspondente ao botão clicado
-            const tipo = botao.getAttribute("data-tipo");
-            document.getElementById("form-" + tipo).style.display = "block";
+            // mostrar/esconder conforme o botão
+            if (botao.textContent.includes("Apoio")) {
+                 cardsApoio.forEach(c => c.style.display = "block");
+                 cardsPessoais.forEach(c => c.style.display = "none");
+            } else {
+                 cardsApoio.forEach(c => c.style.display = "none");
+                 cardsPessoais.forEach(c => c.style.display = "block");
+            }
         });
     });
 });
+
 
 //Eliminar Card
 document.addEventListener("DOMContentLoaded", function () {
@@ -64,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Multi delete (cursos, instituições, módulos)
+    // Multi delete (cursos, instituições, módulos, documentos)
     formEliminar.addEventListener("submit", function (e) {
         const ids = [];
 
@@ -81,6 +86,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // Módulos selecionados
         document
             .querySelectorAll('input[name="modulos[]"]:checked')
+            .forEach((cb) => ids.push(cb.value));
+
+            // Documentos selecionados
+        document
+            .querySelectorAll('input[name="documentos[]"]:checked')
             .forEach((cb) => ids.push(cb.value));
 
         // Se nenhum item selecionado
@@ -147,6 +157,37 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Eliminar Documento/Modulo
+document.addEventListener("DOMContentLoaded", function () {
+    const btnApagarSelecionados = document.getElementById(
+        "apagarSelecionadosDocModulo"
+    );
+    const idsSelecionadosInput = document.getElementById(
+        "idsSelecionadosDocumentoModulo"
+    );
+
+    if (!btnApagarSelecionados || !idsSelecionadosInput) return;
+
+    btnApagarSelecionados.addEventListener("click", function () {
+        // Pega apenas checkboxes marcados
+        const selecionados = Array.from(
+            document.querySelectorAll('input[name="documento_modulos[]"]:checked')
+        )
+            .map((cb) => cb.dataset.documentoModuloId)
+            .filter((id) => id); // remove vazios
+
+        if (selecionados.length === 0) {
+            alert("Selecione pelo menos um documento.");
+            return;
+        }
+
+        // Preenche o hidden input do form
+        idsSelecionadosInput.value = selecionados.join(",");
+    });
+});
+
+
+
 //tempo post sucess
 document.addEventListener("DOMContentLoaded", function () {
     const toastEl = document.getElementById("successToast");
@@ -184,7 +225,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     ).content,
                 },
                 body: JSON.stringify({ estado: novoEstado }),
-            }).catch((err) => console.error(err));
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Erro ao atualizar no backend");
+                    }
+                    return response.json();
+                })
+                .then((data) => console.log("Atualizado:", data))
+                .catch((err) => console.error("Falhou:", err));
         });
     });
 });
@@ -263,5 +312,52 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+//tipo documento pessoal ou apoio
+const botoesTipo = document.querySelectorAll('.tipo-btn');
+const hiddenTipo = document.getElementById('tipo_documento_hidden');
+
+botoesTipo.forEach(btn => {
+    btn.addEventListener('click', function() {
+        botoesTipo.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        const tipo = this.getAttribute('data-tipo'); // pessoal ou apoio
+        hiddenTipo.value = tipo;
+
+        // alternar os forms
+        document.querySelectorAll('.form-tipo').forEach(f => f.style.display = 'none');
+        document.getElementById('form-' + tipo).style.display = 'block';
+
+        // adiciona required só no form pessoal
+        const validadeInput = document.getElementById('validade');
+        if (tipo === 'pessoal') {
+            validadeInput.setAttribute('required', true);
+        } else {
+            validadeInput.removeAttribute('required');
+        }
+    });
+});
+
+//data vitalicia
+const vitalicioCheckbox = document.getElementById('vitalicio');
+const validadeInput = document.getElementById('validade');
+const labelValidade = document.getElementById ('labelValidade');
+
+vitalicioCheckbox.addEventListener('change', () => {
+    if (vitalicioCheckbox.checked) {
+        validadeInput.value = '9999-01-01';
+        validadeInput.hidden = true;
+        labelValidade.hidden = true;
+
+    } else {
+        validadeInput.value = '';
+        validadeInput.hidden = false;
+        labelValidade.hidden = false;
+    }
+});
+
+
 
 

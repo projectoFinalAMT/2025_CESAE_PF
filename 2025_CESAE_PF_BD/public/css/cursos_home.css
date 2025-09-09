@@ -82,6 +82,19 @@ background-color: white !important;
     vertical-align: middle;
 }
 
+#preview{
+  border: none;
+  border-radius: 0px !important;
+  margin-top: -12px !important;
+
+
+}
+
+
+.card-text {
+    min-height: 25px;
+}
+
 
 .texto-truncado {
     white-space: nowrap;

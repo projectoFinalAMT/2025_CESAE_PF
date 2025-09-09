@@ -75,4 +75,21 @@ public function alunos()
         ->withTimestamps();
 }
 
+public function documentos()
+    {
+        return $this->belongsToMany(Documento::class, 'documentos_modulos', 'modulos_id', 'documentos_id');
+    }
+
+   public function documentosComAssociacao()
+{
+    // Pega os IDs de documentos associados a este módulo
+    $documentosAssociados = $this->documentos->pluck('id')->toArray();
+
+    return Documento::all()->map(function ($documento) use ($documentosAssociados) {
+        // Marca como associado se o documento estiver neste módulo
+        $documento->associado = in_array($documento->id, $documentosAssociados);
+        return $documento;
+    });
+}
+
 }

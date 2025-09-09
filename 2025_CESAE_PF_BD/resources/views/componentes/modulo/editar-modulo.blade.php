@@ -55,14 +55,50 @@
                     </div>
 
                     <!-- Descrição e documento -->
-                    <div class="row g-3 mb-3 justify-content-between">
+                    <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <label class="form-label">Descrição</label>
                             <textarea class="form-control" name="descricao" rows="3"> {{ $modulo->descricao ?? '' }}</textarea>
                         </div>
-                        <div class="col-md-4 d-flex flex-column gap-2 justify-content-center btn-adicionar-modulo">
-                            <button type="button" class="btn btn-novo-curso"><i
-                                    class="bi bi-file-earmark-text-fill"></i> Alterar Documentos</button>
+                        <div class="col-md-4 d-flex flex-column gap-2 btn-adicionar ms-5">
+                            <!-- Botão add modulos -->
+                            <button type="button" class="btn btn-novo-curso" data-bs-toggle="collapse"
+                                data-bs-target="#modulosCollapse">
+                                <i class="bi bi-file-earmark-text-fill"></i> Adicionar Documentos
+                            </button>
+                            <!-- Collapse do botão "Adicionar Módulos" -->
+                            <div class="collapse mt-2" id="modulosCollapse">
+                                <div class="card card-body modulo-bloco">
+                                    @foreach ($modulo->documentosComAssociacao() as $doc)
+                                        @if ($doc->modulos->count() > 0)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    value="{{ $doc->id }}" id="documento{{ $doc->id }}"
+                                                    name="documentos[]" {{ $doc->associado ? 'checked' : '' }}>
+
+                                                <label class="form-check-label" for="documento{{ $doc->id }}">
+                                                    <div class="texto-truncado" title="{{ $doc->nome }}">
+                                                        {{ $doc->nome }}
+                                                    </div>
+
+                                                    <div class="modulo-cursos">
+                                                        @foreach ($doc->modulos as $modDoc)
+                                                            <div class="text-muted small texto-truncado w-100"
+                                                                title="{{ $modDoc->nome }}">
+                                                                {{ $modDoc->nome }}
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        @endif
+                                    @endforeach
+
+
+
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div class="text-center mt-4">

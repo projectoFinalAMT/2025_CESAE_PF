@@ -10,7 +10,13 @@
       </div>
       <div class="modal-footer">
         <a href="{{ route('documentos') }}" type="button" class="btn btn-novo-curso">Cancelar <i class="bi bi-check-lg text-success"></i></a>
-        <button type="submit" class="btn btn-novo-curso">Eliminar  <i class="bi bi-x-lg text-danger"></i></button>
+        <form id="formEliminar" method="POST" action="{{ route('documento.deletar') }}">
+                                @csrf
+                                <input type="hidden" name="ids" id="idsSelecionados" value="">
+                                <button type="submit" class="btn btn-novo-curso">
+                                    Eliminar <i class="bi bi-x-lg text-danger"></i>
+                                </button>
+                            </form>
       </div>
     </div>
   </div>

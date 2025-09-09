@@ -47,7 +47,7 @@ public function store(Request $request)
 {
     $ids = explode(',', $request->ids);
     Instituicao::whereIn('id', $ids)->delete();
-    return redirect()->route('instituicoes')->with('success', 'Instituições eliminadas com sucesso!');
+    return redirect()->route('instituicoes')->with('success', 'Instituição eliminada com sucesso!');
 }
 
 public function update(Request $request, $id)

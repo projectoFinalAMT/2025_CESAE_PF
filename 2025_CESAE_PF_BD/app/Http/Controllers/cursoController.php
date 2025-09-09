@@ -130,7 +130,7 @@ public function index()
    public function modulosComAssociacao()
 {
     return $this->modulos->map(function ($modulo) {
-        $modulo->associado = true; // já que pertence a este curso
+        $modulo->associado = true;
         return $modulo;
     });
 }
@@ -145,6 +145,20 @@ public function byInstituicao($instituicaoId) {
 
     return response()->json($cursos);
 }
+
+//alterar status curso
+public function toggleEstado(Request $request, Curso $curso)
+{
+    $request->validate([
+        'estado' => 'required|in:1,2',
+    ]);
+
+    $curso->estado_cursos_id = $request->estado;
+    $curso->save();
+
+    return response()->json(['success' => true]);
+}
+
 
 
 }
