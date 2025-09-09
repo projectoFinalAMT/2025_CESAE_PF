@@ -1,42 +1,72 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const qtd = document.getElementById("fatura-qtd");
-  const valor = document.getElementById("fatura-valor");
-  const ivaInput = document.getElementById("fatura-iva");
-  const irsInput = document.getElementById("fatura-irs");
+  const qtd = document.getElementById("fatura-qtd"); // input quantidade_hora
+  const valor = document.getElementById("fatura-valor"); // input valor_hora
+  const ivaInput = document.getElementById("fatura-iva"); // input do utilizador
+  const irsInput = document.getElementById("fatura-irs"); // input do utilizador
 
-  const valorTotalInput = document.getElementById('valor_total');
-  const valorIvaInput = document.getElementById('valor_iva');
-  const valorIrsInput = document.getElementById('valor_irs');
-  const valorSubtotalInput = document.getElementById('valor_subtotal')
+  // criado por mim como hidden no html para conseguir passar os valores da calculadora
+  const valorTotalInput = document.getElementById('valor_total'); // hidden
+  const valorIvaInput = document.getElementById('valor_iva'); // hidden
+  const valorIrsInput = document.getElementById('valor_irs'); // hidden
+  const valorSubtotalInput = document.getElementById('valor_subtotal') // hidden
+  const valorLiquidoRealInput = document.getElementById('valor_liquido'); // hidden
 
-
-  const subtotalEl = document.getElementById("subtotal");
-  const ivaEl = document.getElementById("iva");
-  const irsEl = document.getElementById("irs");
-  const totalEl = document.getElementById("total");
+  const subtotalEl = document.getElementById("subtotal"); // subtotal da calculadora (automático)
+  const ivaEl = document.getElementById("iva"); // iva da calculadora (automático)
+  const irsEl = document.getElementById("irs"); // irs da calculadora (automático)
+  const totalEl = document.getElementById("total"); // total da calculadora (automático)
+  const liquidoEl = document.getElementById("liquido"); // total liquido da calculadora
 
   function calcularTotais() {
-    const qtdVal = parseFloat(qtd.value) || 0;
+
+    // conversão dos valores para decimal ou 0
+    const qtdVal = parseFloat(qtd.value) || 0; //
     const valorUnitario = parseFloat(valor.value) || 0;
     const ivaPerc = parseFloat(ivaInput.value) || 0;
     const irsPerc = parseFloat(irsInput.value) || 0;
 
+    // subtotal = valor base sem IVA/IRS
     const subtotal = qtdVal * valorUnitario;
+
+    // cálculos de impostos
     const valorIva = subtotal * (ivaPerc / 100);
     const valorIrs = subtotal * (irsPerc / 100);
-    const total = subtotal + valorIva - valorIrs;
 
-    valorTotalInput.value=total;
-    valorIvaInput.value=valorIva;
-    valorIrsInput.value=valorIrs;
-    valorSubtotalInput.value=subtotal;
+    // total = o que o cliente paga (subtotal + IVA)
+    const total = subtotal + valorIva;
+
+    // valor líquido real: aquilo que efetivamente fica na mão do utilizador
+    // Subtotal - IRS (o IVA não conta porque é devolvido)
+    const valorLiquidoReal = subtotal - valorIrs;
+
+
+    // --- DEBUG ---
+  console.log({
+    qtdVal,
+    valorUnitario,
+    ivaPerc,
+    irsPerc,
+    subtotal,
+    valorIva,
+    valorIrs,
+    total,
+    valorLiquidoReal
+  });
+  
+    valorTotalInput.value = total.toFixed(2);
+    valorIvaInput.value = valorIva.toFixed(2);
+    valorIrsInput.value = valorIrs.toFixed(2);
+    valorSubtotalInput.value = subtotal.toFixed(2);
+    valorLiquidoRealInput.value = valorLiquidoReal.toFixed(2);
 
     subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
     ivaEl.textContent = `€${valorIva.toFixed(2)}`;
     irsEl.textContent = `-€${valorIrs.toFixed(2)}`;
     totalEl.textContent = `€${total.toFixed(2)}`;
+    liquidoEl.textContent = `€${valorLiquidoReal.toFixed(2)}`;
 
-    return { qtdVal, valorUnitario, valorIva, valorIrs, total };
+
+    return { qtdVal, valorUnitario, valorIva, valorIrs, total, valorLiquidoReal };
   }
 
   [qtd, valor, ivaInput, irsInput].forEach(input =>
@@ -176,3 +206,25 @@ document.addEventListener('DOMContentLoaded', function () {
         toast.show();
     }
 });
+
+
+// Botão fechar collapse
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.js-close-collapse').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const selector = btn.getAttribute('data-target');
+            const el = document.querySelector(selector);
+            if (!el) return;
+
+            const instance = bootstrap.Collapse.getOrCreateInstance(el);
+            instance.hide();
+        });
+    });
+});
+
+
+
+

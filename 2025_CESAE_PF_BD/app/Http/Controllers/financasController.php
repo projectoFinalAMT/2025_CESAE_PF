@@ -17,10 +17,11 @@ class financasController extends Controller
         $modulos = Modulo::all();
         $instituicoes = Instituicao::all();
         $estados = EstadoFatura::all();
+        $recebimentos = Recebimento::all();
 
         $financas = Financa::with(['recebimento', 'instituicao'])->get();
 
-        return view('financas.financas_home', compact('cursos', 'instituicoes', 'modulos', 'estados', 'financas'));
+        return view('financas.financas_home', compact('cursos', 'instituicoes', 'modulos', 'estados', 'financas', 'recebimentos'));
     }
 
     /**
@@ -29,7 +30,7 @@ class financasController extends Controller
      */
     public function novaFatura(Request $request)
 {
-    dd($request->all());
+   // dd($request->all());
 
     // Validação dos campos
     $validated = $request->validate([
@@ -44,6 +45,7 @@ class financasController extends Controller
         'valor_total'    => 'required|numeric|min:0', // valor total ou seja, valor
         'dataEmissao'    => 'required|date', // data de emissão
         'dataPagamento'  => 'nullable|date|after_or_equal:dataEmissao', // data de pagamento
+        'valor_liquido'  => 'required|numeric|min:0', // valor liquido real
         'observacoes'    => 'nullable|string|max:255', // observaçoes
         'instituicao'    => 'required|exists:instituicoes,id', // ID da instituição já salva
         'curso'          => 'nullable|numeric|min:0', // curso
@@ -58,11 +60,13 @@ class financasController extends Controller
     $financas->valor_hora        = $validated['valor'];
     $financas->valor_semImposto  = $validated['valor_subtotal'];
     $financas->IVAPercetagem     = $validated['iva'];
+    $financas->IVATaxa           = $validated['valor_iva'];
     $financas->baseCalculoIRS    = $validated['irs'];
     $financas->IRSTaxa           = $validated['valor_irs'];
     $financas->valor             = $validated['valor_total'];
     $financas->dataEmissao       = $validated['dataEmissao'];
     $financas->dataPagamento     = $validated['dataPagamento'] ?? null;
+    $financas->valor_liquido     = $validated['valor_liquido'];
     $financas->observacoes       = $validated['observacoes'] ?? null;
     $financas->users_id          = 1; // usuário logado
     $financas->instituicoes_id   = $validated['instituicao'];
@@ -96,7 +100,7 @@ public function update(Request $request, Financa $financa)
 {
     // Validação
     $validated = $request->validate([
-        'descricao'      => 'sometimes|string|max:255',
+        'descricao'      => 'sometimes|string|max:255', /*Sometimes - Se existir no request, aplica estas regras, se não existir, ignora*/
         'qtd'            => 'sometimes|numeric|min:0',
         'valor'          => 'sometimes|numeric|min:0',
         'valor_subtotal' => 'sometimes|numeric|min:0',
@@ -107,6 +111,7 @@ public function update(Request $request, Financa $financa)
         'valor_total'    => 'sometimes|numeric|min:0',
         'dataEmissao'    => 'sometimes|date',
         'dataPagamento'  => 'nullable|date|after_or_equal:dataEmissao',
+        'valor_liquido'  => 'sometimes|numeric|min:0',
         'observacoes'    => 'nullable|string|max:255',
         'instituicao'    => 'sometimes|exists:instituicoes,id',
         'curso'          => 'nullable|numeric|min:0',
@@ -123,11 +128,13 @@ public function update(Request $request, Financa $financa)
     $financa->valor_hora        = $validated['valor']          ?? $financa->valor_hora;
     $financa->valor_semImposto  = $validated['valor_subtotal'] ?? $financa->valor_semImposto;
     $financa->IVAPercetagem     = $validated['iva']            ?? $financa->IVAPercetagem;
+    $financa->IVATaxa           = $validated['valor_iva']      ?? $financa->IVATaxa;
     $financa->baseCalculoIRS    = $validated['irs']            ?? $financa->baseCalculoIRS;
     $financa->IRSTaxa           = $validated['valor_irs']      ?? $financa->IRSTaxa;
     $financa->valor             = $validated['valor_total']    ?? $financa->valor;
     $financa->dataEmissao       = $validated['dataEmissao']    ?? $financa->dataEmissao;
     $financa->dataPagamento     = $validated['dataPagamento']  ?? $financa->dataPagamento;
+    $financa->valor_liquido     = $validated['valor_liquido']  ?? $financa->valor_liquido;
     $financa->observacoes       = $validated['observacoes']    ?? $financa->observacoes;
     $financa->instituicoes_id   = $validated['instituicao']    ?? $financa->instituicoes_id;
     $financa->id_curso          = $validated['curso']          ?? $financa->id_curso;
@@ -135,7 +142,7 @@ public function update(Request $request, Financa $financa)
     $financa->estado_faturas_id = $validated['estadoFatura']   ?? $financa->estado_faturas_id;
     $financa->save();
 
-    // Se mudou para "pago"
+    // Se mudou para "pago", cria um novo recebimento e atualiza a data de recebimento para a data atual
     if ($estadoAnterior != 2 && $financa->estado_faturas_id == 2) {
         Recebimento::create([
             'financas_id'    => $financa->id,
@@ -145,7 +152,7 @@ public function update(Request $request, Financa $financa)
         ]);
     }
 
-    // Se mudou de "pago" para outro estado → apago recebimento
+    // Se mudou de "pago" para outro estado, apago recebimento
     if ($estadoAnterior == 2 && $financa->estado_faturas_id != 2) {
         $recebimento = Recebimento::where('financas_id', $financa->id)->first();
         if ($recebimento) {
@@ -155,6 +162,12 @@ public function update(Request $request, Financa $financa)
 
     return redirect()->route('financas')
                      ->with('success', 'Fatura atualizada com sucesso!');
+}
+
+public function apagar(Request $request, Financa $financa){
+
+    // falta informação
+        return redirect()->route('financas')->with('success', 'Fatura eliminada com sucesso!');
 }
 
 }
