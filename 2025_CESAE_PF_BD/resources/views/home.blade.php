@@ -47,7 +47,7 @@
                             </div>
                             <p class="card-text fw-bold fs-3">{{$totalCursosAtivos}}</p>
                             <div class="d-flex justify-content-between px-3">
-                                <span class="card-text">{{$totalCursosInativos}} inativos</span>
+                                <span class="card-text"><span style="font-weight: bold">{{$totalCursosInativos}}</span> inativos</span>
                             </div>
 
                         </div>
@@ -65,9 +65,9 @@
                                     </h5>
                                 </div>
                             </div>
-                            <p class="card-text fw-bold fs-3">0</p>
+                            <p class="card-text fw-bold fs-3">{{$alunos->count()}}</p>
                             <div class="d-flex justify-content-between px-3">
-                                <span class="card-text">0 novos</span>
+                                <span class="card-text">{{$novosAlunos}} novos</span>
                             </div>
 
                         </div>
@@ -105,9 +105,9 @@
                                     </h5>
                                 </div>
                             </div>
-                            <p class="card-text fw-bold fs-3">0</p>
+                            <p class="card-text fw-bold fs-3">{{$aulasTotais}}</p>
                             <div class="d-flex justify-content-between px-3">
-                                <span class="card-text">0 esta semana</span>
+                                <span class="card-text"> <span style="font-weight: bold">{{$aulasSemanaAtual}}</span> esta semana</span>
                             </div>
 
                         </div>
