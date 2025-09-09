@@ -40,9 +40,9 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                                     </h5>
                                 </div>
                             </div>
-                            <p class="card-text fw-bold fs-3">0</p>
+                            <p class="card-text fw-bold fs-3">{{$alunos->count()}}</p>
                             <div class="d-flex justify-content-between px-3">
-                                <span class="card-text">0 novos</span>
+                                <span class="card-text">{{$novosAlunos}} novos</span>
                             </div>
 
                         </div>
@@ -132,7 +132,7 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                           </button>
 
 
-                          <input type="text" class="form-control form-control-sm" style="max-width:280px"
+                          <input type="text" class="form-control form-control-sm" style="max-width:200px"
                                  placeholder="Pesquisar por nome ou email..." id="pesquisaAlunos">
 
                           <!-- Dropdown: Instituição -->
@@ -141,11 +141,9 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                               <i class="fa-solid fa-filter"></i> Instituição
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" id="filterDropdownInst">
-                              <li><a class="dropdown-item active" href="#" data-valor="">Todas</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="Cesae">Cesae</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="ISAG">ISAG</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="ISTAC">ISTAC</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="POLS">POLS</a></li>
+                                @foreach ($instituicoes as $inst )
+                                <li><a class="dropdown-item " href="#" data-valor="">{{$inst->nomeInstituicao}}</a></li>
+                                @endforeach
                             </ul>
                           </div>
 
@@ -155,25 +153,21 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                               <i class="fa-solid fa-filter"></i> Curso
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" id="filterDropdownCurs">
-                              <li><a class="dropdown-item active" href="#" data-valor="">Todos</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="SD">SD</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="AU">AU</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="ASF">ASF</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="SAF">SAF</a></li>
+                                @foreach ($cursos as $curso )
+                                <li><a class="dropdown-item" href="#" data-valor="">{{$curso->titulo}}</a></li>
+                                @endforeach
                             </ul>
                           </div>
-
-                           <!-- Dropdown: Instituição -->
+                           <!-- Dropdown: Modulos -->
                            <div class="dropdown">
                             <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                               <i class="fa-solid fa-filter"></i> Módulos
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" id="filterDropdownInst">
-                              <li><a class="dropdown-item active" href="#" data-valor="">Todas</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="Cesae">Cesae</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="ISAG">ISAG</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="ISTAC">ISTAC</a></li>
-                              <li><a class="dropdown-item" href="#" data-valor="POLS">POLS</a></li>
+                                @foreach ($modulos as $modulo )
+                                <li><a class="dropdown-item" href="#" data-valor="">{{$modulo->nomeModulo}}</a></li>
+                                @endforeach
+
                             </ul>
                           </div>
 
@@ -181,26 +175,42 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                       </th>
                     </tr>
 
-                    <!-- Cabeçalhos das colunas (ficam no THEAD, não no TBODY) -->
+                    <!-- Cabeçalhos das colunas -->
                     <tr>
                       <th scope="col">Nr</th>
-                      <th scope="col">Nome</th>
-                      <th scope="col">Momentos Avaliação</th>
-                      <th scope="col">Notas</th>
+                     <a href=""> <th scope="col">Nome</th></a>
+                      <th scope="col">Avaliação 1</th>
+                      <th scope="col">Avaliação 2</th>
+                      <th scope="col">Avaliação 3</th>
+                      <th scope="col">Avaliação 4</th>
+                      <th scope="col">Avaliação 5</th>
                       <th scope="col">Média</th>
                       <th scope="col">Acções</th>
                     </tr>
+
+
+                    </tr>
+
                   </thead>
 
                   <tbody>
-                    @foreach ($alunos as $aluno )
+                    @foreach ($listaAlunos as $listaAluno )
                     <tr data-instituicao="" data-curso="">
-                        <th scope="row">{{$aluno->id}}</th>
-                        <td>{{$aluno->nome}}</td>
-                        <td>{{$aluno->email}}</td>
-                        <td>{{$aluno->observacoes}}</td>
-                        <td></td>
-                        <td>@mdo</td>
+                        <th scope="row">{{$listaAluno->id}}</th>
+                        <td>{{$listaAluno->nome}}</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>valor média</td>
+
+                        <td><button type="button" class="btn btn-outline-primary">Ver</button>
+                            <button type="button" class="btn btn-outline-success">Editar</button>
+                        </td>
+
+
+
                       </tr>
                     @endforeach
 
@@ -291,7 +301,7 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
 
               <!-- Observações -->
               <div class="col-12">
-                <label for="observacoes" class="form-label">Observações</label>
+                <label for="observacoes" class="form-label">Observaçõess</label>
                 <textarea class="form-control rounded-0" id="observacoes" name="observacoes" rows="3"></textarea>
               </div>
             </div>

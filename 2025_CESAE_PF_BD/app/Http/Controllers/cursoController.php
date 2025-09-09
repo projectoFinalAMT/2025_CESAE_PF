@@ -20,7 +20,6 @@ public function index()
         ->orderBy('nomeModulo')
         ->get();
 
-
     $cursos = Curso::withCount('modulos')->get();
 
     // Obter os IDs dos módulos associados a cada curso

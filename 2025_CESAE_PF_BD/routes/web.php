@@ -25,10 +25,12 @@ Route::get('/dashboard', [homeController::class, 'index'])->name('casa');
 
 //alunos
 Route::get('/alunos', [AlunosController::class, 'index'])->name('alunos_view');
+// Route::get('/alunoinfo', [AlunosController::class, 'alunoinfo'])->name('alunos_info');
 Route::post('/alunoadicionar', [AlunosController::class, 'store'])->name('alunos.store');
 // Endpoints AJAX para selects dependentes
 Route::get('/instituicoes/{id}/cursos', [CursoController::class, 'byInstituicao']);
 Route::get('/cursos/{id}/modulos', [ModuloController::class, 'byCurso']);
+Route::get('/fichaaluno',[AlunosController::class,'fichaaluno']);
 //. alunos
 
 
@@ -64,6 +66,10 @@ Route::post('/documento-modulo/remover', [DocumentoModuloController::class, 'rem
 // Finanças
 Route::get('/financas', [financasController::class, 'index'])->name('financas');
 Route::post('/financas', [financasController::class, 'novaFatura'])->name('novaFatura_route');
+Route::put('/financas/{financa}/update', [financasController::class, 'update'])->name('faturaUpdate_route');
+Route::post('/financas/delete', [financasController::class, 'apagar'])->name('apagarFatura_route');
+
+
 Route::get('/ver-instituicoes', [RecebimentoController::class, 'listarInstituicoes']);
 Route::get('ver-ganhos', [RecebimentoController::class, 'ganhosPorInstituicao']);
 
