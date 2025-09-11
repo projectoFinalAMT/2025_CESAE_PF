@@ -1,3 +1,4 @@
+/* --------- BOTÃO ADICIONAR NOVA FATURA --------- */
 #btn-nova-fatura {
   border: none;
   border-radius: 0px;
@@ -8,32 +9,12 @@
   background-color: rgb(245, 244, 244);
 }
 
-.btn-filtro {
-  border: none;
-  border-radius: 0;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
-  transition: background-color 0.3s, color 0.3s;
-  background-color: #fff; /* igual ao botão base */
-  color: #000; /* texto preto */
-}
-
-.btn-filtro:hover {
-  background-color: rgb(245, 244, 244); /* cinza claro no hover */
-}
-
-/* Apenas o que está ativo/selecionado fica invertido */
-.btn-filtro.active,
-.btn-check:checked + .btn-filtro {
-  background-color: #6c757d; /* cinzento */
-  color: #fff; /* texto branco */
-}
-
+/* --------- CARD FATURAÇÃO --------- */
 .card-financas{
   border: none;
   border-radius: 0px;
   box-shadow: 2px 0 5px rgba(0,0,0,0.3);
 }
-
 /*Barra de progresso circular*/
 .circular-progress {
   --size: 65px;        /* tamanho do círculo */
@@ -50,7 +31,6 @@
   align-items: center;
   justify-content: center;
 }
-
 /* o anel é desenhado no pseudo-elemento */
 .circular-progress::before {
   content: "";
@@ -61,7 +41,6 @@
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness)), black 0);
           mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness)), black 0);
 }
-
 /* número sempre centrado */
 .circular-progress span {
   position: relative; /* garante que o texto fica acima do ::before */
@@ -69,42 +48,28 @@
   font-size: 0.9rem;
   color: #212529;
 }
-
 #tituloValorExpectavel{
     color: #fabfb7;
 }
 
+/* --------- GRID FATURAÇÃO POR INSTITUIÇÃO/FATURAS --------- */
 .card-fatura, .card-ganhos{
   border: none;
   border-radius: 0px;
   box-shadow: 2px 0 5px rgba(0,0,0,0.3);
 }
 
-.donut {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: conic-gradient(
-    #a78bfa 0 40%,    /* CESAE */
-    #ef4444 40% 65%,  /* LSD */
-    #3b82f6 65% 78%,  /* ISTEC */
-    #22c55e 78% 88%,  /* ISLA */
-    #4338ca 88% 100%  /* ESTEL */
-  );
-  position: relative;
-}
 
-.donut-hole {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: white;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 
+/* --------- TABELA FATURAS --------- */
+#faturasTabela{
+    height: 350px;
+    overflow: auto;
+}
+#buttonAlterarEstado{
+    background-color: #6c757d; /* cor mais escura do secundary */
+    color: #fff; /* texto branco para contraste */
+}
 #icon-filter {
   background: none;
   border: none;
@@ -113,21 +78,6 @@
   color: #6c757d;
   transition: color 0.2s ease-in-out;
 }
-
 #icon-filter:hover {
   color: #28a745;
-}
-
-
-/*TABELA FATURAS*/
-
-#faturasTabela{
-    height: 350px;
-    overflow: auto;
-}
-
-
-#buttonAlterarEstado{
-    background-color: #6c757d; /* cor mais escura do secundary */
-    color: #fff; /* texto branco para contraste */
 }

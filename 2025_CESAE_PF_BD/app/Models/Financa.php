@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Curso;
 use App\Models\Instituicao;
 use App\Models\Recebimento;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +26,11 @@ class Financa extends Model
     // Relação com estadoFatura
     public function estadoFatura(){
     return $this->belongsTo(EstadoFatura::class, 'estado_faturas_id');
+}
+
+    // Relação com curso
+    public function curso(){ // não é chave estrangeira
+    return $this->belongsTo(Curso::class, 'id_curso', 'id');
 }
 
 }

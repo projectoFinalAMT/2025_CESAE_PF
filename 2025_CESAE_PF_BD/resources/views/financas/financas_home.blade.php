@@ -100,8 +100,8 @@
 
                                         <!-- Quantidade e Valor -->
                                         <div class="row mb-3">
-                                            <div class="col-4"> <label class="form-label">Quantidade Horas*</label> <input
-                                                    type="number" class="form-control rounded-0" id="fatura-qtd"
+                                            <div class="col-4"> <label class="form-label">Quantidade Horas*</label>
+                                                <input type="number" class="form-control rounded-0" id="fatura-qtd"
                                                     name="qtd" value="1" required> </div>
                                             <div class="col-8"> <label class="form-label">Valor unitário (€)*</label>
                                                 <input type="number" class="form-control rounded-0" id="fatura-valor"
@@ -121,13 +121,15 @@
 
                                         <!-- Totais -->
                                         <div class="border p-3 bg-light rounded-0 mb-2">
-                                            <p class="mb-1">Subtotal (sem IVA/IRS) <strong id="subtotal">€0,00</strong></p>
+                                            <p class="mb-1">Subtotal (sem IVA/IRS) <strong id="subtotal">€0,00</strong>
+                                            </p>
                                             <p class="mb-1">IVA: <strong id="iva">€0,00</strong></p>
                                             <p class="mb-1">IRS: <strong id="irs">-€0,00</strong></p>
                                             <hr class="my-2">
-                                            <p class="mb-1">Líquido Real (Tu recebes): <strong id="liquido">€0,00</strong></p>
-                                            <p class="mb-0 fw-bold">Total c/ IVA (Cliente paga): <span class="text-primary"
-                                                    id="total">€0,00</span></p>
+                                            <p class="mb-1">Líquido Real (Tu recebes): <strong
+                                                    id="liquido">€0,00</strong></p>
+                                            <p class="mb-0 fw-bold">Total c/ IVA (Cliente paga): <span
+                                                    class="text-primary" id="total">€0,00</span></p>
                                         </div>
 
                                         <!-- Datas -->
@@ -176,30 +178,15 @@
                     </div>
                 </div>
 
-                <!-- Filtros à direita -->
-                <div class="d-flex flex-wrap align-items-center">
-                    <!-- Grupo de filtros -->
-                    <div class="btn-group me-2 mb-2 mb-md-0" role="group" aria-label="Filtros de período">
-                        <input type="radio" class="btn-check" name="periodo" id="btnEsteMes" autocomplete="off"
-                            checked>
-                        <label class="btn btn-filtro active" for="btnEsteMes">Este mês</label>
-
-                        <input type="radio" class="btn-check" name="periodo" id="btnUltimoMes" autocomplete="off">
-                        <label class="btn btn-filtro" for="btnUltimoMes">Último mês</label>
-
-                        <input type="radio" class="btn-check" name="periodo" id="btnTrimestral" autocomplete="off">
-                        <label class="btn btn-filtro" for="btnTrimestral">Trimestral</label>
-                    </div>
-
-                    <!-- Botão de calendário -->
-                    <div class="col">
-                        <input type="date" class="form-control rounded-0" id="dataInicio" name="dataInicio" required>
-                    </div>
-                    <div class="col">
-                        <input type="date" class="form-control rounded-0" id="dataFim" name="dataFim" required>
-                    </div>
-
-                </div>
+                <!-- Filtros Este Mês/Último Mês/Trimestre -->
+                <form action="{{ route('financas') }}" method="GET" class="mb-3">
+                    <select name="filtro" onchange="this.form.submit()" class="form-select w-auto d-inline">
+                        <option value="">Todos</option>
+                        <option value="este_mes" {{ $filtro == 'este_mes' ? 'selected' : '' }}>Este mês</option>
+                        <option value="ultimo_mes" {{ $filtro == 'ultimo_mes' ? 'selected' : '' }}>Último mês</option>
+                        <option value="trimestre" {{ $filtro == 'trimestre' ? 'selected' : '' }}>Trimestre</option>
+                    </select>
+                </form>
             </div>
 
 
@@ -208,7 +195,7 @@
             <div class="container mt-4">
                 <div class="row">
 
-                    <!-- Card 1 -->
+                    <!-- Card 1 - Faturação -->
                     <div class="col-12 col-md-4 d-flex">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
@@ -225,55 +212,19 @@
                                         <!-- Valor em destaque -->
                                         <div class="text-amount mb-1">
                                             <h3 class="text-info fw-bold mb-0">
-
-                                                @php $totalFaturacao = 0; @endphp
-
-                                                @foreach ($recebimentos as $recebimento)
-                                                    @if($recebimento->valor != null)
-                                                        @php
-                                                            $totalFaturacao += $recebimento->valor;
-                                                        @endphp
-                                                    @endif
-                                                @endforeach
-                                                {{ $totalFaturacao }}€
-
-                                            </h3>
+                                                {{ number_format($totalFaturacao, 2, ',', '.') }}€</h3>
                                         </div>
 
                                         <!-- Valor IVA -->
                                         <div class="text-amount mt-2">
-                                            <h6 class="text-black-50">
-
-                                                @php $totalIva = 0; @endphp
-
-                                                @foreach ($financas as $financa)
-                                                    @if($financa->IVATaxa != null && $financa->estado_faturas_id == 2)
-                                                        @php
-                                                            $totalIva += $financa->IVATaxa;
-                                                        @endphp
-                                                    @endif
-                                                @endforeach
-                                                Valor IVA {{ $totalIva }}€
-
-                                            </h6>
+                                            <h6 class="text-black-50">Valor IVA
+                                                {{ number_format($totalIva, 2, ',', '.') }}€</h6>
                                         </div>
 
                                         <!-- Valor IRS -->
                                         <div class="text-amount mt-1">
-                                            <h6 class="text-black-50">
-
-                                                @php $totalIrs = 0; @endphp
-
-                                                @foreach ($financas as $financa)
-                                                    @if($financa->IRSTaxa != null  && $financa->estado_faturas_id == 2)
-                                                        @php
-                                                            $totalIrs += $financa->IRSTaxa;
-                                                        @endphp
-                                                    @endif
-                                                @endforeach
-                                                Valor IRS {{ $totalIrs }}€
-
-                                            </h6>
+                                            <h6 class="text-black-50">Valor IRS
+                                                {{ number_format($totalIrs, 2, ',', '.') }}€</h6>
                                         </div>
                                     </div>
 
@@ -289,7 +240,7 @@
                         </div>
                     </div>
 
-                    <!-- Card 2 -->
+                    <!-- Card 2 - Ganhos (valor liquido) -->
                     <div class="col-12 col-md-4 d-flex">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
@@ -302,24 +253,13 @@
 
                                 <!-- Conteúdo -->
                                 <div class="text-amount mt-2 mb-1" id="tituloValorExpectavel">
-                                    <h3 class="fw-bold mb-0">
-                                         @php $totalGanhos = 0; @endphp
-
-                                                @foreach ($financas as $financa)
-                                                    @if($financa->valor_liquido != null && $financa->estado_faturas_id == 2)
-                                                        @php
-                                                            $totalGanhos += $financa->valor_liquido;
-                                                        @endphp
-                                                    @endif
-                                                @endforeach
-                                                {{ $totalGanhos }}€
-                                    </h3>
+                                    <h3 class="fw-bold mb-0">{{ number_format($totalGanhos, 2, ',', '.') }}€</h3>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Card 3 -->
+                    <!-- Card 3 - Expectável -->
                     <div class="col-12 col-md-4 d-flex">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
@@ -332,15 +272,7 @@
 
                                 <!-- Conteúdo -->
                                 <div class="text-amount mt-2 mb-1" id="tituloValorExpectavel">
-                                    <h3 class="fw-bold mb-0">2000€</h3>
-                                </div>
-
-                                <div class="text-amount mt-2">
-                                    <h6 class="text-black-50">Valor IVA </h6>
-                                </div>
-
-                                <div class="text-amount mt-1">
-                                    <h6 class="text-black-50">Valor IRS</h6>
+                                    <h3 class="fw-bold mb-0"></h3>
                                 </div>
                             </div>
                         </div>
@@ -350,11 +282,12 @@
             </div>
 
 
-            <!-- Grid Ganhos por Instituição & Faturas -->
+            <!-- Grid Esquerda/Direita
+                Faturação por Instituição/Faturas -->
             <div class="container mt-4">
                 <div class="row">
 
-                    <!-- Coluna 1: Ganhos por Instituição -->
+                    <!-- Coluna 1: Faturação por Instituição -->
                     <div class="col-md-4">
                         <div class="card-ganhos">
                             <div class="card shadow-sm rounded-0 p-3">
@@ -362,109 +295,18 @@
 
                                     <!--Título e Icon Filtro-->
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <h5 class="card-title">Ganhos por Instituição</h5>
-                                        <i class="material-icons-outlined" id="icon-filter" data-bs-toggle="modal"
-                                            data-bs-target="#modalFiltroInstituicao">
-                                            filter_alt</i>
+                                        <h5 class="card-title">Faturação por Instituição</h5>
                                     </div>
-
-
-                                    <!-- Modal Filtro Ganhos por Instituição -->
-                                    <div class="modal fade" id="modalFiltroInstituicao" tabindex="-1"
-                                        aria-labelledby="modalFiltroInstituicaoLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content rounded-0">
-                                                <div class="modal-header border-0">
-                                                    <h6 class="modal-title fw-bold" id="modalFiltroInstituicaoLabel">
-                                                        Ganhos por instituição</h6>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Fechar"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Botão Selecionar tudo -->
-                                                    <button type="button" class="btn btn-light mb-3"
-                                                        id="btnSelecionarTudo">
-                                                        Selecionar tudo
-                                                    </button>
-
-                                                    <!-- Lista de instituições -->
-                                                    <ul id="checkInstituicoes" class="list-group">
-                                                        <li
-                                                            class="list-group-item d-flex justify-content-between align-items-center">
-                                                            CESAE <input type="checkbox" class="form-check-input"
-                                                                value="CESAE" checked>
-                                                        </li>
-                                                        <li
-                                                            class="list-group-item d-flex justify-content-between align-items-center">
-                                                            LSD <input type="checkbox" class="form-check-input"
-                                                                value="LSD" checked>
-                                                        </li>
-                                                        <li
-                                                            class="list-group-item d-flex justify-content-between align-items-center">
-                                                            ISTEC <input type="checkbox" class="form-check-input"
-                                                                value="ISTEC" checked>
-                                                        </li>
-                                                        <li
-                                                            class="list-group-item d-flex justify-content-between align-items-center">
-                                                            ISLA <input type="checkbox" class="form-check-input"
-                                                                value="ISLA" checked>
-                                                        </li>
-                                                        <li
-                                                            class="list-group-item d-flex justify-content-between align-items-center">
-                                                            ESTEL <input type="checkbox" class="form-check-input"
-                                                                value="ESTEL" checked>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="modal-footer border-0">
-                                                    <button type="button" class="btn btn-light"
-                                                        data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="button" class="btn btn-primary"
-                                                        id="btnAplicarFiltro">Aplicar</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <!-- Gráfico donut visual -->
-                                    <div class="d-flex justify-content-center align-items-center" style="height: 180px;">
-                                        <canvas id="donutInstituicoes"></canvas>
-                                    </div>
-
 
                                     <!-- Legenda -->
                                     <ul class="list-unstyled mt-3 small" id="listaInstituicoes">
+                                        @foreach($faturacaoInstituicoes as $instituicao)
                                         <li class="d-flex align-items-center mb-2">
-                                            <span class="badge rounded-circle me-2"
-                                                style="background-color:#a78bfa;">&nbsp;</span>
-                                            <span class="text-secondary">CESAE</span>
-                                            <span class="ms-auto fw-bold text-dark">41,35%</span>
+                                            <span class="badge rounded-circle me-2" style="background-color: {{ $instituicao['cor'] }};">&nbsp;</span>
+                                            <span class="text-secondary">{{ $instituicao['nome'] }}</span>
+                                            <span class="ms-auto fw-bold text-dark">{{ $instituicao['percent'] }}%</span>
                                         </li>
-                                        <li class="d-flex align-items-center mb-2">
-                                            <span class="badge rounded-circle me-2"
-                                                style="background-color:#ef4444;">&nbsp;</span>
-                                            <span class="text-secondary">LSD</span>
-                                            <span class="ms-auto fw-bold text-dark">21,51%</span>
-                                        </li>
-                                        <li class="d-flex align-items-center mb-2">
-                                            <span class="badge rounded-circle me-2"
-                                                style="background-color:#3b82f6;">&nbsp;</span>
-                                            <span class="text-secondary">ISTEC</span>
-                                            <span class="ms-auto fw-bold text-dark">13,47%</span>
-                                        </li>
-                                        <li class="d-flex align-items-center mb-2">
-                                            <span class="badge rounded-circle me-2"
-                                                style="background-color:#22c55e;">&nbsp;</span>
-                                            <span class="text-secondary">ISLA</span>
-                                            <span class="ms-auto fw-bold text-dark">9,97%</span>
-                                        </li>
-                                        <li class="d-flex align-items-center">
-                                            <span class="badge rounded-circle me-2"
-                                                style="background-color:#4338ca;">&nbsp;</span>
-                                            <span class="text-secondary">ESTEL</span>
-                                            <span class="ms-auto fw-bold text-dark">3,35%</span>
-                                        </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -581,7 +423,13 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td><i class="bi bi-trash"></i></td>
+                                                        <td>
+                                                            <button type="button"
+                                                                class="btn btn-link text-danger btn-apagar"
+                                                                data-bs-toggle="modal" data-bs-target="#confirmarEliminar"
+                                                                data-id="{{ $financa->id }}"><i
+                                                                    class="bi bi-trash"></i></button>
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -592,8 +440,39 @@
                         </div>
                     </div>
 
+                    <!--Modal Eliminar Fatura -->
+                    <div class="modal fade" id="confirmarEliminar" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirmar eliminação</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <p>Tem certeza que deseja eliminar esta fatura?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Cancelar
+                                    </button>
+
+                                    <form id="formEliminar" method="POST" action="">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">
+                                            Eliminar <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <!-- Modal Filtro Faturas (fora do card) -->
-                    <div class="modal fade" id="modalFiltroFaturas" tabindex="-1" aria-hidden="true">
+                    {{-- <div class="modal fade" id="modalFiltroFaturas" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content rounded-0">
                                 <div class="modal-header border-0">
@@ -647,7 +526,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
