@@ -358,6 +358,8 @@
     <!--.Modal Instituicao-->
     <!--.MODALS-->
 
+     @include('componentes.perfil.perfil')
+
 @section('scripts')
     <!-- IMPORTANTE: JS do FullCalendar (usa o bundle global) -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
