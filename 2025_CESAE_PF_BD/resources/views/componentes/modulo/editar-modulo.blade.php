@@ -69,29 +69,15 @@
                             <!-- Collapse do botão "Adicionar Módulos" -->
                             <div class="collapse mt-2" id="modulosCollapse">
                                 <div class="card card-body modulo-bloco">
-                                    @foreach ($modulo->documentosComAssociacao() as $doc)
-                                        @if ($doc->modulos->count() > 0)
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    value="{{ $doc->id }}" id="documento{{ $doc->id }}"
-                                                    name="documentos[]" {{ $doc->associado ? 'checked' : '' }}>
-
-                                                <label class="form-check-label" for="documento{{ $doc->id }}">
-                                                    <div class="texto-truncado" title="{{ $doc->nome }}">
-                                                        {{ $doc->nome }}
-                                                    </div>
-
-                                                    <div class="modulo-cursos">
-                                                        @foreach ($doc->modulos as $modDoc)
-                                                            <div class="text-muted small texto-truncado w-100"
-                                                                title="{{ $modDoc->nome }}">
-                                                                {{ $modDoc->nome }}
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        @endif
+                                    @foreach ($documentos as $doc)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="{{ $doc->id }}"
+                                                id="documento{{ $doc->id }}" name="documentos[]"
+                                                {{ $doc->modulos->contains($modulo->id) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="documento{{ $doc->id }}">
+                                                {{ $doc->nome }}
+                                            </label>
+                                        </div>
                                     @endforeach
 
 

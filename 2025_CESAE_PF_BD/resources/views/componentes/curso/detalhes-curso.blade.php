@@ -57,7 +57,7 @@
                             <textarea class="form-control" rows="3" readonly>{{ $curso->descricao ?? 'Descrição não informada' }}</textarea>
                         </div>
 
-                        <div class="col-md-4 d-flex flex-column gap-2">
+                        <div class="col-md-4 d-flex flex-column gap-2 btn-adicionar">
                             <a href="#" class="btn btn-novo-curso"><i class="bi bi-people-fill"></i> Ver
                                 Alunos</a>
 

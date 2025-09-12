@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/cursos_home.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modulos_home.css') }}">
     <link rel="stylesheet" href="{{ asset('css/documentos_home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/alunos.css') }}">
     @endsection
 
 
@@ -17,98 +18,156 @@
 
 @section('content')
 <div class="content">
- <!-- TABELA ALUNOS -->
- <table class="table table-hover mt-5" id="tabelaAlunos">
-    <thead>
-      <!-- Linha de controlos -->
-      <tr>
-        <th scope="col" colspan="6">
-          <div class="d-flex flex-wrap gap-2 align-items-center">
-            <!-- Dropdown: Instituição -->
-            <div class="dropdown">
-              <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-filter"></i> Instituição
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end" id="filterDropdownInst">
-                <li><a class="dropdown-item active" href="#" data-valor="">Todas</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="Cesae">Cesae</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="ISAG">ISAG</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="ISTAC">ISTAC</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="POLS">POLS</a></li>
-              </ul>
-            </div>
 
-            <!-- Dropdown: Curso -->
-            <div class="dropdown">
-              <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-filter"></i> Curso
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end" id="filterDropdownCurs">
-                <li><a class="dropdown-item active" href="#" data-valor="">Todos</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="SD">SD</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="AU">AU</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="ASF">ASF</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="SAF">SAF</a></li>
-              </ul>
-            </div>
 
-             <!-- Dropdown: Instituição -->
-             <div class="dropdown">
-              <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-filter"></i> Módulos
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end" id="filterDropdownInst">
-                <li><a class="dropdown-item active" href="#" data-valor="">Todas</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="Cesae">Cesae</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="ISAG">ISAG</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="ISTAC">ISTAC</a></li>
-                <li><a class="dropdown-item" href="#" data-valor="POLS">POLS</a></li>
-              </ul>
-            </div>
-
+    <div class="container my-4">
+        <div class="card shadow rounded-0">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Informação do Aluno</h5>
+            <small class="card-subtitle fw-light">nome aluno</small>
           </div>
-        </th>
-      </tr>
 
-      <!-- Cabeçalhos das colunas -->
-      <tr>
-        <th scope="col">Nr</th>
-        <th scope="col">Nome</th>
-        <th scope="col">Momentos Avaliação 1</th>
-        <th scope="col">Momentos Avaliação 2</th>
-        <th scope="col">Momentos Avaliação 3</th>
-        <th scope="col">Momentos Avaliação 4</th>
-        <th scope="col">Média</th>
-        <th scope="col">Observações</th>
-        <th scope="col">Acções</th>
-      </tr>
+          <form id="alunoForm" method="GET" action="">
+            @csrf
+            <div class="card-body">
+              <div class="row g-3 mb-3">
+                <!-- Nome -->
+                <div class="col-md-6">
+                  <label for="nome" class="form-label">Nome aluno*</label>
+                  <input type="text" class="form-control rounded-0" id="nome" name="nome" >
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control rounded-0" id="email" name="email">
+                </div>
+
+                <!-- Telemóvel -->
+                <div class="col-md-6">
+                  <label for="telefone" class="form-label">Telemóvel</label>
+                  <input type="text" class="form-control rounded-0" id="telefone" name="telefone">
+                </div>
+
+                <!-- Instituições (multi) -->
+                <div class="col-md-6">
+                  <label for="instituicao_ids" class="form-label">Instituições*</label>
+                  <select class="form-control"
+                          id="instituicao_ids"
+                          name="instituicao_ids[]"
+                          multiple
+                          size="4"
+                          required>
+                    @foreach($instituicoes ?? [] as $inst)
+                      <option value="{{ $inst->id }}">{{ $inst->nomeInstituicao }}</option>
+                    @endforeach
+                  </select>
+                  <small class="text-muted">Segura Ctrl/⌘ para escolher várias.</small>
+                </div>
+
+                <!-- Cursos (multi, dependente das instituições) -->
+                <div class="col-md-6">
+                  <label for="curso_ids" class="form-label">Cursos*</label>
+                  <select class="form-control"
+                          id="curso_ids"
+                          name="curso_ids[]"
+                          multiple
+                          size="4"
+                          required
+                          disabled>
+                  </select>
+                  <small class="text-muted">Escolhe primeiro as instituições.</small>
+                </div>
+
+                <!-- Módulos (multi, dependente dos cursos) -->
+                <div class="col-md-6">
+                  <label for="modulo_ids" class="form-label">Módulos*</label>
+                  <select class="form-control"
+                          id="modulo_ids"
+                          name="modulo_ids[]"
+                          multiple
+                          size="4"
+                          required
+                          disabled>
+                  </select>
+                  <small class="text-muted">Escolhe primeiro os cursos.</small>
+                </div>
+
+                <!-- Observações -->
+                <div class="col-12">
+                  <label for="observacoes" class="form-label">Observações</label>
+                  <textarea class="form-control rounded-0" id="observacoes" name="observacoes" rows="3"></textarea>
+                </div>
+              </div>
+
+              <div id="alunoErro" class="text-danger" style="display:none;"></div>
+            </div>
 
 
-      </tr>
-
-    </thead>
-
-    <tbody>
-      @foreach ($alunos as $aluno )
-      <tr data-instituicao="" data-curso="">
-          <th scope="row">{{$aluno->id}}</th>
-          <td>{{$aluno->nome}}</td>
-          <td>{{$aluno->email}}</td>
-          <td>{{$aluno->observacoes}}</td>
-          <td></td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td></td>
-          <td><button class="btn btn-sm btn-primary">Editar</button></td>
-
-
-
-        </tr>
-      @endforeach
+                 <!-- TABELA ALUNO -->
+                 <div class="table-responsive">
+                 <table class="table table-hover table-bordered" id="tabelaAlunos">
+                    <thead>
+              <!-- Cabeçalhos das colunas -->
+                      <tr>
+                        <th scope="col">Nr</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Avaliação 1</th>
+                        <th scope="col">Avaliação 2</th>
+                        <th scope="col">Avaliação 3</th>
+                        <th scope="col">Avaliação 4</th>
+                        <th scope="col">Avaliação 5</th>
+                        <th scope="col">Média</th>
+                        <th scope="col">Faltas</th>
+                        <th scope="col">Comportamento</th>
+                        <th scope="col">Participação</th>
 
 
-    </tbody>
-  </table>
+                      </tr>
+
+
+                    </thead>
+
+                    <tbody>
+
+
+                          <th scope="row">idDoAluno</th>
+                          <td>nomeDoAluno</td>
+                          <td><input class="form-control form-control-sm" type="number"></td>
+                          <td><input class="form-control form-control-sm" type="number"></td>
+                          <td><input class="form-control form-control-sm" type="number"></td>
+                          <td><input class="form-control form-control-sm" type="number"></td>
+                          <td><input class="form-control form-control-sm" type="number"></td>
+                          <td><input class="form-control form-control-sm" type="number"  value="12"></td>                          <td><input type="number" class="form-control form-control-sm" min="0" step="1" value="0"></td>
+                          <td><input class="form-control form-control-sm" type="number"></td>
+                          <td><input class="form-control form-control-sm" type="number"></td>
+
+
+
+
+
+
+
+
+
+
+                    </tbody>
+                  </table>
+                </div>
+
+            <div class="card-footer text-end">
+              <button type="reset" class="btn btn-secondary rounded-0">Cancelar</button>
+              <button type="submit" class="btn btn-primary rounded-0">Guardar</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+
+
+
+
 
 
   <div class="informacaoAluno">

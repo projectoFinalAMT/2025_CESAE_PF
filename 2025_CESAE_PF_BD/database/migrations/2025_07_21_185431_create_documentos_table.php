@@ -18,8 +18,6 @@ return new class extends Migration
             $table->date('dataValidade');
             $table->unsignedBigInteger('categoria_documentos_id');
             $table->foreign('categoriad_ocumentos_id')->references('id')->on('categoria_documentos');
-            $table->unsignedBigInteger('formato_documentos_id');
-            $table->foreign('formato_documentos_id')->references('id')->on('formato_documentos');
             $table->unsignedBigInteger('estado_documentos_id');
             $table->foreign('estado_documentos_id')->references('id')->on('estado_documentos');
             $table->unsignedBigInteger('users_id');

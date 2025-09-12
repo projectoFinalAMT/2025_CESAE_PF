@@ -107,7 +107,31 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-//Aparecer Botão Selecionado Assiciado
+//Aparecer Botão Selecionado
+document.addEventListener("DOMContentLoaded", () => {
+    const apagarBtn = document.getElementById("apagarSelecionados");
+    const exportarBtn = document.getElementById("exportarSelecionados");
+    const checkboxes = document.querySelectorAll(".card-cursos .form-check-input");
+
+    checkboxes.forEach((cb) => {
+        cb.addEventListener("change", () => {
+            const algumSelecionado = Array.from(checkboxes).some((c) => c.checked);
+
+            apagarBtn.style.display = algumSelecionado ? "inline-block" : "none";
+
+            // Só mostra exportar se o selecionado for de um card pessoal
+            const algumPessoalSelecionado = Array.from(checkboxes).some(
+                (c) => c.checked && c.closest(".card-pessoal")
+            );
+
+            exportarBtn.style.display = algumPessoalSelecionado
+                ? "inline-block"
+                : "none";
+        });
+    });
+});
+
+//Aparecer Botão Selecionado Modulo
 document.addEventListener("DOMContentLoaded", () => {
     const apagarBtn = document.getElementById("apagarSelecionadosAssociados");
     const checkboxes = document.querySelectorAll(
@@ -123,6 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
             apagarBtn.style.display = algumSelecionado
                 ? "inline-block"
                 : "none";
+
+
         });
     });
 });
@@ -185,8 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
         idsSelecionadosInput.value = selecionados.join(",");
     });
 });
-
-
 
 //tempo post sucess
 document.addEventListener("DOMContentLoaded", function () {
@@ -314,50 +338,155 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-//tipo documento pessoal ou apoio
+//documentos, link ou arquivo
 const botoesTipo = document.querySelectorAll('.tipo-btn');
 const hiddenTipo = document.getElementById('tipo_documento_hidden');
+const selectOrigem = document.getElementById("origem_documento");
+const campoArquivo = document.getElementById("campo-arquivo");
+const campoLink = document.getElementById("campo-link");
+const inputArquivo = document.getElementById("arquivo_documento");
+const inputLink = document.getElementById("link_documento");
+const vitalicioCheckbox = document.getElementById('vitalicio');
+const validadeInput = document.getElementById('dataValidade');
+const labelValidade = document.getElementById('labelValidade');
 
+// Select origem documento
+selectOrigem.addEventListener("change", function () {
+    toggleRequired();
+    aplicarRegraVitalicio();
+});
+
+function toggleRequired() {
+    if (selectOrigem.value === "arquivo") {
+        campoArquivo.classList.remove("d-none");
+        campoLink.classList.add("d-none");
+
+        inputArquivo.required = true;
+        inputLink.required = false;
+        inputLink.value = "";
+    } else {
+        campoArquivo.classList.add("d-none");
+        campoLink.classList.remove("d-none");
+
+        inputArquivo.required = false;
+        inputLink.required = true;
+        inputArquivo.value = "";
+    }
+}
+
+function esconderValidade() {
+    validadeInput.hidden = true;
+    labelValidade.hidden = true;
+}
+
+function mostrarValidade() {
+    validadeInput.hidden = false;
+    labelValidade.hidden = false;
+}
+
+function aplicarRegraVitalicio() {
+    const tipo = hiddenTipo.value; // pessoal ou apoio
+    const origem = selectOrigem.value; //arquivo ou link
+
+    if (tipo === "pessoal" && origem === "link") {
+        vitalicioCheckbox.checked = true;
+        validadeInput.value = "9999-01-01";
+        esconderValidade();
+
+    } else if (tipo === "pessoal" && origem === "arquivo") {
+        vitalicioCheckbox.checked = false;
+        validadeInput.value = "";
+        mostrarValidade();
+    }
+}
+
+// Botões tipo documento
 botoesTipo.forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
         botoesTipo.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
 
         const tipo = this.getAttribute('data-tipo'); // pessoal ou apoio
         hiddenTipo.value = tipo;
 
-        // alternar os forms
+        // alternar forms
         document.querySelectorAll('.form-tipo').forEach(f => f.style.display = 'none');
         document.getElementById('form-' + tipo).style.display = 'block';
 
-        // adiciona required só no form pessoal
-        const validadeInput = document.getElementById('validade');
+        // validade obrigatória só no pessoal
         if (tipo === 'pessoal') {
             validadeInput.setAttribute('required', true);
         } else {
             validadeInput.removeAttribute('required');
         }
+
+        aplicarRegraVitalicio();
     });
 });
 
-//data vitalicia
-const vitalicioCheckbox = document.getElementById('vitalicio');
-const validadeInput = document.getElementById('validade');
-const labelValidade = document.getElementById ('labelValidade');
-
+// Checkbox vitalício manual
 vitalicioCheckbox.addEventListener('change', () => {
     if (vitalicioCheckbox.checked) {
         validadeInput.value = '9999-01-01';
-        validadeInput.hidden = true;
-        labelValidade.hidden = true;
-
+        esconderValidade();
     } else {
         validadeInput.value = '';
-        validadeInput.hidden = false;
-        labelValidade.hidden = false;
+        mostrarValidade();
     }
+});
+
+//Documento com data para expirar
+document.addEventListener("DOMContentLoaded", function () {
+    const hoje = new Date();
+
+    document.querySelectorAll(".validade-doc").forEach(function (el) {
+        const validadeStr = el.dataset.validade;
+        if (!validadeStr) return;
+
+        const validade = new Date(validadeStr);
+        const diffDias = Math.ceil((validade - hoje) / (1000 * 60 * 60 * 24));
+
+        if (validade < hoje) {
+            el.innerHTML = `<i class="bi bi-x-circle text-danger"></i> Expirado em ${validade.toLocaleDateString("pt-PT")}`;
+        } else if (diffDias <= 30) {
+            el.innerHTML = `<i class="bi bi-exclamation-triangle text-warning"></i> Por expirar em ${validade.toLocaleDateString("pt-PT")}`;
+        } else {
+            el.innerHTML = `<i class="bi bi-clock text-success"></i> Expira em ${validade.toLocaleDateString("pt-PT")}`;
+        }
+    });
+});
+
+//exportar
+document.getElementById('exportarSelecionados').addEventListener('click', async () => {
+    const checkboxes = document.querySelectorAll('.pdfSelect:checked');
+    if (checkboxes.length === 0) return alert('Selecione ao menos um PDF!');
+
+    const mergedPdf = await PDFLib.PDFDocument.create();
+
+    for (let cb of checkboxes) {
+        const url = cb.dataset.url;
+        const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());
+        const pdf = await PDFLib.PDFDocument.load(existingPdfBytes);
+        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+        copiedPages.forEach(page => mergedPdf.addPage(page));
+    }
+
+    const mergedPdfFile = await mergedPdf.save();
+    const blob = new Blob([mergedPdfFile], { type: 'application/pdf' });
+
+    // Cria link para download
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'documentos_unificados.pdf';
+    link.click();
 });
 
 
 
+
+
+document.querySelector('.profile img').addEventListener('click', function() {
+    var myModal = new bootstrap.Modal(document.getElementById('novoUserModal'));
+    myModal.show();
+});
 

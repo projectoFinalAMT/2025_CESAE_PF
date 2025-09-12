@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
   selInst?.addEventListener('change', () => loadCursosByInsts(values(selInst)));
   selCurso?.addEventListener('change', () => loadModulosByCursos(values(selCurso)));
 
-  // Ao abrir o modal, limpa dependentes 
+  // Ao abrir o modal, limpa dependentes
   const modalEl = document.getElementById('alunoModal');
   modalEl?.addEventListener('show.bs.modal', () => {
     resetSelect(selCurso);
@@ -95,3 +95,32 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+
+
+// calculo das medias na tabela alunos
+function calculomedia(){
+
+   
+
+const avaliacoes = document.querySelectorAll('input[type="number"]');
+let divisor=0;
+let soma=0;
+
+console.log(avaliacoes)
+
+
+for(let avaliacao of avaliacoes){
+
+let valor = parseFloat(avaliacao.value);
+
+if (!isNaN(valor)){
+    soma += valor
+    divisor++
+}
+}
+let media= (soma/divisor).toFixed(2)
+
+//colocar a media na coluna da media
+let mediaDoAluno= document.querySelector('.mediaAluno');
+mediaDoAluno.value=media
+}

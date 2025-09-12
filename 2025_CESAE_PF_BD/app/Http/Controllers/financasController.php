@@ -74,7 +74,6 @@ public function index(Request $request)
                              ->sum('valor_liquido');
 
 
-
     // -------- Agrupar e somar valores por instituição --------
     $agrupado = [];   // Array que vai armazenar os dados agrupados
     $somaTotal = 0;   // Guarda o total de todas as faturas (para calcular percentagem)
@@ -107,6 +106,9 @@ public function index(Request $request)
 
         // Se soma total > 0, calcula a percentagem; caso contrário 0
         $item['percent'] = $somaTotal > 0 ? number_format(($item['valor'] / $somaTotal) * 100, 2) : 0;
+      
+        return view('financas.financas_home', compact('cursos', 'instituicoes', 'modulos', 'estados', 'financas', 'recebimentos'));
+
     }
 
     // Reindexa o array para evitar chaves associativas (opcional para a Blade)
@@ -282,3 +284,5 @@ public function apagar(Request $request, Financa $financa){
                      ->with('success', 'Fatura eliminada com sucesso!');
 }
 }
+
+
