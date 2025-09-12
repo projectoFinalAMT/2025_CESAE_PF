@@ -111,7 +111,7 @@ public function index(Request $request)
 
     // Reindexa o array para evitar chaves associativas (opcional para a Blade)
     $faturacaoInstituicoes = array_values($agrupado);
-    
+
     return view('financas.financas_home', compact(
         'cursos',
         'instituicoes',
