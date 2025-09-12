@@ -9,12 +9,13 @@
 @section('scripts')
     <script src="{{ asset('js/cursos.js') }}" defer></script>
     <script src="{{ asset('js/documentos.js') }}" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" defer></script>
 @endsection
 
 @section('content')
     <div class="content">
         <div class="container my-4">
-               <!-- Toast de sucesso -->
+            <!-- Toast de sucesso -->
             @if (session('success'))
                 <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
                     <div id="successToast" class="toast align-items-center text-bg-success border-0 show" role="alert"
@@ -48,6 +49,8 @@
                 <div class="mb-4">
                     <button id="apagarSelecionados" class="btn btn-novo-curso" style="display:none;" data-bs-toggle="modal"
                         data-bs-target="#confirmarEliminar">Apagar Selecionados</button>
+                    <button id="exportarSelecionados" class="btn btn-novo-curso" style="display:none;"
+                        data-bs-toggle="modal" data-bs-target="#Exportar">Exportar Documentos</button>
                     <button class="btn btn-novo-curso me-2" data-bs-toggle="modal" data-bs-target="#novoDocumentoModal">+
                         Novo Documento</button>
                 </div>
@@ -59,41 +62,68 @@
             <!-- Modal de confirmação -->
             @include('componentes.documento.eliminar-documento')
 
-                        <!-- Modal de eliminar associados  -->
+            <!-- Modal de eliminar associados  -->
             @include('componentes.documento.eliminar-associados')
 
             <!-- Grid de documentos -->
             <div class="row g-4">
-                 {{-- Documentos Apoio --}}
+                {{-- Documentos Apoio --}}
                 @foreach ($documentosApoio as $doc)
                     <div class="col-12 col-md-6 col-lg-4 card-apoio">
                         <div class="card card-cursos">
                             <div class="card-body">
-                               <div class="row d-flex justify-content-between">
+                                <div class="row d-flex justify-content-between">
                                     <div class="col-12 col-md-10">
                                         <h5 class="card-title">{{ $doc->nome }}</h5>
-                                        <h6 class="card-subtitle fw-light mb-4">
-                                            {{ strtoupper($doc->formatoDocumento->nomeFormato ?? 'PDF') }}
-                                        </h6>
                                     </div>
                                     <div class="col-12 col-md-2 d-flex align-items-center justify-content-end">
                                         <div class="form-check position-absolute top-0 end-0 m-2">
                                             <input class="form-check-input" type="checkbox" value="{{ $doc->id }}"
                                                 name="documentos[]" id="selecionarDoc{{ $doc->id }}">
-                                            <label class="form-check-label"
-                                                for="selecionarDoc{{ $doc->id }}"></label>
+                                            <label class="form-check-label" for="selecionarDoc{{ $doc->id }}"></label>
                                         </div>
                                     </div>
                                 </div>
                                 <p class="card-text fw-light">{{ $doc->descricao ?? '' }}</p>
                                 <div class="d-flex justify-content-between mt-4">
-                                    <a href="{{ asset('storage/' . $doc->caminhoDocumento) }}" class="btn btn-sm btn-novo-curso"
-                                        target="_self"><i class="bi bi-eye-fill"></i> Preview</a>
-                                    <a href="{{ asset('storage/' . $doc->caminhoDocumento) }}" class="btn btn-sm btn-novo-curso"
-                                        download><i class="bi bi-download"></i> Download</a>
-                                    <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
-                                        data-bs-target="#confirmarEliminar" data-id="{{ $doc->id }}"><i
-                                            class="bi bi-trash-fill"></i> Apagar</button>
+                                    @php
+                                        // Detecta se é link externo
+                                        $isLink = Str::startsWith($doc->caminhoDocumento, ['http://', 'https://']);
+
+                                        // Se for link, usa direto; se for arquivo, usa asset para storage
+                                        $url = $isLink
+                                            ? $doc->caminhoDocumento
+                                            : asset(str_replace('public/', 'storage/', $doc->caminhoDocumento));
+                                    @endphp
+
+                                    @if ($isLink)
+                                        <div class="">
+                                            <!-- Links externos abrem na nova aba -->
+                                            <a href="{{ $url }}" class="btn btn-sm btn-novo-curso"
+                                                target="_blank">
+                                                <i class="bi bi-box-arrow-up-right"></i> Abrir Link
+                                            </a>
+                                            <!-- Apagar -->
+                                            <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
+                                                data-bs-target="#confirmarEliminar" data-id="{{ $doc->id }}">
+                                                <i class="bi bi-trash-fill"></i> Apagar
+                                            </button>
+                                        </div>
+                                    @else
+                                        <!-- Preview -->
+                                        <a href="{{ $url }}" class="btn btn-sm btn-novo-curso" target="_self">
+                                            <i class="bi bi-eye-fill"></i> Preview
+                                        </a>
+                                        <!-- Arquivos permitem download -->
+                                        <a href="{{ $url }}" class="btn btn-sm btn-novo-curso" download>
+                                            <i class="bi bi-download"></i> Download
+                                        </a>
+                                        <!-- Apagar -->
+                                        <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
+                                            data-bs-target="#confirmarEliminar" data-id="{{ $doc->id }}">
+                                            <i class="bi bi-trash-fill"></i> Apagar
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -108,14 +138,14 @@
                                 <div class="row d-flex justify-content-between">
                                     <div class="col-12 col-md-10">
                                         <h5 class="card-title">{{ $doc->nome }}</h5>
-                                        <h6 class="card-subtitle fw-light mb-4">
-                                            {{ strtoupper($doc->formatoDocumento->nomeFormato ?? 'PDF') }}
-                                        </h6>
+
                                     </div>
                                     <div class="col-12 col-md-2 d-flex align-items-center justify-content-end">
                                         <div class="form-check position-absolute top-0 end-0 m-2">
-                                            <input class="form-check-input" type="checkbox" value="{{ $doc->id }}"
-                                                name="documentos[]" id="selecionarDoc{{ $doc->id }}">
+                                            <input class="form-check-input pdfSelect" type="checkbox"
+                                                value="{{ $doc->id }}" name="documentos[]"
+                                                id="selecionarDoc{{ $doc->id }}"
+                                                data-url="{{ asset($doc->caminhoDocumento) }}">
                                             <label class="form-check-label"
                                                 for="selecionarDoc{{ $doc->id }}"></label>
                                         </div>
@@ -123,26 +153,58 @@
                                 </div>
                                 <p class="card-text fw-light">{{ $doc->descricao ?? '' }}</p>
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <div class="d-flex col-12 col-md-8">
-                                        @if ($doc->dataValidade && \Carbon\Carbon::parse($doc->dataValidade)->year < 9999)
-                                            <span class="card-text"><i class="bi bi-clock"></i> Expira em
-                                                {{ \Carbon\Carbon::parse($doc->dataValidade)->format('d/m/Y') }}</span>
-                                        @else
-                                            <span class="card-text"><i class="bi bi-infinity"></i> Vitalício</span>
-                                        @endif
-                                    </div>
+                                    <div class="d-flex col-12 col-md-9">
+    @if ($doc->dataValidade && \Carbon\Carbon::parse($doc->dataValidade)->year < 9999)
+        <span class="card-text validade-doc"
+              data-validade="{{ \Carbon\Carbon::parse($doc->dataValidade)->format('Y-m-d') }}">
+            <!-- O JS vai preencher aqui -->
+        </span>
+    @else
+        <span class="card-text"><i class="bi bi-infinity"></i> Vitalício</span>
+    @endif
+</div>
 
                                 </div>
                                 <div class="d-flex justify-content-between mt-4">
-                                    <a href="{{ asset('storage/' . $doc->caminhoDocumento) }}"
-                                        class="btn btn-sm btn-novo-curso" target="_self"><i class="bi bi-eye-fill"></i>
-                                        Preview</a>
-                                    <a href="{{ asset('storage/' . $doc->caminhoDocumento) }}"
-                                        class="btn btn-sm btn-novo-curso" download><i class="bi bi-download"></i>
-                                        Download</a>
-                                    <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
-                                        data-bs-target="#confirmarEliminar" data-id="{{ $doc->id }}"><i
-                                            class="bi bi-trash-fill"></i> Apagar</button>
+                                    @php
+                                        // Detecta se é link externo
+                                        $isLink = Str::startsWith($doc->caminhoDocumento, ['http://', 'https://']);
+
+                                        // Se for link, usa direto; se for arquivo, usa asset para storage
+                                        $url = $isLink
+                                            ? $doc->caminhoDocumento
+                                            : asset(str_replace('public/', 'storage/', $doc->caminhoDocumento));
+                                    @endphp
+
+                                    @if ($isLink)
+                                        <div class="">
+                                            <!-- Links externos abrem na nova aba -->
+                                            <a href="{{ $url }}" class="btn btn-sm btn-novo-curso"
+                                                target="_blank">
+                                                <i class="bi bi-box-arrow-up-right"></i> Abrir Link
+                                            </a>
+                                            <!-- Apagar -->
+                                            <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
+                                                data-bs-target="#confirmarEliminar" data-id="{{ $doc->id }}">
+                                                <i class="bi bi-trash-fill"></i> Apagar
+                                            </button>
+                                        </div>
+                                    @else
+                                        <!-- Preview -->
+                                        <a href="{{ $url }}" class="btn btn-sm btn-novo-curso" target="_self">
+                                            <i class="bi bi-eye-fill"></i> Preview
+                                        </a>
+                                        <!-- Arquivos permitem download -->
+                                        <a href="{{ $url }}" class="btn btn-sm btn-novo-curso" download>
+                                            <i class="bi bi-download"></i> Download
+                                        </a>
+                                        <!-- Apagar -->
+                                        <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
+                                            data-bs-target="#confirmarEliminar" data-id="{{ $doc->id }}">
+                                            <i class="bi bi-trash-fill"></i> Apagar
+                                        </button>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>

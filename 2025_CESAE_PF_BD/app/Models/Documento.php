@@ -11,8 +11,7 @@ class Documento extends Model
         'caminhoDocumento',
         'dataValidade',
         'categoria_documento_id',
-        'formato_documentos_id',
-        'descricao', 
+        'descricao',
         'estado_documentos_id',
         'users_id',
     ];
@@ -22,10 +21,7 @@ class Documento extends Model
         return $this->belongsTo(CategoriaDocumento::class, 'categoria_documento_id');
     }
 
-    public function formatoDocumento()
-    {
-        return $this->belongsTo(FormatoDocumento::class, 'formato_documentos_id');
-    }
+   
 
     public function modulos()
     {
