@@ -21,6 +21,7 @@ class financasController extends Controller
 
         $financas = Financa::with(['recebimento', 'instituicao'])->get();
 
+
         return view('financas.financas_home', compact('cursos', 'instituicoes', 'modulos', 'estados', 'financas', 'recebimentos'));
     }
 
@@ -171,3 +172,5 @@ public function apagar(Request $request, Financa $financa){
 }
 
 }
+
+

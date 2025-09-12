@@ -1,12 +1,14 @@
 @extends('layouts.fe_master')
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- css bootstrap -->
+
     <!-- css interno -->
     <link rel="stylesheet" href="{{ asset('css/dashboard_css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/cursos_home.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modulos_home.css') }}">
     <link rel="stylesheet" href="{{ asset('css/documentos_home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/alunos.css') }}">
+
     @endsection
 
 
@@ -121,7 +123,7 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                   <thead>
                     <!-- Linha de controlos -->
                     <tr>
-                      <th scope="col" colspan="6">
+                      <th scope="col" colspan="8">
                         <div class="d-flex flex-wrap gap-2 align-items-center">
                             <button
                             class="btn btn-light btn-sm"
@@ -130,7 +132,6 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                             data-bs-target="#alunoModal">
                             Adicionar aluno
                           </button>
-
 
                           <input type="text" class="form-control form-control-sm" style="max-width:200px"
                                  placeholder="Pesquisar por nome ou email..." id="pesquisaAlunos">
@@ -167,10 +168,9 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                                 @foreach ($modulos as $modulo )
                                 <li><a class="dropdown-item" href="#" data-valor="">{{$modulo->nomeModulo}}</a></li>
                                 @endforeach
-
                             </ul>
+                            <button type="button" class="ms-3 btn btn-success">Atualizar</button>
                           </div>
-
                         </div>
                       </th>
                     </tr>
@@ -183,14 +183,11 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                       <th scope="col">Avaliação 2</th>
                       <th scope="col">Avaliação 3</th>
                       <th scope="col">Avaliação 4</th>
-                      <th scope="col">Avaliação 5</th>
+                      <th scope="col">Presenças</th>
                       <th scope="col">Média</th>
+                      <th scope="col">Observações</th>
                       <th scope="col">Acções</th>
                     </tr>
-
-
-                    </tr>
-
                   </thead>
 
                   <tbody>
@@ -198,24 +195,20 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                     <tr data-instituicao="" data-curso="">
                         <th scope="row">{{$listaAluno->id}}</th>
                         <td>{{$listaAluno->nome}}</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>valor média</td>
-
-                        <td><button type="button" class="btn btn-outline-primary">Ver</button>
-                            <button type="button" class="btn btn-outline-success">Editar</button>
-                        </td>
-
-
-
+                        <td><input class="form-control form-control-sm" type="number"></td>
+                        <td><input class="form-control form-control-sm" type="number"></td>
+                        <td><input class="form-control form-control-sm" type="number"></td>
+                        <td><input class="form-control form-control-sm" type="number"></td>
+                        <td><input class="form-control form-control-sm" type="number" min="0" step="1"></td>
+                        <td><input class="mediaAluno form-control form-control-sm" type="number" value="" readonly></td>
+                        <td>
+                            <textarea class="form-control form-control-sm" rows="3" style="resize: none;"></textarea>
+                          </td>
+                        <td><button onclick="calculomedia()" type="button" class="btn btn-outline-primary">Ver Aluno</button></td>
                       </tr>
                     @endforeach
-
-
                   </tbody>
+
                 </table>
 
               </div>
