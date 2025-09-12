@@ -1,3 +1,4 @@
+// -------- CÁLCULO VALORES CARD FATURAÇÃO/CARD GANHOS/CARD EXPECTÁVEL --------
 document.addEventListener("DOMContentLoaded", function () {
   const qtd = document.getElementById("fatura-qtd"); // input quantidade_hora
   const valor = document.getElementById("fatura-valor"); // input valor_hora
@@ -39,8 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Subtotal - IRS (o IVA não conta porque é devolvido)
     const valorLiquidoReal = subtotal - valorIrs;
 
-
-    // --- DEBUG ---
+    // Debug
   console.log({
     qtdVal,
     valorUnitario,
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     total,
     valorLiquidoReal
   });
-  
+
     valorTotalInput.value = total.toFixed(2);
     valorIvaInput.value = valorIva.toFixed(2);
     valorIrsInput.value = valorIrs.toFixed(2);
@@ -76,89 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
-
-
-
-// CARD GANHOS POR INSTITUIÇÃO
-
-document.addEventListener("DOMContentLoaded", () => {
-  // Dados iniciais
-  const instituicoes = ["CESAE", "LSD", "ISTEC", "ISLA", "ESTEL"];
-  const cores = ["#a78bfa", "#ef4444", "#3b82f6", "#22c55e", "#4338ca"];
-  const valores = [41.35, 21.51, 13.47, 9.97, 3.35];
-
-  const ctx = document.getElementById("donutInstituicoes").getContext("2d");
-
-  let chartDonut = new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: instituicoes,
-      datasets: [{
-        data: valores,
-        backgroundColor: cores
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false }
-      }
-    }
-  });
-
-  function atualizarLegenda() {
-    const lista = document.getElementById("listaInstituicoes");
-    lista.innerHTML = "";
-    chartDonut.data.labels.forEach((label, i) => {
-      lista.innerHTML += `
-        <li class="d-flex align-items-center mb-2">
-          <span class="badge rounded-circle me-2" style="background-color:${cores[i]};">&nbsp;</span>
-          <span class="text-secondary">${label}</span>
-          <span class="ms-auto fw-bold text-dark">${chartDonut.data.datasets[0].data[i]}%</span>
-        </li>`;
-    });
-  }
-  atualizarLegenda();
-
-  // Aplicar filtros
-  document.getElementById("btnAplicarFiltro").addEventListener("click", () => {
-    const checks = document.querySelectorAll("#checkInstituicoes input[type=checkbox]");
-    const novasLabels = [];
-    const novosValores = [];
-    const novasCores = [];
-
-    checks.forEach((check, i) => {
-      if (check.checked) {
-        novasLabels.push(instituicoes[i]);
-        novosValores.push(valores[i]);
-        novasCores.push(cores[i]);
-      }
-    });
-
-    chartDonut.data.labels = novasLabels;
-    chartDonut.data.datasets[0].data = novosValores;
-    chartDonut.data.datasets[0].backgroundColor = novasCores;
-    chartDonut.update();
-
-    atualizarLegenda();
-
-    // Manter seleção original
-    document.getElementById("btnSelecionarTudo").addEventListener("click", function () {
-    document.querySelectorAll("#checkInstituicoes input[type='checkbox']").forEach(cb => {
-        cb.checked = true;
-    });
-});
-
-
-    // Fechar modal
-    const modal = bootstrap.Modal.getInstance(document.getElementById("modalFiltroInstituicao"));
-    modal.hide();
-  });
-});
-
-
-// CARD FATURAS
+// -------- CARD FATURAS --------
 document.addEventListener("DOMContentLoaded", () => {
   const linhasTabela = document.querySelectorAll("#tabelaFaturas tr");
 
@@ -198,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// TOAST TEMPORÁRIO
+// -------- TOAST TEMPORÁRIO - MENSAGEM DE SUCESSO --------
 document.addEventListener('DOMContentLoaded', function () {
     const toastEl = document.getElementById('successToast');
     if(toastEl){
@@ -208,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// Botão fechar collapse
+// -------- FECHAR BOTÃO COLLAPSE (ALTERAÇÃO ESTADO FATURA) --------
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.js-close-collapse').forEach(btn => {
         btn.addEventListener('click', e => {
@@ -226,5 +144,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// -------- MENSAGEM: TEM A CERTEZA QUE DESEJA ELIMINAR FATURA? --------
+document.addEventListener('DOMContentLoaded', function () {
+    const confirmarEliminarModal = document.getElementById('confirmarEliminar');
+    const formEliminar = document.getElementById('formEliminar');
 
+    if (confirmarEliminarModal) {
+        confirmarEliminarModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // botão que abriu o modal
+            const id = button.getAttribute('data-id'); // pega o id da fatura
 
+            // Atualiza o action do form com a rota correta
+            formEliminar.action = `/financas/${id}`;
+        });
+    }
+});
