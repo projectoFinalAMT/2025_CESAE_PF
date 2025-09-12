@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+class UserController extends Controller
+{
+    public function store(Request $request)
+    {
+
+
+        // Validação dos dados
+        $validated = $request->validate([
+    'name' => 'required|string|max:255',
+    'email' => 'required|email|unique:users,email',
+    'telefone' => 'required|string|max:20',
+    'password' => 'required|string|min:6|confirmed',
+], [
+    'email.unique' => 'Este email já está registado.',
+    'password.confirmed' => 'A confirmação da password não coincide.',
+]);
+
+        // Criação do utilizador
+        $user = User::create([
+            'name' => $validated['name'],
+            'dataNascimento' => $validated['dataNascimento'] ?? null,
+            'email' => $validated['email'],
+            'telefone' => $validated['telefone'],
+            'morada' => $validated['morada'] ?? null,
+            'password' => Hash::make($validated['password']),
+        ]);
+
+
+
+        return redirect()->route('login')
+            ->with('success', 'Usuário criado com sucesso!');
+    }
+}
+
+
+
+

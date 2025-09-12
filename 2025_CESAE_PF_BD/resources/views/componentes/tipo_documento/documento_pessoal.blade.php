@@ -7,7 +7,7 @@
 
                             <div class="col-md-4">
                                 <label for="validade" id="labelValidade" class="form-label">Data de Validade*</label>
-                                <input type="date" class="form-control" id="validade" name="validade">
+                                <input type="date" class="form-control" id="dataValidade" name="dataValidade">
                             </div>
 
                             <div class="col-md-3 d-flex align-items-center">

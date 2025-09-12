@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    
+
     <title>Document</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"> <!--icons bootstrap -->
@@ -49,10 +49,12 @@
     <div class="text-right py-3">
       <img src="{{asset('image/logo.png')}}" alt="Logo" width="100" height="auto" class="mb-3">
     </div>
-
+  @include('componentes.perfil.perfil')
     <div class="profile text-center py-3">
-      <img src="{{asset('image/008.1.jpg')}}" alt="Foto de perfil" class="rounded-circle mb-2" width="120" height="120">
-      <h5>Fernando</h5>
+      <img src="{{asset('image/008.1.jpg')}}" alt="Foto de perfil" class="rounded-circle mb-2" width="120" height="120"  style="cursor:pointer;"
+       data-bs-toggle="modal"
+       data-bs-target="#novoUserModal">
+      <h5>{{ Auth::user()->name }}</h5>
     </div>
 
     <a href="{{route ('casa')}}"><i class="bi bi-display"></i> Dashboard</a>
@@ -63,7 +65,14 @@
     <a href="{{ route('calendarioBladeView') }}"><i class="bi bi-calendar-event-fill"></i> Calendário</a>
     <a href="{{ route('documentos') }}"><i class="bi bi-file-earmark-text-fill"></i> Documentos</a>
     <a href="{{ route('financas') }}"><i class="bi bi-currency-dollar"></i> Finanças</a>
-    <a href="#" id="sair"><i class="bi bi-box-arrow-left"></i> Sair</a>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+    @csrf
+</form>
+
+<a href="#" id="sair" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+    <i class="bi bi-box-arrow-left"></i> Sair
+</a>
+
   </div>
 </div>
     @yield('content') <!--permite usar nas outras blades o layout-->

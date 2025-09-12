@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\cursoController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\loginController;
@@ -14,14 +15,19 @@ use App\Http\Controllers\CursoModuloController;
 use App\Http\Controllers\instituicaoController;
 use App\Http\Controllers\RecebimentoController;
 use App\Http\Controllers\DocumentoModuloController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 // Route::get('/home', function () {
 //     return view('welcome');
 // });
 
+Route::post('/user', [UserController::class, 'store'])->name('user.store');
+
+Route::post('/logout', function () { Auth::logout();
+    return redirect('/login'); })->name('logout');
 
 // Dashboard
-Route::get('/dashboard', [homeController::class, 'index'])->name('casa');
+Route::get('/home', [homeController::class, 'index'])->name('casa');
 
 //alunos
 Route::get('/alunos', [AlunosController::class, 'index'])->name('alunos_view');
@@ -102,7 +108,6 @@ Route::get('/events/export', [EventController::class, 'exportExcel'])->name('eve
 
 
 
-// Login
-Route::get('/login', [loginController::class, 'login'])->name('loginRoute');
+
 
 
