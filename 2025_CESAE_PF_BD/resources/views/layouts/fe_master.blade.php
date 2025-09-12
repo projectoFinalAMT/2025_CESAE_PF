@@ -49,12 +49,12 @@
     <div class="text-right py-3">
       <img src="{{asset('image/logo.png')}}" alt="Logo" width="100" height="auto" class="mb-3">
     </div>
-  @include('componentes.perfil.perfil')
+
     <div class="profile text-center py-3">
       <img src="{{asset('image/008.1.jpg')}}" alt="Foto de perfil" class="rounded-circle mb-2" width="120" height="120"  style="cursor:pointer;"
        data-bs-toggle="modal"
        data-bs-target="#novoUserModal">
-      <h5>{{ Auth::user()->name }}</h5>
+      <h5>{{ explode(' ', Auth::user()->name)[0] }}</h5>
     </div>
 
     <a href="{{route ('casa')}}"><i class="bi bi-display"></i> Dashboard</a>

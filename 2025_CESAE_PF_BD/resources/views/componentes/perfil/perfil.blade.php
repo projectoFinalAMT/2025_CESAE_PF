@@ -9,7 +9,7 @@
                             <div class="profile text-center me-3">
                                 <img src="" alt="Foto de perfil" class="rounded-circle mb-2" width="90"
                                     height="90">
-                                <h6 class="mb-0">Nome</h6>
+                                <h6 class="mb-0">{{ explode(' ', Auth::user()->name)[0] }}</h6>
                             </div>
 
                             <!-- Título e subtítulo -->
@@ -40,7 +40,7 @@
                                 <!-- Linha 1: Nome -->
                                 <div class="mb-3">
                                     <label for="nome_user" class="form-label">Nome Completo*</label>
-                                    <input type="text" class="form-control" id="nome_user" name="nome_user" required>
+                                    <input type="text" class="form-control" id="nome_user" name="nome_user" value="" required>
                                 </div>
 
                                 <!-- Linha 2: Morada -->
