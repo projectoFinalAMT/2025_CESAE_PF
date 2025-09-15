@@ -47,6 +47,7 @@ class homeController extends Controller
 
 
 
+
   $instituicoes = Instituicao::all();
   // ajusta o nome da view para o que usas no dashboard
   return view('home', compact('modulos','instituicoes','mCurso','apontamentosHoje','alunos','totalCursosAtivos','totalCursosInativos','novosAlunos','aulasTotais','aulasSemanaAtual'));
