@@ -22,11 +22,21 @@
     <div class="content">
 
         <div class="container my-4">
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
+    <!-- Toast de sucesso -->
+            @if (session('success'))
+                <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+                    <div id="successToast" class="toast align-items-center text-bg-success border-0 show" role="alert"
+                        aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ session('success') }}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                                aria-label="Fechar"></button>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <!-- Título -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold">Dashboard</h2>

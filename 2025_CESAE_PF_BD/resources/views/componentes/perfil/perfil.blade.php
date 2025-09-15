@@ -6,8 +6,8 @@
                     <div class="modal-header d-flex align-items-center">
                         <!-- Foto e nome do perfil à esquerda -->
                         <div class="profile text-center me-3">
-                            <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('image\perfil_redondo_transparente.png') }}"
-                                alt="Foto de perfil" class="rounded-circle mb-2" width="90" height="90">
+                            <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('image\perfil.png') }}"
+                                alt="Foto de perfil" class="rounded-circle mb-2" width="125" height="125">
                             <h6 class="mb-0">{{ explode(' ', Auth::user()->name)[0] }}</h6>
                         </div>
 
@@ -17,7 +17,7 @@
                             <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
                         </div>
 
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+
                     </div>
 
                     <!-- Corpo do modal -->
@@ -27,12 +27,15 @@
                             @csrf
                             @method('PUT') <!-- importante para enviar como PUT -->
 
+
                             <!-- Botões adicionar foto e alterar password lado a lado -->
                             <div class="row g-3 mb-3">
                                 <div class="col d-flex gap-2 justify-content-end">
-                                    <input type="file" class="form-control" name="photo" accept="images/*">
-                                    <button type="button" class="btn btn-novo-curso"><i class="bi bi-people"></i>
-                                        Adicionar Foto</button>
+                                    <input type="file" class="form-control d-none" id="inputFoto" name="photo"
+                                        accept="image/*" style="width: 435px;">
+                                    <button type="button" class="btn btn-novo-curso" id="btnAddFoto">
+                                        <i class="bi bi-people"></i> Adicionar Foto
+                                    </button>
                                     <button type="button" class="btn btn-novo-curso"><i class="bi bi-shield-lock"></i>
                                         Alterar Password</button>
                                 </div>

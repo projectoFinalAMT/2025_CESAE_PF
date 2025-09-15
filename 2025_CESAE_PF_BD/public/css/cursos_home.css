@@ -1,19 +1,31 @@
+body {
+    background-color: #FAF7F2;
+    color: #4B3F32;
+}
+
 .btn-novo-curso {
   border: none;
-  border-radius: 0px !important;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+  border-radius: 0px;
+  background-color: #52796F;
+  color: #EAF4F4;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   transition: background-color 0.3s, color 0.3s;
 }
 
 .btn-novo-curso:hover {
-  background-color: rgb(245, 244, 244);
+  background-color: #73ac99;
+  color: #EAF4F4;
+
 }
+
 
 #corCurso:hover{
 background-color: white !important;
 }
 .card-cursos{
   border: none;
+  color: #4B3F32;
+  background-color: #FFFDF9;
   border-radius: 0px !important;
   box-shadow: 2px 0 5px rgba(0,0,0,0.3);
 }
@@ -28,10 +40,8 @@ background-color: white !important;
 .status{
   padding-left: 6px;
   font-size: small;
-}
-
-.status:hover {
-  background-color: white;
+  background-color: #FFFDF9 !important;
+  color: #4B3F32;
 }
 
 .status::after {
@@ -49,10 +59,6 @@ background-color: white !important;
 
 .status.inativo::after {
   background-color: red;
-}
-
-.status.expirar::after {
-  background-color: orange;
 }
 
 .modal-header {
@@ -90,10 +96,14 @@ background-color: white !important;
 
 }
 
+.validade-doc {
+    font-size: 0.9rem; /* diminui a letra, ajuste conforme precisar */
+
+}
 
 .card-text {
     min-height: 25px;
-    
+
 }
 
 

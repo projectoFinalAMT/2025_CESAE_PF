@@ -97,6 +97,8 @@
     </div>
 
 </div>
+
+  @include('componentes.perfil.perfil')
 @endsection
 
 @section('scripts')

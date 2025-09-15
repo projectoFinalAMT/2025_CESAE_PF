@@ -126,4 +126,6 @@
 
 
         </div>
+
+          @include('componentes.perfil.perfil')
     @endsection
