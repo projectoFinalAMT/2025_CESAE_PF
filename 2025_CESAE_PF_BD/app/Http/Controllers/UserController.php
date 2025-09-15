@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -30,6 +31,7 @@ class UserController extends Controller
             'email' => $validated['email'],
             'telefone' => $validated['telefone'],
             'password' => Hash::make($validated['password']),
+            'photo' => $validated['photo'] ?? null,
             'photo'=> $validated['photo']?? null
         ]);
 
@@ -38,6 +40,40 @@ class UserController extends Controller
         return redirect()->route('login')
             ->with('success', 'Usuário criado com sucesso!');
     }
+
+    public function update(Request $request, User $user)
+{
+
+    // Validação
+    $validated = $request->validate([
+        'name'      => 'required|string|max:255',
+        'email'     => 'required|email|unique:users,email,' . $user->id . ',id',
+        'telefone'  => 'required|string|max:255',
+        'dataNascimento' => 'nullable|date',
+    ], [
+        'email.unique' => 'Este email já está registado.',
+    ]);
+
+      if($request->hasFile('photo')){
+        $user->photo = Storage::putFile('documentos', $request->photo);
+
+        }
+
+    // Atualizar dados
+    $user->name           = $validated['name'];
+    $user->email          = $validated['email'];
+    $user->telefone       = $validated['telefone'];
+    $user->dataNascimento = $validated['dataNascimento'] ?? $user->dataNascimento;
+
+
+
+
+    $user->save();
+
+    return redirect()->route('casa')
+        ->with('success', 'Usuário atualizado com sucesso!');
+}
+
 }
 
 

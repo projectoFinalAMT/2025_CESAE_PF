@@ -16,17 +16,8 @@ use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
+    public function register(): void {}
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         Fortify::createUsersUsing(CreateNewUser::class);
@@ -37,7 +28,6 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
-
             return Limit::perMinute(5)->by($throttleKey);
         });
 
@@ -45,19 +35,23 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        //ativar a funcao de login, retornando a view login
+        // Login view
         Fortify::loginView(function () {
             return view('login.login');
         });
 
-       
+        // Link de recuperação de senha
+        Fortify::requestPasswordResetLinkView(function () {
+            return view('login.login');
+        });
 
-        // Fortify::requestPasswordResetLinkView(function () {
-        //     return view('auth.forgot-password');
-        // });
-
-        //  Fortify::resetPasswordView(function () {
-        //     return view('auth.new-pass');
-        // });
+        // Reset de senha (abrir modal)
+        Fortify::resetPasswordView(function (Request $request) {
+    return view('login.login', [
+        'openResetModal' => true,
+        'email' => $request->email,
+        'token' => $request->route('token'),
+    ]);
+});
     }
 }

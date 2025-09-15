@@ -64,7 +64,7 @@ public function index()
         $curso->dataInicio = $validated['data_inicio'];
         $curso->dataFim = $validated['data_fim'] ?? null;
         $curso->instituicoes_id = $validated['instituicao']; // liga à instituição já existente
-        $curso->users_id = 1; // usuário logado
+        $curso->users_id =  Auth::id(); // usuário logado
         $curso->estado_cursos_id = 1; // por exemplo, estado "ativo" padrão
 
         $curso->save();

@@ -22,7 +22,11 @@
     <div class="content">
 
         <div class="container my-4">
-
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
             <!-- Título -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold">Dashboard</h2>
@@ -370,5 +374,7 @@
     <!-- Nosso JS -->
     <script src="{{ asset('js/calendario.js') }}"></script>
     <script src="{{ asset('js/dashboard.js') }}"></script>
+    <script src="{{ asset('js/cursos.js') }}" defer></script>
+
 @endsection
 @endsection

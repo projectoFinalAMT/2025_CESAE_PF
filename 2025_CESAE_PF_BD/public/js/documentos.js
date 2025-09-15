@@ -483,10 +483,12 @@ document.getElementById('exportarSelecionados').addEventListener('click', async 
 
 
 
-
-
+//imagem no modal
 document.querySelector('.profile img').addEventListener('click', function() {
     var myModal = new bootstrap.Modal(document.getElementById('novoUserModal'));
     myModal.show();
 });
+
+
+
 
