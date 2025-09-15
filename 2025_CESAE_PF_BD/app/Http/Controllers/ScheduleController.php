@@ -10,8 +10,8 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        $mCurso  = Curso::orderBy('titulo')->get();
-    $modulos = Modulo::orderBy('nomeModulo')->get(); // podes deixar vazio se quiseres forçar o filtro
+    $mCurso  = Curso::orderBy('titulo')->get();
+    $modulos = Modulo::orderBy('nomeModulo')->get();
 
     return view('calendario.calendar', compact('mCurso', 'modulos'));
     }
