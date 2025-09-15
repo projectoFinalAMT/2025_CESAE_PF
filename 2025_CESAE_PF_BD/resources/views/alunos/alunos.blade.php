@@ -42,7 +42,7 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                                     </h5>
                                 </div>
                             </div>
-                            <p class="card-text fw-bold fs-3">{{$alunos->count()}}</p>
+                            <p class="card-text fw-bold fs-3">{{$listaAlunos->count()}}</p>
                             <div class="d-flex justify-content-between px-3">
                                 <span class="card-text">{{$novosAlunos}} novos</span>
                             </div>

@@ -6,7 +6,7 @@ use App\Models\Curso;
 use App\Models\Event;
 use App\Models\Modulo;
 use Illuminate\Http\Request;
-use App\Exports\EventsExport;             
+use App\Exports\EventsExport;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -15,7 +15,7 @@ class EventController extends Controller
     // Retorna todos os eventos em JSON (com relações para o front)
     public function index()
     {
-        $events = Event::with('modulo.cursos.instituicao','curso.instituicao')->get();
+        $events = Event::where('users_id',Auth::id())->with('modulo.cursos.instituicao','curso.instituicao')->get();
         $calendarEvents = $events->map(fn($e) => $e->toCalendarArray());
 
         return response()->json($calendarEvents);
@@ -48,8 +48,10 @@ class EventController extends Controller
             }
         }
 
-        $finalTitle = $this->buildTitle($request->title, $request->cursos_id, $request->modulos_id);
-
+        $finalTitle = $request->filled('title')
+        ? $request->title
+        : $this->buildTitle(null, $request->cursos_id, $request->modulos_id);
+        
         $event = Event::create([
             'title'      => $finalTitle,
             'cursos_id'  => $request->cursos_id,
@@ -57,7 +59,7 @@ class EventController extends Controller
             'start'      => $request->start,
             'end'        => $request->end,
             'nota'       => $request->nota,
-            'users_id'   => Auth::id() ?? 1, // fallback para demo
+            'users_id'   => Auth::id()
         ]);
 
         return response()->json([

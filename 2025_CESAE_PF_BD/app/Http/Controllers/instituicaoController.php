@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Curso;
 use App\Models\Instituicao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,8 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class instituicaoController extends Controller
 {
     public function index(){
-        $instituicoes = Instituicao::all();
-
+        $instituicoes = Instituicao::where('users_id',Auth::id())->get();
         return view('instituicoes.instituicoes_home', compact('instituicoes'));
 }
 
@@ -26,11 +26,12 @@ public function store(Request $request)
             'emailResponsavel'    => 'required|email',
             'nomeResponsavel'     => 'nullable|string|max:255',
             'cor'            => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/', // validação simples para HEX
+
         ]);
 
         // Criar registo
         $instituicao = new Instituicao($validated);
-        $instituicao->users_id = 1; // user fixo para teste
+        $instituicao->users_id =Auth::id();
         $instituicao->save();
 
         if ($request->input('redirect_to') === 'cursos') {
@@ -64,6 +65,7 @@ public function update(Request $request, $id)
         'emailResponsavel'    => 'required|email',
         'nomeResponsavel'     => 'nullable|string|max:255',
         'cor'                 => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/', // valida HEX
+        'users_id'            => Auth::id()
     ]);
 
     // Atualizar os campos

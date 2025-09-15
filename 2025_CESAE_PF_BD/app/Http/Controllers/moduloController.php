@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curso;
-use App\Models\Documento;
 use App\Models\Modulo;
+use App\Models\Documento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class moduloController extends Controller
 {
@@ -25,8 +26,10 @@ class moduloController extends Controller
             'cursoModulos',
             'documentos'
         ])
-            ->withCount('documentos')
+        ->join('curso_modulo','modulos.id','modulo_id')->join('cursos','cursos.id','curso_id')
+            ->where('cursos.users_id',Auth::id())->withCount('documentos')
             ->get();
+
 
 
         // Cria um array de IDs de curso_modulo por módulo e curso
@@ -48,7 +51,7 @@ class moduloController extends Controller
             }
         }
 
-        $categoriaIdApoio = \DB::table('categoria_documentos')
+        $categoriaIdApoio = DB::table('categoria_documentos')
             ->where('categoria', 'apoio')
             ->value('id');
 
