@@ -17,7 +17,7 @@ public function index()
 {
     $instituicoes = Instituicao::all();
 
-    $documentos = Documento::with('modulos')->get();
+    $documentos = Documento::where('users_id',Auth::id())->with('modulos')->get();
 
     $modulos = Modulo::with('cursos.instituicao')
         ->select('id', 'nomeModulo')
@@ -139,7 +139,7 @@ public function store(Request $request)
     }
 
     // Categoria
-    $categoriaId = \DB::table('categoria_documentos')
+    $categoriaId = DB::table('categoria_documentos')
         ->where('categoria', $request->tipo)
         ->value('id');
 

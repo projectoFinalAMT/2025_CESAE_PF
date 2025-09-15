@@ -8,6 +8,7 @@ use App\Models\Alunos;
 use App\Models\Modulo;
 use App\Models\Instituicao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class homeController extends Controller
 {
@@ -15,21 +16,29 @@ class homeController extends Controller
 //cursos todos
   $mCurso  = Curso::orderBy('titulo')->get();
 
-  $cursosAtivos = Curso::where('estado_cursos_id', 1)->get();// contagem de cursos ativos para a blade
+  $cursosAtivos = Curso::where('cursos.users_id',Auth::id())->where('estado_cursos_id', 1)->get();// contagem de cursos ativos para a blade
   $totalCursosAtivos = $cursosAtivos->count();
-  $cursosInativos= Curso::where('estado_cursos_id', 2)->get();
+  $cursosInativos= Curso::where('cursos.users_id',Auth::id())->where('estado_cursos_id', 2)->get();
   $totalCursosInativos =$cursosInativos->count();
-  $novosAlunos = Alunos::whereMonth('created_at', now()->month)
-        ->whereYear('created_at', now()->year)
+  $novosAlunos = Alunos::join('alunos_modulos','alunos.id','alunos_id')
+  ->join('modulos','modulos.id','modulos_id')
+  ->join('curso_modulo','modulos.id','modulo_id')
+  ->join('cursos','cursos.id','curso_id')
+  ->where('cursos.users_id',Auth::id())->whereMonth('alunos.created_at', now()->month)
+        ->whereYear('alunos.created_at', now()->year)
         ->count();
 
   $modulos = Modulo::orderBy('nomeModulo')->get(); // podes deixar vazio se quiseres forçar o filtro
   $apontamentosHoje= Event::get(); // vou ao event model buscar todos os eventos
-  $alunos=Alunos::get();// puxa os alunos todos
+  $alunos=Alunos::join('alunos_modulos','alunos.id','alunos_id')
+  ->join('modulos','modulos.id','modulos_id')
+  ->join('curso_modulo','modulos.id','modulo_id')
+  ->join('cursos','cursos.id','curso_id')
+  ->where('cursos.users_id',Auth::id())->get();// puxa os alunos todos
 
-  $aulasTotais=Event::where('modulos_id')->whereMonth('created_at',now())->count();
+  $aulasTotais=Event::where('users_id',Auth::id())->where('modulos_id')->whereMonth('created_at',now())->count();
 
-  $aulasSemanaAtual = Event::whereBetween(
+  $aulasSemanaAtual = Event::where('users_id',Auth::id())->whereBetween(
     'start',
     [now()->startOfWeek(), now()->endOfWeek()] // seg→dom
 )
