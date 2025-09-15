@@ -18,27 +18,54 @@ class financasController extends Controller
 
 public function index(Request $request)
 {
-    $cursos = Curso::all();
-    $modulos = Modulo::all();
-    $instituicoes = Instituicao::all();
-    $estados = EstadoFatura::all();
-    $recebimentos = Recebimento::all();
+    $cursos = Curso::where('users_id', Auth::id())->get();
+
+    $modulos = Modulo::join('curso_modulo', 'modulos.id', 'modulo_id')
+    ->join('cursos', 'cursos.id', 'curso_id')
+    ->where('cursos.users_id', Auth::id())->get();
+
+    $instituicoes = Instituicao::where('users_id', Auth::id())->get();
+
+    $estados = EstadoFatura::join('financas', 'estado_faturas.id', 'estado_faturas_id')
+    ->where('financas.users_id', Auth::id())->get();
+
+    $recebimentos = Financa::join('recebimentos', 'financas.id', 'financas_id')
+    ->where('financas.users_id', Auth::id())->get();
 
     $filtro = $request->input('filtro'); // recebe o filtro via GET
 
-    // Query base para Financa
+    // Query base para filtrar valores Faturação, Ganhos (valor líquido), Faturação por Instituição & Faturas
     $query = Financa::where('users_id', Auth::id())->with(['recebimento', 'instituicao', 'curso']);
 
     // Para poder calcular Valor Expectável
-    $precoHoraCurso = Curso::where('users_id', Auth::id())->where('precoHora')->get();
-    $tempoInicioAula = Event::where('users_id', Auth::id())->where('start')->get();
-    $tempoFimAula = Event::where('users_id', Auth::id())->where('end')->get();
+    $precoHoraCurso = Curso::where('users_id', Auth::id())->select('id','precoHora')->get();
+    $horarioInicioAula = Event::where('users_id', Auth::id())->select('start')->get(); // formato datetime
+    $horarioFimAula = Event::where('users_id', Auth::id())->select('end')->get(); // formato datetime
 
+    // Ligo a tabela Cursos à tabela de Eventos através do id do curso.
+    $eventosCurso = Curso::join('events', 'cursos.id', 'events.cursos_id')
+    ->where('events.users_id', Auth::id())
+    ->get([
+        'cursos.id as curso_id',
+        'cursos.precoHora',
+        'events.start',
+        'events.end'
+    ]);
+
+    //dd($eventosCurso);
+
+    // preciso de somar o total de horas de aulas, e multiplicar pelo valor hora
+    //foreach($precoHoraCurso as $precoHoraCursoAtual)
+      //  $cursoAtual = $precoHoraCursoAtual.id;
+
+    // dd($horarioFimAula);
 
     // Define datas para o filtro
     switch ($filtro) {
         case 'este_mes':
             $inicio = Carbon::now()->startOfMonth();
+            // Carbon::now() - cria um objeto Carbon com a data e hora atual.
+            // ->startOfMonth() - modifica o objeto Carbon atual para o primeiro dia do mês
             $fim = Carbon::now()->endOfMonth();
             break;
 
@@ -82,6 +109,7 @@ public function index(Request $request)
                              ->sum('valor_liquido');
 
 
+
     // -------- Agrupar e somar valores por instituição --------
     $agrupado = [];   // Array que vai armazenar os dados agrupados
     $somaTotal = 0;   // Guarda o total de todas as faturas (para calcular percentagem)
@@ -118,6 +146,7 @@ public function index(Request $request)
 
     // Reindexa o array para evitar chaves associativas (opcional para a Blade)
     $faturacaoInstituicoes = array_values($agrupado);
+
 
     return view('financas.financas_home', compact(
         'cursos',
