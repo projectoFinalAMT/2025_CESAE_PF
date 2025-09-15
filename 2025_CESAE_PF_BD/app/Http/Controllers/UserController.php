@@ -31,8 +31,7 @@ class UserController extends Controller
             'email' => $validated['email'],
             'telefone' => $validated['telefone'],
             'password' => Hash::make($validated['password']),
-            'photo' => $validated['photo'] ?? null,
-            'photo'=> $validated['photo']?? null
+            'photo'    => $validated['photo'] ?? null
         ]);
 
 

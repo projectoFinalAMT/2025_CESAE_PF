@@ -76,6 +76,51 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// -------- CARD GANHOS POR INSTITUICAO --------
+// -------- gráfico donut --------
+document.addEventListener("DOMContentLoaded", () => {
+    const canvas = document.getElementById('donutChart');
+    if (!canvas) return;
+
+    // Pega os dados que estavam no Blade
+    const dataFromBlade = JSON.parse(canvas.dataset.faturacao);
+
+    const labels = dataFromBlade.map(item => item.nome);
+    const valores = dataFromBlade.map(item => item.valor);
+    const cores = dataFromBlade.map(item => item.cor);
+
+    new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: valores,
+                backgroundColor: cores,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            cutout: "60%",
+            plugins: {
+                legend: { position: 'bottom' },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            const percent = dataFromBlade[context.dataIndex].percent;
+                            return `${label}: €${value} (${percent}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+
+
+
 // -------- CARD FATURAS --------
 document.addEventListener("DOMContentLoaded", () => {
   const linhasTabela = document.querySelectorAll("#tabelaFaturas tr");
