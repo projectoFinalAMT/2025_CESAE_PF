@@ -13,7 +13,10 @@ class cursoController extends Controller
 {
 public function index()
 {
-    $instituicoes = Instituicao::all();
+
+
+    $instituicoes = Instituicao::where('users_id',Auth::id())->get();
+
 
     $modulos = Modulo::with('cursos.instituicao')
         ->select('id', 'nomeModulo')
@@ -21,7 +24,7 @@ public function index()
         ->orderBy('nomeModulo')
         ->get();
 
-    $cursos = Curso::withCount('modulos')->get();
+    $cursos = Curso::where('users_id',Auth::id())->withCount('modulos')->get();
 
     // Obter os IDs dos módulos associados a cada curso
   $cursoModulos = DB::table('curso_modulo')

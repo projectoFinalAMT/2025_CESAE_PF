@@ -9,22 +9,36 @@ use App\Models\AlunoModulo;
 use App\Models\Instituicao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AlunosController extends Controller
 {
     public function index()
     {
-        $alunos        = Alunos::with('modulos')->get();
+        $alunos= Alunos:: with('modulos')
+        ->get();
+
+
         $instituicoes  = Instituicao::all();
         $cursos        = Curso::all();
         $modulos       = Modulo::all();
-        
 
-        $novosAlunos = Alunos::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
+
+        $novosAlunos = Alunos::
+        join('alunos_modulos','alunos.id','alunos_id')
+        ->join('modulos','modulos.id','modulos_id')
+        ->join('curso_modulo','modulos.id','modulo_id')
+        ->join('cursos','cursos.id','curso_id')->whereMonth('alunos.created_at', now()->month)->where('cursos.users_id',Auth::id())
+            ->whereYear('alunos.created_at', now()->year)
             ->count();
 
-        $listaAlunos = Alunos::orderBy('nome', 'asc')->get();
+
+        $listaAlunos = Alunos:: join('alunos_modulos','alunos.id','alunos_id')
+        ->join('modulos','modulos.id','modulos_id')
+        ->join('curso_modulo','modulos.id','modulo_id')
+        ->join('cursos','cursos.id','curso_id')
+        ->where('cursos.users_id',Auth::id())->orderBy('nome', 'asc')->get();
+
 
         return view('alunos.alunos', compact('alunos','instituicoes','novosAlunos','cursos','modulos','listaAlunos'));
     }

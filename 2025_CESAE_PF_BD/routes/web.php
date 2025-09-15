@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\UserController;
@@ -17,15 +18,20 @@ use App\Http\Controllers\RecebimentoController;
 use App\Http\Controllers\DocumentoModuloController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
-// Route::get('/home', function () {
-//     return view('welcome');
-// });
+
 
 Route::post('/user', [UserController::class, 'store'])->name('user.store');
 Route::put('/users/{user}', [UserController::class, 'update'])->name('user.update');
 
 Route::post('/logout', function () { Auth::logout();
     return redirect('/login'); })->name('logout');
+
+
+
+// AUTH ROTAS
+ Route::middleware('auth')->group(function () {
+
+
 
 // Dashboard
 Route::get('/home', [homeController::class, 'index'])->name('casa');
@@ -85,18 +91,17 @@ Route::post('/instituicoes/delete', [instituicaoController::class, 'deletar'])->
 Route::put('/instituicoes/{id}/update', [instituicaoController::class, 'update'])->name('instituicoes.update');
 Route::get('/instituicoes/buscar', [InstituicaoController::class, 'buscar'])->name('instituicoes.buscar');
 
-//Calendario
-//O middleware auth vai ser necessario para cada utilizador ver o seu calendario
-// Route::middleware('auth')->group(function () {
-    // Retorna todos os eventos do formador logado
-    Route::get('/events', [EventController::class, 'index']);
-    // Cria um novo evento
-    Route::post('/events', [EventController::class, 'store']);
-    // Atualiza um evento existente
-    Route::put('/events/{event}', [EventController::class, 'update']);
-    // Deleta um evento
-    Route::delete('/events/{event}', [EventController::class, 'destroy']);
-    //modulos por curso para o calendario
+
+
+// Retorna todos os eventos do formador logado
+Route::get('/events', [EventController::class, 'index']);
+// Cria um novo evento
+Route::post('/events', [EventController::class, 'store']);
+// Atualiza um evento existente
+Route::put('/events/{event}', [EventController::class, 'update']);
+// Deleta um evento
+Route::delete('/events/{event}', [EventController::class, 'destroy']);
+//modulos por curso para o calendario
 Route::get('/cursos/{curso}/modulos', [moduloController::class, 'byCurso'])
 ->name('cursos.modulos');
 // Página do calendário (HTML)
@@ -104,7 +109,7 @@ Route::get('/calendar', [ScheduleController::class, 'index'])->name('calendarioB
 //download eventos calendario
 Route::get('/events/export', [EventController::class, 'exportExcel'])->name('events.export');
 
-
+ }); // .AUTH ROTAS
 
 
 
