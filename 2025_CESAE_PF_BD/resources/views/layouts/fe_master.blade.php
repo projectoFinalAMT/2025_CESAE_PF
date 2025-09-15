@@ -80,8 +80,7 @@
     <!-- MDBootstrap JS -->  <!-- Permite usar a barra de progresso circular na página Finanças -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.js"></script>
 
-    <!--Para poder usar a biblioteca de gráficos do chart (gráfico donut na página Finanças)-->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 </body>
 </html>

@@ -227,13 +227,6 @@
                                                 {{ number_format($totalIrs, 2, ',', '.') }}€</h6>
                                         </div>
                                     </div>
-
-                                    <!-- Progresso circular à direita -->
-                                    <div class="col-4 d-flex justify-content-center">
-                                        <div class="circular-progress" style="--value:60">
-                                            <span>60%</span>
-                                        </div>
-                                    </div>
                                 </div>
 
                             </div>
@@ -298,6 +291,13 @@
                                         <h5 class="card-title">Faturação por Instituição</h5>
                                     </div>
 
+                                    <div class="w-1/2 mx-auto">
+                                        <canvas id="donutChart"
+                                            data-faturacao='@json($faturacaoInstituicoes)'>
+                                        </canvas>
+                                    </div>
+
+
                                     <!-- Legenda -->
                                     <ul class="list-unstyled mt-3 small" id="listaInstituicoes">
                                         @foreach($faturacaoInstituicoes as $instituicao)
@@ -323,8 +323,6 @@
                                     <!--Título e Icon Filtro-->
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h5 class="card-title">Faturas</h5>
-                                        <i class="material-icons-outlined" id="icon-filter" data-bs-toggle="modal"
-                                            data-bs-target="#modalFiltroFaturas">filter_alt</i>
                                     </div>
 
                                     <!-- Tabela Faturas -->
@@ -471,63 +469,6 @@
                     </div>
 
 
-                    <!-- Modal Filtro Faturas (fora do card) -->
-                    {{-- <div class="modal fade" id="modalFiltroFaturas" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content rounded-0">
-                                <div class="modal-header border-0">
-                                    <h6 class="modal-title fw-bold">Filtrar Faturas</h6>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-
-                                    <!-- Instituição -->
-                                    <h6 class="fw-bold small">Instituição</h6>
-                                    <ul id="filtroInstituicao" class="list-group mb-3">
-                                        <li class="list-group-item d-flex justify-content-between">CESAE <input
-                                                type="checkbox" value="CESAE" checked></li>
-                                        <li class="list-group-item d-flex justify-content-between">LSD <input
-                                                type="checkbox" value="LSD" checked></li>
-                                        <li class="list-group-item d-flex justify-content-between">ISTEC <input
-                                                type="checkbox" value="ISTEC" checked></li>
-                                        <li class="list-group-item d-flex justify-content-between">ISTA <input
-                                                type="checkbox" value="ISLA" checked></li>
-                                        <li class="list-group-item d-flex justify-content-between">ESTEL <input
-                                                type="checkbox" value="ESTEL" checked></li>
-                                    </ul>
-
-                                    <!-- Estado -->
-                                    <h6 class="fw-bold small">Estado</h6>
-                                    <ul id="filtroEstado" class="list-group mb-3">
-                                        <li class="list-group-item d-flex justify-content-between">Recibo Enviado <input
-                                                type="checkbox" value="Recibo Enviado" checked></li>
-                                        <li class="list-group-item d-flex justify-content-between">Recibo por Enviar <input
-                                                type="checkbox" value="Recibo por Enviar" checked></li>
-                                    </ul>
-
-                                    <!-- Data -->
-                                    <h6 class="fw-bold small">Data</h6>
-                                    <input type="date" id="filtroDataInicio" class="form-control mb-2">
-                                    <input type="date" id="filtroDataFim" class="form-control mb-3">
-
-                                    <!-- Valor -->
-                                    <h6 class="fw-bold small">Valor (€)</h6>
-                                    <input type="number" id="filtroValorMin" class="form-control mb-2"
-                                        placeholder="Mínimo">
-                                    <input type="number" id="filtroValorMax" class="form-control mb-3"
-                                        placeholder="Máximo">
-
-                                </div>
-                                <div class="modal-footer border-0">
-                                    <button type="button" class="btn btn-light"
-                                        data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary"
-                                        id="btnAplicarFiltroFaturas">Aplicar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-
                 </div>
             </div>
 
@@ -537,7 +478,9 @@
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!--Gráfico donut-->
     <script src="{{ asset('js/financas.js') }}"></script>
+
 @endsection
 
 @endsection

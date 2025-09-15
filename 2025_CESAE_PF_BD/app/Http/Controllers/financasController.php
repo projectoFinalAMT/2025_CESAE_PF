@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Curso;
+use App\Models\Event;
 use App\Models\Modulo;
 use App\Models\Financa;
 use App\Models\Instituicao;
 use App\Models\Recebimento;
 use App\Models\EstadoFatura;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class financasController extends Controller
 {
@@ -25,7 +27,13 @@ public function index(Request $request)
     $filtro = $request->input('filtro'); // recebe o filtro via GET
 
     // Query base para Financa
-    $query = Financa::with(['recebimento', 'instituicao', 'curso']);
+    $query = Financa::where('users_id', Auth::id())->with(['recebimento', 'instituicao', 'curso']);
+
+    // Para poder calcular Valor Expectável
+    $precoHoraCurso = Curso::where('users_id', Auth::id())->where('precoHora')->get();
+    $tempoInicioAula = Event::where('users_id', Auth::id())->where('start')->get();
+    $tempoFimAula = Event::where('users_id', Auth::id())->where('end')->get();
+
 
     // Define datas para o filtro
     switch ($filtro) {
@@ -106,9 +114,6 @@ public function index(Request $request)
 
         // Se soma total > 0, calcula a percentagem; caso contrário 0
         $item['percent'] = $somaTotal > 0 ? number_format(($item['valor'] / $somaTotal) * 100, 2) : 0;
-      
-        return view('financas.financas_home', compact('cursos', 'instituicoes', 'modulos', 'estados', 'financas', 'recebimentos'));
-
     }
 
     // Reindexa o array para evitar chaves associativas (opcional para a Blade)
@@ -175,7 +180,7 @@ public function index(Request $request)
     $financas->dataPagamento     = $validated['dataPagamento'] ?? null;
     $financas->valor_liquido     = $validated['valor_liquido'];
     $financas->observacoes       = $validated['observacoes'] ?? null;
-    $financas->users_id          = 1; // usuário logado
+    $financas->users_id          = Auth::id();
     $financas->instituicoes_id   = $validated['instituicao'];
     $financas->id_curso          = $validated['curso'] ?? null;
     $financas->id_modulo         = $validated['modulo'] ?? null;

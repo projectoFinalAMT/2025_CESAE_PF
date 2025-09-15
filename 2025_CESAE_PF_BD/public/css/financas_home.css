@@ -15,39 +15,7 @@
   border-radius: 0px;
   box-shadow: 2px 0 5px rgba(0,0,0,0.3);
 }
-/*Barra de progresso circular*/
-.circular-progress {
-  --size: 65px;        /* tamanho do círculo */
-  --thickness: 12px;    /* espessura da barra */
-  --value: 0;          /* percentagem inicial */
-  --fg: #fabfb7;       /* cor da barra preenchida */
-  --bg: #e9ecef;       /* cor de fundo */
 
-  width: var(--size);
-  height: var(--size);
-  border-radius: 50%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* o anel é desenhado no pseudo-elemento */
-.circular-progress::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: conic-gradient(var(--fg) calc(var(--value) * 1%), var(--bg) 0);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness)), black 0);
-          mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness)), black 0);
-}
-/* número sempre centrado */
-.circular-progress span {
-  position: relative; /* garante que o texto fica acima do ::before */
-  font-weight: bold;
-  font-size: 0.9rem;
-  color: #212529;
-}
 #tituloValorExpectavel{
     color: #fabfb7;
 }
@@ -59,8 +27,6 @@
   box-shadow: 2px 0 5px rgba(0,0,0,0.3);
 }
 
-
-
 /* --------- TABELA FATURAS --------- */
 #faturasTabela{
     height: 350px;
@@ -69,15 +35,4 @@
 #buttonAlterarEstado{
     background-color: #6c757d; /* cor mais escura do secundary */
     color: #fff; /* texto branco para contraste */
-}
-#icon-filter {
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  color: #6c757d;
-  transition: color 0.2s ease-in-out;
-}
-#icon-filter:hover {
-  color: #28a745;
 }
