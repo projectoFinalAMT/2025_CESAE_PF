@@ -177,6 +177,7 @@
     <div class="tabelaNotas"></div>
   </div>
 
+    @include('componentes.perfil.perfil')
   @section('scripts')
   <script src="{{ asset('js/alunos.js') }}"></script>
 

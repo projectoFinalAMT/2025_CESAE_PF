@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cursoSelecionado = document.getElementById("cursoSelecionado"); // hidden input novo
 
     // Single delete via botão do card
+    if(confirmarEliminarModal){
     confirmarEliminarModal.addEventListener("show.bs.modal", function (event) {
         const button = event.relatedTarget;
         const id = button.getAttribute("data-id");
@@ -67,9 +68,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (cursoId) {
             cursoSelecionado.value = cursoId;
         }
+
     });
+    }
 
     // Multi delete (cursos, instituições, módulos, documentos)
+    if(formEliminar){
     formEliminar.addEventListener("submit", function (e) {
         const ids = [];
 
@@ -105,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
             idsSelecionados.value = ids.join(",");
         }
     });
+    }
 });
 
 //Aparecer Botão Selecionado
@@ -269,6 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
     search(myfilter);
 });
 
+
 function search(filter) {
     const input = document.getElementById(filter);
     const cards = document.querySelectorAll(".row.g-4 > .col-12");
@@ -351,11 +357,12 @@ const validadeInput = document.getElementById('dataValidade');
 const labelValidade = document.getElementById('labelValidade');
 
 // Select origem documento
+if(selectOrigem){
 selectOrigem.addEventListener("change", function () {
     toggleRequired();
     aplicarRegraVitalicio();
 });
-
+}
 function toggleRequired() {
     if (selectOrigem.value === "arquivo") {
         campoArquivo.classList.remove("d-none");
@@ -425,6 +432,7 @@ botoesTipo.forEach(btn => {
 });
 
 // Checkbox vitalício manual
+if(vitalicioCheckbox){
 vitalicioCheckbox.addEventListener('change', () => {
     if (vitalicioCheckbox.checked) {
         validadeInput.value = '9999-01-01';
@@ -434,7 +442,7 @@ vitalicioCheckbox.addEventListener('change', () => {
         mostrarValidade();
     }
 });
-
+}
 //Documento com data para expirar
 document.addEventListener("DOMContentLoaded", function () {
     const hoje = new Date();
@@ -457,6 +465,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //exportar
+if(document.getElementById('exportarSelecionados')){
 document.getElementById('exportarSelecionados').addEventListener('click', async () => {
     const checkboxes = document.querySelectorAll('.pdfSelect:checked');
     if (checkboxes.length === 0) return alert('Selecione ao menos um PDF!');
@@ -480,6 +489,27 @@ document.getElementById('exportarSelecionados').addEventListener('click', async 
     link.download = 'documentos_unificados.pdf';
     link.click();
 });
+}
+
+
+//input photo
+document.addEventListener('DOMContentLoaded', function() {
+    const btnAddFoto = document.getElementById('btnAddFoto');
+    const inputFoto = document.getElementById('inputFoto');
+
+    btnAddFoto.addEventListener("click", function () {
+        // Alterna entre mostrar/esconder
+        inputFoto.classList.toggle('d-none');
+        // Se estiver visível, abre o seletor automaticamente
+        if (!inputFoto.classList.contains('d-none')) {
+            inputFoto.click();
+        }
+    });
+});
+
+
+
+
 
 
 

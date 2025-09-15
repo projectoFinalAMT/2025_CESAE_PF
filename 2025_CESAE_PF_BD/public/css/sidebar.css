@@ -1,6 +1,6 @@
 .sidebar {
   box-shadow: 6px 0 15px rgba(0,0,0,0.3);
-  background-color: #696969 !important;
+  background-color: #52796F !important;
   height: 100vh !important;
   display: flex;
   flex-direction: column;
@@ -17,14 +17,14 @@
 }
 .sidebar a {
   display: block;
-  color: white;
+  color: #EAF4F4;
   padding: 10px 20px;
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .sidebar a:hover {
-  background-color: #3c3c3c;
+  background-color: #5E8A7B;
 }
 
 .sidebar a i {

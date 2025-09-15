@@ -11,7 +11,7 @@ class instituicaoController extends Controller
 {
     public function index(){
         $instituicoes = Instituicao::where('users_id',Auth::id())->get();
-        return view('instituicoes.instituicoes_home', compact('instituicoes'));
+        return view('Instituicoes.instituicoes_home', compact('instituicoes'));
 }
 
 public function store(Request $request)

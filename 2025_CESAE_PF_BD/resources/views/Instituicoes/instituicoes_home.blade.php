@@ -108,4 +108,5 @@
                     @include('componentes.instituicao.editar-instituicao')
             @endforeach
         </div>
+          @include('componentes.perfil.perfil')
     @endsection

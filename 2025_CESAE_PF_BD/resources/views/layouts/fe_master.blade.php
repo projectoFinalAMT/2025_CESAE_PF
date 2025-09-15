@@ -26,6 +26,8 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script> --}}
     <script src="{{ asset('assets/bootstrap.js')}}" defer></script> <!--Script bootstrap -->
     <script src="{{ asset('js/script.js') }}" defer></script> <!--Script nosso -->
+     <script src="{{ asset('js/documentos.js') }}" defer></script> <!--Script nosso -->
+
 
     <!-- JS específico da página -->
     @yield('scripts')
@@ -46,13 +48,13 @@
   </div>
 
   <div class="offcanvas-body p-0 d-flex flex-column">
-    <div class="text-right py-3">
-      <img src="{{asset('image/logo.png')}}" alt="Logo" width="100" height="auto" class="mb-3">
+    <div class="text-center pt-3">
+      <img src="{{asset('image/logo2.png')}}" alt="Logo" width="150" height="auto">
     </div>
 
-    <div class="profile text-center py-3">
+    <div class="profile text-center pb-3">
            <img src="{{  Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('image/perfil.png') }}"
-                alt="Foto de perfil" class="rounded-circle mb-2" width="90" height="90"
+                alt="Foto de perfil" class="rounded-circle mb-2" width="110" height="110"
                 style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#novoUserModal">
       <h5>{{ explode(' ',  Auth::user()->name)[0] }}</h5>
     </div>

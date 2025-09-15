@@ -1,3 +1,7 @@
+body {
+    background-color: #FAF7F2;
+    color: #4B3F32;
+}
 .titlecard i {
     margin-left: 10px; /* ou qualquer valor */
 
@@ -50,8 +54,6 @@ margin-right: 10px;  }
     margin-bottom: 0; /* remove espaço abaixo do h5 */
 
 }
-
-
 
 /*FILTRO CALENDARIO*/
 
