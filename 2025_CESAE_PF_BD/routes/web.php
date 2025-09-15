@@ -22,6 +22,7 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 // });
 
 Route::post('/user', [UserController::class, 'store'])->name('user.store');
+Route::put('/users/{user}', [UserController::class, 'update'])->name('user.update');
 
 Route::post('/logout', function () { Auth::logout();
     return redirect('/login'); })->name('logout');

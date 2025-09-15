@@ -22,8 +22,8 @@ class User extends Authenticatable
     'dataNascimento',
     'email',
     'telefone',
-    'morada',
     'password',
+    'photo'
 ];
 
     /**
