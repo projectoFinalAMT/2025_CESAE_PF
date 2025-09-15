@@ -4,27 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>login</title>
+    <title>Login</title>
 
-    <!-- Vendors primeiro -->
+    <!-- Vendors -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900" rel="stylesheet">
-    <!-- O teu CSS por último -->
+
+    <!-- CSS próprio -->
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+
 </head>
 
 <body>
     <!-- Toast de sucesso -->
-    @if (session('success'))
+    @if(session('success'))
         <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
             <div id="successToast" class="toast align-items-center text-bg-success border-0 show" role="alert"
                 aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
-                    <div class="toast-body">
-                        {{ session('success') }}
-                    </div>
+                    <div class="toast-body">{{ session('success') }}</div>
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
                         aria-label="Fechar"></button>
                 </div>
@@ -71,10 +70,12 @@
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-                                                <button type="submit" class="btn mt-4">submit</button>
+                                                <button type="submit" class="btn mt-4">Submit</button>
+
+                                                <!-- Link para abrir modal de recuperação -->
                                                 <p class="mb-0 mt-4 text-center">
-                                                    <a href="{{ route('password.request') }}" class="link">Forgot your
-                                                        password?</a>
+                                                    <a href="#" class="link" data-bs-toggle="modal"
+                                                        data-bs-target="#recuperarSenhaModal">Forgot your password?</a>
                                                 </p>
                                             </form>
                                         </div>
@@ -125,7 +126,7 @@
                                                         class="form-style" placeholder="Confirm Password" required>
                                                     <i class="input-icon uil uil-lock-alt"></i>
                                                 </div>
-                                                <button type="submit" class="btn mt-4">submit</button>
+                                                <button type="submit" class="btn mt-4">Submit</button>
                                             </form>
                                         </div>
                                     </div>
@@ -133,11 +134,105 @@
 
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    {{-- Modal de Recuperar Password --}}
+<div class="modal fade"  id="recuperarSenhaModal" tabindex="-1" aria-labelledby="recuperarSenhaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-body p-4">
+                <!-- Título centralizado -->
+                <h2 class="text-center mb-4" style="color: #696969;">Recuperar Password</h2>
+
+                <form method="POST" action="{{ route('password.email') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="emailModal" style="color: #696969;" class="form-label">Endereço de Email</label>
+                        <input required name="email" type="email" class="form-control" id="emailModal"
+                            placeholder="Digite seu email">
+                            dfdfdf
+                        @error('email')
+                            <div class="text-danger mt-1">Email inválido</div>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn btn-novo-curso w-100">Recuperar</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{{-- Modal de Reset de Password --}}
+<div class="modal fade" id="resetSenhaModal" tabindex="-1" aria-labelledby="resetSenhaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+
+            <!-- Título centralizado -->
+            <h2 class="fw-bold text-center mb-4" style="color: #696969;">Redefinir Password</h2>
+
+            <form method="POST" action="{{ route('password.update') }}">
+                @csrf
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="emailReset" class="form-label" style="color: #696969;">Email</label>
+                    <input type="email" class="form-control" id="emailReset" name="email"
+                        value="{{ request()->email }}" placeholder="Digite seu email" required>
+                    @error('email')
+                        <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Nova Password -->
+                <div class="mb-3">
+                    <label for="passwordReset" class="form-label" style="color: #696969;">Nova Password</label>
+                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                        id="passwordReset" name="password" placeholder="Digite nova password" required>
+                    @error('password')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Confirmação Password -->
+                <div class="mb-3">
+                    <label for="passwordConfirmReset" class="form-label" style="color: #696969;">Confirme a Password</label>
+                    <input type="password" class="form-control" id="passwordConfirmReset"
+                        name="password_confirmation" placeholder="Confirme a password" required>
+                </div>
+
+                <!-- Token oculto -->
+                <input type="hidden" name="token" value="{{ request()->route('token') }}">
+
+                <button type="submit" class="btn btn-novo-curso w-100">Submeter nova password</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Scripts Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+ <!-- Scripts modal, precisa estar aqui por causa do if -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(!empty($openResetModal) && $openResetModal)
+            var resetModal = new bootstrap.Modal(document.getElementById('resetSenhaModal'));
+            resetModal.show();
+
+            // Preencher inputs do modal com email e token
+            document.getElementById('emailReset').value = @json($email);
+            document.querySelector('input[name="token"]').value = @json($token);
+        @endif
+    });
+</script>
 
 </body>
 </html>

@@ -17,7 +17,7 @@ public function index()
 {
     $instituicoes = Instituicao::all();
 
-    $documentos = Documento::with('modulos')->get();
+    $documentos = Documento::where('users_id',Auth::id())->with('modulos')->get();
 
     $modulos = Modulo::with('cursos.instituicao')
         ->select('id', 'nomeModulo')
@@ -41,13 +41,16 @@ public function index()
         }
     }
 
-    $documentosPessoais = Documento::with( 'categoria')
-        ->whereHas('categoria', fn($q) => $q->where('categoria', 'pessoal'))
-        ->get();
+$documentosPessoais = Documento::with('categoria')
+    ->where('users_id', Auth::id())
+    ->whereHas('categoria', fn($q) => $q->where('categoria', 'pessoal'))
+    ->get();
 
-    $documentosApoio = Documento::with( 'categoria')
-        ->whereHas('categoria', fn($q) => $q->where('categoria', 'apoio'))
-        ->get();
+$documentosApoio = Documento::with('categoria')
+    ->where('users_id', Auth::id())
+    ->whereHas('categoria', fn($q) => $q->where('categoria', 'apoio'))
+    ->get();
+
 
 
 
@@ -139,7 +142,7 @@ public function store(Request $request)
     }
 
     // Categoria
-    $categoriaId = \DB::table('categoria_documentos')
+    $categoriaId = DB::table('categoria_documentos')
         ->where('categoria', $request->tipo)
         ->value('id');
 
@@ -157,7 +160,7 @@ public function store(Request $request)
         'categoria_documento_id' => $categoriaId,
         'descricao' => $descricao,
         'estado_documentos_id' => 1,
-        'users_id' => Auth::id() ?? 1,
+        'users_id' => Auth::id(),
     ]);
 
     // Associa módulos

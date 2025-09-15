@@ -51,10 +51,10 @@
     </div>
 
     <div class="profile text-center py-3">
-      <img src="{{asset('image/008.1.jpg')}}" alt="Foto de perfil" class="rounded-circle mb-2" width="120" height="120"  style="cursor:pointer;"
-       data-bs-toggle="modal"
-       data-bs-target="#novoUserModal">
-      <h5>{{ explode(' ', Auth::user()->name)[0] }}</h5>
+           <img src="{{  Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('image/perfil.png') }}"
+                alt="Foto de perfil" class="rounded-circle mb-2" width="90" height="90"
+                style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#novoUserModal">
+      <h5>{{ explode(' ',  Auth::user()->name)[0] }}</h5>
     </div>
 
     <a href="{{route ('casa')}}"><i class="bi bi-display"></i> Dashboard</a>
