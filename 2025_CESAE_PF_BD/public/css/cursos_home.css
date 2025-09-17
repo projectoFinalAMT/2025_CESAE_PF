@@ -3,6 +3,14 @@ body {
     color: #4B3F32;
 }
 
+.modal-body{
+     background-color: #FAF7F2;
+}
+
+.modal-footer{
+     background-color: #FAF7F2;
+}
+
 .btn-novo-curso {
   border: none;
   border-radius: 0px;
@@ -63,10 +71,11 @@ background-color: white !important;
 
 .modal-header {
     border-bottom: none;
+    background-color: #FAF7F2;
 }
 
 .btn-adicionar{
-    margin-top: 51px;
+    margin-top: 71px;
 }
 
 #corAparecer{

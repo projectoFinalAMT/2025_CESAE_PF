@@ -75,9 +75,6 @@
                           <!-- Coluna dos botões -->
                           <div class="col-md-4 d-flex flex-column justify-content-start gap-2 btn-adicionar">
                               <!-- Botões adicionais -->
-                              <button type="button" class="btn btn-novo-curso">
-                                  <i class="bi bi-people-fill"></i> Adicionar Alunos
-                              </button>
                               <!-- Botão dentro do modal -->
                               <button type="button" class="btn btn-novo-curso" data-bs-toggle="collapse"
                                   data-bs-target="#modulosCollapse">
