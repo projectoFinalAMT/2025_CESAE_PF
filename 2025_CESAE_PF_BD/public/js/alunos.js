@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // calculo das medias na tabela alunos
 function calculomedia(){
 
-   
+
 
 const avaliacoes = document.querySelectorAll('input[type="number"]');
 let divisor=0;
@@ -124,3 +124,17 @@ let media= (soma/divisor).toFixed(2)
 let mediaDoAluno= document.querySelector('.mediaAluno');
 mediaDoAluno.value=media
 }
+
+
+
+//colocar mais colunas de avaliação
+
+function colocarColunas(){
+
+    
+
+}
+
+
+
+
