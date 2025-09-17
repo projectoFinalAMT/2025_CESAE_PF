@@ -123,7 +123,7 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                   <thead>
                     <!-- Linha de controlos -->
                     <tr>
-                      <th scope="col" colspan="8">
+                      <th scope="col" colspan="8" id="controlCol">
                         <div class="d-flex flex-wrap gap-2 align-items-center">
                             <button
                             class="btn btn-light btn-sm"
@@ -178,13 +178,15 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                     <!-- Cabeçalhos das colunas -->
                     <tr>
                       <th scope="col">Nr</th>
-                     <a href=""> <th scope="col">Nome</th></a>
-                      <th scope="col">Avaliação 1</th>
-                      <th scope="col">Avaliação 2</th>
-                      <th scope="col">Avaliação 3</th>
-                      <th scope="col">Avaliação 4</th>
-                      <th scope="col">Presenças</th>
+                     <th scope="col">Nome</th>
+                      <th scope="col" class="col-avaliacao" data-index="1" >Avaliação 1 <a type="button" class="ml-2"  id="btnAddAvaliacao"> + </button></th>
+                      <th scope="col" class="col-avaliacao d-none" data-index="2" >Avaliação 2</th>
+                      <th scope="col" class="col-avaliacao d-none" data-index="3"  >Avaliação 3</th>
+                      <th scope="col" class="col-avaliacao d-none" data-index="4"  >Avaliação 4</th>
                       <th scope="col">Média</th>
+                      <th scope="col">Presença</th>
+                      <th scope="col">Participação</th>
+                      <th scope="col">Pontualidade</th>
                       <th scope="col">Observações</th>
                       <th scope="col">Acções</th>
                     </tr>
@@ -195,12 +197,14 @@ w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. 
                     <tr data-instituicao="" data-curso="">
                         <th scope="row">{{$listaAluno->id}}</th>
                         <td>{{$listaAluno->nome}}</td>
-                        <td><input class="form-control form-control-sm" type="number"></td>
-                        <td><input class="form-control form-control-sm" type="number"></td>
-                        <td><input class="form-control form-control-sm" type="number"></td>
-                        <td><input class="form-control form-control-sm" type="number"></td>
-                        <td><input class="form-control form-control-sm" type="number" min="0" step="1"></td>
+                        <td class="col-avaliacao" data-idx="1"><input class="form-control form-control-sm input-avaliacao" type="number"></td>
+                        <td class="col-avaliacao d-none" data-idx="2" ><input class="form-control form-control-sm input-avaliacao" type="number"></td>
+                        <td class="col-avaliacao d-none" data-idx="3" ><input class="form-control form-control-sm input-avaliacao" type="number"></td>
+                        <td class="col-avaliacao d-none" data-idx="4" ><input class="form-control form-control-sm input-avaliacao" type="number"></td>
                         <td><input class="mediaAluno form-control form-control-sm" type="number" value="" readonly></td>
+                        <td><input class="form-control form-control-sm" type="number" min="0" step="1"></td>
+                        <td><input class="form-control form-control-sm" type="number" min="0" step="1"></td>
+                        <td><input class="form-control form-control-sm" type="number" min="0" step="1"></td>
                         <td>
                             <textarea class="form-control form-control-sm" rows="3" style="resize: none;"></textarea>
                           </td>

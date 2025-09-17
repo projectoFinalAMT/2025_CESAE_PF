@@ -48,10 +48,9 @@ class EventController extends Controller
             }
         }
 
-        $finalTitle = $request->filled('title')
-        ? $request->title
-        : $this->buildTitle(null, $request->cursos_id, $request->modulos_id);
-        
+        $finalTitle = $this->buildTitle($request->title, $request->cursos_id, $request->modulos_id);
+
+
         $event = Event::create([
             'title'      => $finalTitle,
             'cursos_id'  => $request->cursos_id,
@@ -95,6 +94,7 @@ class EventController extends Controller
 
         $finalTitle = $this->buildTitle($request->title, $request->cursos_id, $request->modulos_id);
 
+
         $event->update([
             'title'      => $finalTitle,
             'cursos_id'  => $request->cursos_id,
@@ -127,52 +127,75 @@ class EventController extends Controller
      * 6) Nada -> "Evento"
      */
     private function buildTitle(?string $title, ?int $cursoId, ?int $moduloId): string
-    {
-        $cursoNome  = null;
-        $instNome   = null;
-        $moduloNome = null;
+{
+    $cursoNome  = null;
+    $instNome   = null;
+    $moduloNome = null;
 
-        if ($moduloId) {
-            $mod = \App\Models\Modulo::with(['cursos.instituicao'])->find($moduloId);
-            if ($mod) {
-                $moduloNome = $mod->nomeModulo ?? null;
+    if ($moduloId) {
+        $mod = \App\Models\Modulo::with(['cursos.instituicao'])->find($moduloId);
+        if ($mod) {
+            $moduloNome = $mod->nomeModulo ?? null;
 
-                $curso = $mod->cursos->first();
-                if ($curso) {
-                    $cursoNome = $curso->titulo ?? $curso->nomeCurso ?? null;
-
-                    $inst = $curso->instituicao;
-                    if ($inst) {
-                        $instNome = $inst->nomeInstituicao ?? null; // <- usa a coluna certa
-                    }
-                }
-            }
-        } elseif ($cursoId) {
-            $curso = \App\Models\Curso::with('instituicao')->find($cursoId);
+            $curso = $mod->cursos->first();
             if ($curso) {
                 $cursoNome = $curso->titulo ?? $curso->nomeCurso ?? null;
 
                 $inst = $curso->instituicao;
                 if ($inst) {
-                    $instNome = $inst->nomeInstituicao ?? null; // <- usa a coluna certa
+                    $instNome = $inst->nomeInstituicao ?? null;
                 }
             }
         }
+    } elseif ($cursoId) {
+        $curso = \App\Models\Curso::with('instituicao')->find($cursoId);
+        if ($curso) {
+            $cursoNome = $curso->titulo ?? $curso->nomeCurso ?? null;
 
-        // Regras de título
-        if ($title && $moduloNome)       { $base = "{$title} {$moduloNome}"; }
-        elseif ($title && $cursoNome)    { $base = "{$title} {$cursoNome}"; }
-        elseif (!$title && $moduloNome)  { $base = $moduloNome; }
-        elseif (!$title && $cursoNome)   { $base = $cursoNome; }
-        else                             { $base = $title ?: 'Evento'; }
-
-        // Sufixo (Instituição) se existir
-        if ($instNome) {
-            $base .= " ({$instNome})";
+            $inst = $curso->instituicao;
+            if ($inst) {
+                $instNome = $inst->nomeInstituicao ?? null;
+            }
         }
-
-        return $base;
     }
+
+    // ===== regras 1–6 com proteção a duplicação =====
+    $hasText = isset($title) && trim($title) !== '';
+    $base = $hasText ? trim($title) : null;
+
+    if ($hasText) {
+        // 1) Título + módulo -> "título nomeDoMódulo" (só se ainda não contiver)
+        if ($moduloNome && stripos($base, $moduloNome) === false) {
+            $base .= " {$moduloNome}";
+        }
+        // 2) Título + curso -> "título nomeDoCurso" (só se não houve módulo e ainda não contiver)
+        elseif ($cursoNome && stripos($base, $cursoNome) === false) {
+            $base .= " {$cursoNome}";
+        }
+        // 5) Só título -> fica como está
+    } else {
+        // 3) Sem título + módulo -> "nomeDoMódulo"
+        if ($moduloNome) {
+            $base = $moduloNome;
+        }
+        // 4) Sem título + curso -> "nomeDoCurso"
+        elseif ($cursoNome) {
+            $base = $cursoNome;
+        }
+        // 6) Nada -> "Evento"
+        else {
+            $base = 'Evento';
+        }
+    }
+
+    // Sufixo da instituição — só se ainda não existir (case-insensitive)
+    if ($instNome && stripos($base, "({$instNome})") === false) {
+        $base .= " ({$instNome})";
+    }
+
+    return $base;
+}
+
 
     //exportar excell
     public function exportExcel(Request $request)
