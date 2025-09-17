@@ -7,7 +7,7 @@
                                 aria-label="Fechar"></button>
                         </div>
                         <div class="modal-body text-center">
-                            <p>Tem certeza que deseja eliminar esta Instituição?</p>
+                            <p>Tem certeza que deseja eliminar esta Instituição? Pode ter faturas associadas que serão eliminadas junto</p>
                         </div>
                         <div class="modal-footer">
                             <a href="{{ route('instituicoes') }}" type="button" class="btn btn-novo-curso">

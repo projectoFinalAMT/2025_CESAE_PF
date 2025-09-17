@@ -58,9 +58,7 @@
                         </div>
 
                         <div class="col-md-4 d-flex flex-column gap-2 btn-adicionar">
-                            <a href="#" class="btn btn-novo-curso"><i class="bi bi-people-fill"></i> Ver
-                                Alunos</a>
-
+                            
                             <!-- Botão para collapse de módulos -->
                             <button type="button" class="btn btn-novo-curso" data-bs-toggle="collapse"
                                 data-bs-target="#modulosCollapse-{{ $curso->id }}" aria-expanded="false"

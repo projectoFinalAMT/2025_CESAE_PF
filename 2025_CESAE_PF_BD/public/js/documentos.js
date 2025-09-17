@@ -268,32 +268,52 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //pesquisa
+function enableSearch(inputId, gridId) {
+    const input = document.getElementById(inputId);
+    const grid = document.getElementById(gridId);
+    if (!input || !grid) return;
 
-document.addEventListener("DOMContentLoaded", () => {
-    let myfilter = document.querySelector("input").getAttribute("id");
-    search(myfilter);
-});
-
-
-function search(filter) {
-    const input = document.getElementById(filter);
-    const cards = document.querySelectorAll(".row.g-4 > .col-12");
+    // Guarda os cards originais na ordem
+    const allCards = Array.from(grid.children);
 
     input.addEventListener("input", function () {
         const query = this.value.toLowerCase();
 
-        cards.forEach((card) => {
-            const nome = card
-                .querySelector(".card-title")
-                .textContent.toLowerCase();
-            if (nome.includes(query)) {
-                card.style.display = ""; // mostra
-            } else {
-                card.style.display = "none"; // esconde
-            }
+        // Limpa o grid
+        grid.innerHTML = "";
+
+        if (query === "") {
+            // Se input vazio → mostra tudo na ordem original
+            allCards.forEach((c) => {
+                c.style.display = "";
+                grid.appendChild(c);
+            });
+            return;
+        }
+
+        // Filtra cards que batem
+        const matching = allCards.filter((card) => {
+            const titleEl = card.querySelector(".card-title");
+            const nome = titleEl ? titleEl.textContent.toLowerCase() : "";
+            return nome.includes(query);
+        });
+
+        // Mostra só os que batem, no topo
+        matching.forEach((c) => {
+            c.style.display = "";
+            grid.appendChild(c);
         });
     });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    enableSearch("pesquisa-instituicao", "grid-instituicoes");
+    enableSearch("pesquisa-cursos", "grid-cursos");
+    enableSearch("pesquisa-modulos", "grid-modulos");
+    enableSearch("pesquisa-documentos", "grid-documentos");
+});
+
+
 
 //Adicionar Cor
 document.addEventListener("DOMContentLoaded", function () {
