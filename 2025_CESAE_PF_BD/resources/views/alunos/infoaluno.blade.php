@@ -104,56 +104,7 @@
             </div>
 
 
-                 <!-- TABELA ALUNO -->
-                 <div class="table-responsive">
-                 <table class="table table-hover table-bordered" id="tabelaAlunos">
-                    <thead>
-              <!-- Cabeçalhos das colunas -->
-                      <tr>
-                        <th scope="col">Nr</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Avaliação 1</th>
-                        <th scope="col">Avaliação 2</th>
-                        <th scope="col">Avaliação 3</th>
-                        <th scope="col">Avaliação 4</th>
-                        <th scope="col">Avaliação 5</th>
-                        <th scope="col">Média</th>
-                        <th scope="col">Faltas</th>
-                        <th scope="col">Comportamento</th>
-                        <th scope="col">Participação</th>
-
-
-                      </tr>
-
-
-                    </thead>
-
-                    <tbody>
-
-
-                          <th scope="row">idDoAluno</th>
-                          <td>nomeDoAluno</td>
-                          <td><input class="form-control form-control-sm" type="number"></td>
-                          <td><input class="form-control form-control-sm" type="number"></td>
-                          <td><input class="form-control form-control-sm" type="number"></td>
-                          <td><input class="form-control form-control-sm" type="number"></td>
-                          <td><input class="form-control form-control-sm" type="number"></td>
-                          <td><input class="form-control form-control-sm" type="number"  value="12"></td>                          <td><input type="number" class="form-control form-control-sm" min="0" step="1" value="0"></td>
-                          <td><input class="form-control form-control-sm" type="number"></td>
-                          <td><input class="form-control form-control-sm" type="number"></td>
-
-
-
-
-
-
-
-
-
-
-                    </tbody>
-                  </table>
-                </div>
+               
 
             <div class="card-footer text-end">
               <button type="reset" class="btn btn-secondary rounded-0">Cancelar</button>
