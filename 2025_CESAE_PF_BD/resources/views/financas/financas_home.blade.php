@@ -129,7 +129,7 @@
                                             <p class="mb-1">Líquido Real (Tu recebes): <strong
                                                     id="liquido">€0,00</strong></p>
                                             <p class="mb-0 fw-bold">Total c/ IVA (Cliente paga): <span
-                                                    class="text-primary" id="total">€0,00</span></p>
+                                                    class="text-success" id="total">€0,00</span></p>
                                         </div>
 
                                         <!-- Datas -->
@@ -148,7 +148,7 @@
                                                     Fatura*</label>
                                                 <select class="form-control" id="estadoFatura" name="estadoFatura"
                                                     required>
-                                                    <option value="" selected disabled>Selecione uma instituição
+                                                    <option value="" selected disabled>Selecione um estado
                                                     </option>
                                                     @foreach ($estados as $estado)
                                                         <option value="{{ $estado->id }}">
@@ -211,7 +211,7 @@
                                     <div class="col-8">
                                         <!-- Valor em destaque -->
                                         <div class="text-amount mb-1">
-                                            <h3 class="text-info fw-bold mb-0">
+                                            <h3 class="text fw-bold mb-0">
                                                 {{ number_format($totalFaturacao, 2, ',', '.') }}€</h3>
                                         </div>
 
@@ -299,7 +299,7 @@
 
 
                                     <!-- Legenda -->
-                                    <ul class="list-unstyled mt-3 small" id="listaInstituicoes">
+                                    <ul class="list-unstyled mt-4 small" id="listaInstituicoes">
                                         @foreach($faturacaoInstituicoes as $instituicao)
                                         <li class="d-flex align-items-center mb-2">
                                             <span class="badge rounded-circle me-2" style="background-color: {{ $instituicao['cor'] }};">&nbsp;</span>
@@ -327,8 +327,8 @@
 
                                     <!-- Tabela Faturas -->
                                     <div class="table-responsive" id="faturasTabela">
-                                        <table class="table text-center">
-                                            <thead class="table-light">
+                                        <table class="table table-hover align-middle text-center">
+                                            <thead>
                                                 <tr>
                                                     <th>Instituição</th>
                                                     <th>Valor</th>
@@ -412,7 +412,7 @@
                                                                                     value="{{ $estado->id }}">
                                                                                 <button type="submit"
                                                                                     id="buttonAlterarEstado"
-                                                                                    class="btn btn-sm btn-outline-secundary w-100">
+                                                                                    class="btn btn-sm btn-alterar-estado w-100">
                                                                                     {{ $estado->nomeEstadoFatura }}
                                                                                 </button>
                                                                             </form>
