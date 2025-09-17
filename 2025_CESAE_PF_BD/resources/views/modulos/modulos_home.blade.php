@@ -49,6 +49,7 @@
             @include('componentes.modulo.eliminar-associoados')
 
             <!-- Grid de módulos -->
+            @if ($modulos->count() > 0)
             <div class="row g-4" id="grid-modulos">
                 @foreach ($modulos as $modulo)
                     @foreach ($modulo->cursos as $curso)
@@ -107,8 +108,12 @@
                     @include('componentes.modulo.editar-modulo')
                 @endforeach
             </div>
+             @else
+                <p class="text-muted">Nenhum módulo cadastrado ainda.</p>
+            @endif
         </div>
     </div>
+
 
       @include('componentes.perfil.perfil')
 @endsection

@@ -51,7 +51,7 @@
         <!-- Modal de confirmação eliminar -->
         @include('componentes.instituicao.eliminar')
 
-
+  @if ($instituicoes->count() > 0)
         <div class="row g-4" id="grid-instituicoes">
             @foreach ($instituicoes as $instituicao)
                 <div class="col-12 col-md-6 col-lg-4">
@@ -108,5 +108,9 @@
                     @include('componentes.instituicao.editar-instituicao')
             @endforeach
         </div>
+
+        @else
+                <p class="text-muted">Nenhuma Instituição cadastrada ainda.</p>
+            @endif
           @include('componentes.perfil.perfil')
     @endsection
