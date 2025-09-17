@@ -26,8 +26,7 @@ public function index(Request $request)
 
     $instituicoes = Instituicao::where('users_id', Auth::id())->get();
 
-    $estados = EstadoFatura::join('financas', 'estado_faturas.id', 'estado_faturas_id')
-    ->where('financas.users_id', Auth::id())->get();
+    $estados = EstadoFatura::all();
 
     $recebimentos = Financa::join('recebimentos', 'financas.id', 'financas_id')
     ->where('financas.users_id', Auth::id())->get();
