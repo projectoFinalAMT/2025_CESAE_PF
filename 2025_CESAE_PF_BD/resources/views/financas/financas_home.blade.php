@@ -27,8 +27,7 @@
 
             <!-- Título Gestão Financeira -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="fw-bold">Gestão Financeira</h2> <input type="text" class="form-control w-auto ms-auto"
-                    placeholder="Pesquisar Fatura..." id="pesquisa-fatura"> {{-- ms-auto → margem à esquerda automática, empurra o input para o final da linha. w-auto → limita a largura da barra de pesquisa, não ocupando todo o espaço. --}}
+                <h2 class="fw-bold">Gestão Financeira</h2>
             </div>
 
             <!-- Container flex responsivo - permite alinhar botão fatura + grupo de filtros + botão calendário -->
@@ -190,19 +189,24 @@
             </div>
 
 
-            <!--Grid ganhos/expectável/objetivo-->
+            <!--Grid faturação (total & paga)/ganhos/expectável-->
 
             <div class="container mt-4">
                 <div class="row">
 
-                    <!-- Card 1 - Faturação -->
-                    <div class="col-12 col-md-4 d-flex">
+                    <!-- Card 1 - Faturação Válida (faturas emitidas & pagas) -->
+                    <div class="col-12 col-md-3 d-flex">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
                                     <!-- Título -->
                                     <div class="col-12 col-md-8">
-                                        <h5 class="card-title">Faturação</h5>
+                                        <h5 class="card-title">
+                                            <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
+                                                  title="Faturação Válida - Total de Faturas Emitidas & Pagas.">
+                                                Faturação*
+                                        </span>
+                                        </h5>
                                     </div>
                                 </div>
 
@@ -217,13 +221,13 @@
 
                                         <!-- Valor IVA -->
                                         <div class="text-amount mt-2">
-                                            <h6 class="text-black-50">Valor IVA
+                                            <h6 class="text-black-50 small">IVA
                                                 {{ number_format($totalIva, 2, ',', '.') }}€</h6>
                                         </div>
 
                                         <!-- Valor IRS -->
                                         <div class="text-amount mt-1">
-                                            <h6 class="text-black-50">Valor IRS
+                                            <h6 class="text-black-50 small">IRS
                                                 {{ number_format($totalIrs, 2, ',', '.') }}€</h6>
                                         </div>
                                     </div>
@@ -233,39 +237,99 @@
                         </div>
                     </div>
 
-                    <!-- Card 2 - Ganhos (valor liquido) -->
-                    <div class="col-12 col-md-4 d-flex">
+                    <!-- Card 2 - Faturação Paga (faturas pagas) -->
+                    <div class="col-12 col-md-3 d-flex">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
                                     <!-- Título -->
                                     <div class="col-12 col-md-8">
-                                        <h5 class="card-title">Ganhos (Valor líquido)</h5>
+                                        <h5 class="card-title">
+                                        <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
+                                                  title="Faturação Paga - Total de Faturas Pagas.">
+                                                Faturação Paga*
+                                            </span>
+                                        </h5>
+                                    </div>
+                                </div>
+
+                            <div class="row mt-2 align-items-center">
+                                    <!-- Texto à esquerda -->
+                                    <div class="col-8">
+                                        <!-- Valor em destaque -->
+                                        <div class="text-amount mb-1">
+                                            <h3 class="text fw-bold mb-0">
+                                                {{ number_format($totalFaturacaoPaga, 2, ',', '.') }}€</h3>
+                                        </div>
+
+                                        <!-- Valor IVA -->
+                                        <div class="text-amount mt-2">
+                                            <h6 class="text-black-50 small">IVA
+                                                {{ number_format($totalIvaPago, 2, ',', '.') }}€</h6>
+                                        </div>
+
+                                        <!-- Valor IRS -->
+                                        <div class="text-amount mt-1">
+                                            <h6 class="text-black-50 small">IRS
+                                                {{ number_format($totalIrsPago, 2, ',', '.') }}€</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- Card 3 - Ganhos (valor liquido) -->
+                    <div class="col-12 col-md-3 d-flex">
+                        <div class="card card-financas h-100 w-100">
+                            <div class="card-body position-relative">
+                                <div class="row">
+                                    <!-- Título -->
+                                    <div class="col-12 col-md-8">
+                                        <h5 class="card-title">
+                                        <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
+                                                  title="Valor Ganho - Valor líquido efetivamente recebido depois de entregar o IVA e descontar o IRS. Calculado a partir das Faturas Pagas.">
+                                                Ganhos*
+                                            </span>
+                                        </h5>
                                     </div>
                                 </div>
 
                                 <!-- Conteúdo -->
-                                <div class="text-amount mt-2 mb-1" id="tituloValorExpectavel">
+                                <div class="text-amount mt-2 mb-1" id="tituloGanhos">
                                     <h3 class="fw-bold mb-0">{{ number_format($totalGanhos, 2, ',', '.') }}€</h3>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Card 3 - Expectável -->
-                    <div class="col-12 col-md-4 d-flex">
+                    <!-- Card 4 - Expectável -->
+                    <div class="col-12 col-md-3 d-flex">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
                                     <!-- Título -->
                                     <div class="col-12 col-md-8">
-                                        <h5 class="card-title">Expectável</h5>
+                                        <h5 class="card-title">
+                                            <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
+                                                  title="Valor Expectável - com base no valor acordado, o valor total a receber com IVA e o valor líquido a receber depois de descontar IRS.">
+                                                Expectável*
+                                            </span>
+                                        </h5>
                                     </div>
                                 </div>
 
                                 <!-- Conteúdo -->
-                                <div class="text-amount mt-2 mb-1" id="tituloValorExpectavel">
-                                    <h3 class="fw-bold mb-0"></h3>
+                                <div class="text-amount mt-2 mb-1" id="tituloGanhos">
+                                    <h3 class="fw-bold mb-0">
+                                    @php
+                                    $total = 0;
+                                    foreach ($cursosComValor as $curso) {
+                                        $total += $curso['total_valor'];
+                                    }
+                                    @endphp
+                                    {{ number_format($total, 2) }} €
+                                    </h3>
                                 </div>
                             </div>
                         </div>
