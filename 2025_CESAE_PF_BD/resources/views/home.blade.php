@@ -95,9 +95,9 @@
                                     </h5>
                                 </div>
                             </div>
-                            <p class="card-text fw-bold fs-3">0</p>
+                            <p class="card-text fw-bold fs-3">{{$documentos}}</p>
                             <div class="d-flex justify-content-between px-3">
-                                <span class="card-text">0 a expirar em breve</span>
+                                <span class="card-text">{{$documentosExpirar}} a expirar em breve</span>
                             </div>
 
                         </div>
@@ -266,28 +266,25 @@
                 <p id="subtitle">Acesso rápido às funcionalidades mais utilizadas</p>
 
                 <div class="m-4 d-flex flex-wrap gap-3 justify-content-center">
-                    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal"
-                        data-bs-target="#novoCursoModal">
+                    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal" data-bs-target="#novoCursoModal">
                         <i class="fa-solid fa-graduation-cap"></i> Novo Curso
                     </button>
 
                     <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal"
-                        data-bs-target="#novoCursoModal">
+                        data-bs-target="#alunoModal">
                         <i class="fa-solid fa-user"></i> Adicionar Aluno
                     </button>
 
-                    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal"
-                        data-bs-target="#novoCursoModal">
+                    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal" data-bs-target="#novoDocumentoModal">
                         <i class="fa-solid fa-file"></i> Upload Documento
                     </button>
 
                     <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal"
-                        data-bs-target="#novoCursoModal">
+                        data-bs-target="#eventoModal">
                         <i class="fa-solid fa-calendar-days"></i> Agendar Aula
                     </button>
 
-                    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal"
-                        data-bs-target="#novoCursoModal">
+                    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal" data-bs-target="#novaInstituicaoModal">
                         <i class="fa-solid fa-building"></i> Registar Instituição
                     </button>
                 </div>
@@ -295,9 +292,23 @@
         </div>
     </div>
 
-    
+
 
      @include('componentes.perfil.perfil')
+
+        <!-- Modal Novo Curso -->
+        @include('componentes.curso.novo-curso')
+
+        <!-- Modal Nova Instituicao -->
+        @include('componentes.instituicao.nova-instituicao')
+         <!-- Modal Novo Documento -->
+         @include('componentes.documento.novo-documento')
+
+         <!--Alunos modal-->
+         @include('componentes.alunos.alunos-modal')
+
+
+
 
 @section('scripts')
     <!-- IMPORTANTE: JS do FullCalendar (usa o bundle global) -->

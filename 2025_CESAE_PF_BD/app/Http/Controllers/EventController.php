@@ -65,6 +65,11 @@ class EventController extends Controller
             'success' => true,
             'event'   => $event->toCalendarArray(),
         ]);
+
+
+
+
+
     }
 
     // Atualiza um evento existente
@@ -119,10 +124,10 @@ class EventController extends Controller
 
     /**
      * Regras do título:
-     * 1) Título + módulo -> "título nomeDoMódulo"
-     * 2) Título + curso  -> "título nomeDoCurso"
-     * 3) Sem título + módulo -> "nomeDoMódulo"
-     * 4) Sem título + curso  -> "nomeDoCurso"
+     * 1) Título + módulo -> "título nomeDoMódulo Instituição"
+     * 2) Título + curso  -> "título nomeDoCurso Instituição"
+     * 3) Sem título + módulo -> "nomeDoMódulo Instituição"
+     * 4) Sem título + curso  -> "nomeDoCurso Instituição"
      * 5) Só título -> "título"
      * 6) Nada -> "Evento"
      */

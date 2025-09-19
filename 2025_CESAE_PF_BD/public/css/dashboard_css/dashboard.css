@@ -1,5 +1,5 @@
 body {
-    background-color: #FAF7F2;
+    background-color: #FAF7F2!important;
     color: #4B3F32;
 }
 .titlecard i {
@@ -15,16 +15,17 @@ body {
     border: none;
     border-radius: 0px !important;
     box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+    background-color: #FFFDF9!important;
+
   }
 
-  #calendar{
-    width: 100%;
-  }
+
 
   #fastAction{
     border: none;
     border-radius: 0px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+    background-color: #FFFDF9;
   }
 
   #fastActionButtons{
@@ -46,6 +47,7 @@ margin-right: 10px;  }
     height: 600px;          /* altura fixa */
     overflow-y: auto;       /* ativa scroll vertical */
     overflow-x: hidden;
+    background-color: #FFFDF9;
 }
 
 .title{
@@ -90,3 +92,17 @@ margin-right: 10px;  }
     font-size: 10px;
 }
 
+
+.card-body{
+    background-color: #FFFDF9;
+}
+
+.btn{
+    background-color: #52796F!important;
+  color: #EAF4F4!important;
+  border-radius: none!important;
+}
+.btn:hover {
+    background-color: #73ac99!important;
+    color: #EAF4F4!important;
+}
