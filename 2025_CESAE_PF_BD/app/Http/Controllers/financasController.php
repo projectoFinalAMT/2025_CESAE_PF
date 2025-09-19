@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use Carbon\Carbon;
 use App\Models\Curso;
 use App\Models\Event;
 use App\Models\Modulo;
 use App\Models\Financa;
+use App\Models\EstadoCurso;
 use App\Models\Instituicao;
 use App\Models\Recebimento;
 use App\Models\EstadoFatura;
@@ -35,29 +37,6 @@ public function index(Request $request)
 
     // Query base para filtrar valores Faturação, Ganhos (valor líquido), Faturação por Instituição & Faturas
     $query = Financa::where('users_id', Auth::id())->with(['recebimento', 'instituicao', 'curso']);
-
-    // Para poder calcular Valor Expectável
-    $precoHoraCurso = Curso::where('users_id', Auth::id())->select('id','precoHora')->get();
-    $horarioInicioAula = Event::where('users_id', Auth::id())->select('start')->get(); // formato datetime
-    $horarioFimAula = Event::where('users_id', Auth::id())->select('end')->get(); // formato datetime
-
-    // Ligo a tabela Cursos à tabela de Eventos através do id do curso.
-    $eventosCurso = Curso::join('events', 'cursos.id', 'events.cursos_id')
-    ->where('events.users_id', Auth::id())
-    ->get([
-        'cursos.id as curso_id',
-        'cursos.precoHora',
-        'events.start',
-        'events.end'
-    ]);
-
-    //dd($eventosCurso);
-
-    // preciso de somar o total de horas de aulas, e multiplicar pelo valor hora
-    //foreach($precoHoraCurso as $precoHoraCursoAtual)
-      //  $cursoAtual = $precoHoraCursoAtual.id;
-
-    // dd($horarioFimAula);
 
     // Define datas para o filtro
     switch ($filtro) {
@@ -91,23 +70,89 @@ public function index(Request $request)
 
     $financas = $query->get();
 
-    // Faturação total (soma dos recebimentos)
-    $totalFaturacao = $financas->sum(function ($financa) {
+    // Faturação total - soma de todas as faturas válidas
+    $totalFaturacao = $financas->whereIn('estado_faturas_id', [1, 2])
+                        ->sum('valor');
+
+    // IVA e IRS - de todas as faturas válidas (emitidas & pagas)
+    $totalIva = $financas->whereIn('estado_faturas_id', [1, 2])
+                          ->sum('IVATaxa');
+
+    $totalIrs = $financas->whereIn('estado_faturas_id', [1, 2])
+                          ->sum('IRSTaxa');
+
+
+    // Faturas pagas - soma das faturas que estão dadas como pagas
+    $totalFaturacaoPaga = $financas->sum(function ($financa) {
         return $financa->recebimento->valor ?? 0;
     });
 
     // IVA e IRS (somente faturas pagas)
-    $totalIva = $financas->where('estado_faturas_id', 2)
+    $totalIvaPago = $financas->where('estado_faturas_id', 2)
                           ->sum('IVATaxa');
 
-    $totalIrs = $financas->where('estado_faturas_id', 2)
+    $totalIrsPago = $financas->where('estado_faturas_id', 2)
                           ->sum('IRSTaxa');
 
-    // Ganhos líquidos (somente faturas pagas)
+
+    // Ganhos (somente faturas pagas)
     $totalGanhos = $financas->where('estado_faturas_id', 2)
                              ->sum('valor_liquido');
 
 
+    // Expectável
+    // Para poder calcular Valor Expectável
+    // $valorExpectavelCurso = Curso::where('users_id', Auth::id())
+    // ->select('id','precoHora','duracaoTotal')
+    // ->get();
+
+    // Ligo a tabela Cursos à tabela de Eventos através do id do curso.
+    $aulasCurso = Curso::join('events', 'cursos.id', 'events.cursos_id')
+    ->where('events.users_id', Auth::id())
+    ->get([
+        'cursos.id as curso_id',
+        'cursos.titulo',
+        'cursos.precoHora',
+        'events.start',
+        'events.end',
+    ]);
+
+    //dd($aulasCurso);
+
+    $cursosComValor = [];
+
+foreach ($aulasCurso as $aula) {
+    $start = new DateTime($aula->start);
+    $end = new DateTime($aula->end);
+
+    // calcula a diferença entre duas datas/horas.
+    // h->horas; i->minutos; s->segundos; d->dias; etc
+    $diferenca = $start->diff($end);
+
+    // Converto os minutos (i) para horas
+    $horas = $diferenca->h + ($diferenca->i / 60);
+
+    // Calcula valor desta aula
+    $valorAula = $horas * $aula->precoHora;
+
+    // Agrupa por curso
+    if (!isset($cursosComValor[$aula->curso_id])) {
+        // Se o curso ainda não foi adicionado, entra no if e cria uma nova entrada no $cursosComValor[].
+        // Caso contrário, passa à frente e incrementa apenas o número de horas e valor por aula
+
+        $cursosComValor[$aula->curso_id] = [
+            'titulo' => $aula->titulo, // Nome do curso
+            'total_horas' => 0,
+            'total_valor' => 0
+        ];
+    }
+
+    $cursosComValor[$aula->curso_id]['total_horas'] += $horas;
+    $cursosComValor[$aula->curso_id]['total_valor'] += $valorAula;
+}
+
+    // $cursosComValor contém agora o total de horas e valor por curso
+    //dd($cursosComValor);
 
     // -------- Agrupar e somar valores por instituição --------
     $agrupado = [];   // Array que vai armazenar os dados agrupados
@@ -159,7 +204,12 @@ public function index(Request $request)
         'totalGanhos',
         'totalIva',
         'totalIrs',
-        'faturacaoInstituicoes'
+        'totalFaturacaoPaga',
+        'totalIvaPago',
+        'totalIrsPago',
+        'faturacaoInstituicoes',
+        'cursosComValor'
+        //'valorExpectavelCurso'
     ));
 }
 
@@ -222,7 +272,7 @@ public function index(Request $request)
         Recebimento::create([
                 'financas_id'    => $financas->id,
                 'valor'          => $financas->valor,
-                'dataRecebimento'=> $validated['dataPagamento'] ?? now()->toDateString(),
+                'dataRecebimento'=> $validated['dataPagamento'] ?? now()->toDateString(), // se tiver data de pagamento, fica essa, caso contrário fica a data no momento da mudança de estado
                 'instituicoes_id'=> $financas->instituicoes_id,
             ]);
     }

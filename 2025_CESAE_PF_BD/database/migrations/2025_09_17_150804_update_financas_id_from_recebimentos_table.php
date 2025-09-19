@@ -19,6 +19,7 @@ return new class extends Migration
               ->onDelete('cascade');
     });
     }
+    
 
     /**
      * Reverse the migrations.
