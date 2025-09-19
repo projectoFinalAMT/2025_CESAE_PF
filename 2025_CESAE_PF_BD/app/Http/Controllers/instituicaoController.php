@@ -65,7 +65,7 @@ public function update(Request $request, $id)
         'emailResponsavel'    => 'required|email',
         'nomeResponsavel'     => 'nullable|string|max:255',
         'cor'                 => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/', // valida HEX
-        'users_id'            => Auth::id()
+       
     ]);
 
     // Atualizar os campos

@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const confirmarEliminarModal = document.getElementById("confirmarEliminar");
     const formEliminar = document.getElementById("formEliminar");
     const idsSelecionados = document.getElementById("idsSelecionados");
-    const cursoSelecionado = document.getElementById("cursoSelecionado"); // hidden input novo
+    const cursoSelecionado = document.getElementById("cursoSelecionado"); 
 
     // Single delete via botão do card
     if(confirmarEliminarModal){

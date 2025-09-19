@@ -103,14 +103,15 @@
 
                         </div>
                     </div>
+                </div>
 
-                    <!-- Modal Editar Instituição -->
-                    @include('componentes.instituicao.editar-instituicao')
             @endforeach
         </div>
-
+ <!-- Modal Editar Instituição -->
+                    @include('componentes.instituicao.editar-instituicao')
         @else
                 <p class="text-muted">Nenhuma Instituição cadastrada ainda.</p>
             @endif
+
           @include('componentes.perfil.perfil')
     @endsection

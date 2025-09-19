@@ -28,8 +28,7 @@
                          <input type="color" id="inputCor-{{ $instituicao->id }}" name="cor" class="d-none"
                              value="{{ $instituicao->cor ? $instituicao->cor : '#f5f4f4' }}">
                      </div>
-                 </form>
-
+                 
                  <!-- Botão X absoluto -->
                  <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"
                      aria-label="Fechar"></button>
@@ -38,59 +37,57 @@
 
              <!-- Corpo -->
              <div class="modal-body">
- <form method="POST" action="{{ route('instituicoes.update', $instituicao->id) }}">
-                    @csrf
-                    @method('PUT')
-                 <div class="mb-3">
-                     <label for="nome_instituicao_{{ $instituicao->id }}" class="form-label">Nome da
-                         Instituição*</label>
-                     <input type="text" class="form-control" id="nome_instituicao_{{ $instituicao->id }}"
-                         name="nomeInstituicao" required value="{{ $instituicao->nomeInstituicao }}">
-                 </div>
 
-                 <div class="mb-3">
-                     <label for="morada_{{ $instituicao->id }}" class="form-label">Morada</label>
-                     <input type="text" class="form-control" id="morada_{{ $instituicao->id }}" name="morada"
-                         value="{{ $instituicao->morada }}">
-                 </div>
-
-                 <div class="row g-3 mb-3">
-                     <div class="col-md-6">
-                         <label for="nif_{{ $instituicao->id }}" class="form-label">NIF</label>
-                         <input type="text" class="form-control" id="nif_{{ $instituicao->id }}" name="NIF"
-                             value="{{ $instituicao->NIF }}">
+                     <div class="mb-3">
+                         <label for="nome_instituicao_{{ $instituicao->id }}" class="form-label">Nome da
+                             Instituição*</label>
+                         <input type="text" class="form-control" id="nome_instituicao_{{ $instituicao->id }}"
+                             name="nomeInstituicao" required value="{{ $instituicao->nomeInstituicao }}">
                      </div>
-                     <div class="col-md-6">
-                         <label for="telefone_{{ $instituicao->id }}" class="form-label">Telefone</label>
-                         <input type="tel" class="form-control" id="telefone_{{ $instituicao->id }}"
-                             name="telefoneResponsavel" value="{{ $instituicao->telefoneResponsavel }}">
-                     </div>
-                 </div>
 
-                 <div class="row g-3 mb-3">
-                     <div class="col-md-6">
-                         <label for="email_{{ $instituicao->id }}" class="form-label">Email*</label>
-                         <input type="email" class="form-control" id="email_{{ $instituicao->id }}"
-                             name="emailResponsavel" required value="{{ $instituicao->emailResponsavel }}">
+                     <div class="mb-3">
+                         <label for="morada_{{ $instituicao->id }}" class="form-label">Morada</label>
+                         <input type="text" class="form-control" id="morada_{{ $instituicao->id }}" name="morada"
+                             value="{{ $instituicao->morada }}">
                      </div>
-                     <div class="col-md-6">
-                         <label for="nome_responsavel_{{ $instituicao->id }}" class="form-label">Nome do
-                             Responsável</label>
-                         <input type="text" class="form-control" id="nome_responsavel_{{ $instituicao->id }}"
-                             name="nomeResponsavel" value="{{ $instituicao->nomeResponsavel }}">
+
+                     <div class="row g-3 mb-3">
+                         <div class="col-md-6">
+                             <label for="nif_{{ $instituicao->id }}" class="form-label">NIF</label>
+                             <input type="text" class="form-control" id="nif_{{ $instituicao->id }}" name="NIF"
+                                 value="{{ $instituicao->NIF }}">
+                         </div>
+                         <div class="col-md-6">
+                             <label for="telefone_{{ $instituicao->id }}" class="form-label">Telefone</label>
+                             <input type="tel" class="form-control" id="telefone_{{ $instituicao->id }}"
+                                 name="telefoneResponsavel" value="{{ $instituicao->telefoneResponsavel }}">
+                         </div>
                      </div>
-                 </div>
 
-                 <div class="text-center mt-4">
-                     <button type="submit" class="btn btn-novo-curso">
-                         Gravar Alterações <i class="bi bi-check-lg text-success"></i>
-                     </button>
+                     <div class="row g-3 mb-3">
+                         <div class="col-md-6">
+                             <label for="email_{{ $instituicao->id }}" class="form-label">Email*</label>
+                             <input type="email" class="form-control" id="email_{{ $instituicao->id }}"
+                                 name="emailResponsavel" required value="{{ $instituicao->emailResponsavel }}">
+                         </div>
+                         <div class="col-md-6">
+                             <label for="nome_responsavel_{{ $instituicao->id }}" class="form-label">Nome do
+                                 Responsável</label>
+                             <input type="text" class="form-control" id="nome_responsavel_{{ $instituicao->id }}"
+                                 name="nomeResponsavel" value="{{ $instituicao->nomeResponsavel }}">
+                         </div>
+                     </div>
 
-                     <button type="button" class="btn btn-novo-curso" data-bs-toggle="modal"
-                         data-bs-target="#confirmarEliminar" data-id="{{ $instituicao->id }}">
-                         Eliminar Instituição <i class="bi bi-x-lg text-danger"></i>
-                     </button>
-                 </div>
+                     <div class="text-center mt-4">
+                         <button type="submit" class="btn btn-novo-curso">
+                             Gravar Alterações <i class="bi bi-check-lg text-success"></i>
+                         </button>
+
+                         <button type="button" class="btn btn-novo-curso" data-bs-toggle="modal"
+                             data-bs-target="#confirmarEliminar" data-id="{{ $instituicao->id }}">
+                             Eliminar Instituição <i class="bi bi-x-lg text-danger"></i>
+                         </button>
+                     </div>
                  </form>
              </div>
 
