@@ -51,67 +51,72 @@
         <!-- Modal de confirmação eliminar -->
         @include('componentes.instituicao.eliminar')
 
-  @if ($instituicoes->count() > 0)
-        <div class="row g-4" id="grid-instituicoes">
-            @foreach ($instituicoes as $instituicao)
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card card-cursos">
-                        <div class="card-body">
+        @if ($instituicoes->count() > 0)
+            <div class="row g-4" id="grid-instituicoes">
+                @foreach ($instituicoes as $instituicao)
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card card-cursos">
+                            <div class="card-body">
 
-                            <!-- Cabeçalho -->
-                            <div class="d-flex justify-content-between">
-                                <h5 class="card-title mb-1">{{ $instituicao->nomeInstituicao }}</h5>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="{{ $instituicao->id }}"
-                                        name="instituicoes[]" id="selecionarInstituicao{{ $instituicao->id }}">
-                                    <label class="form-check-label"
-                                        for="selecionarInstituicao{{ $instituicao->id }}"></label>
+                                <!-- Cabeçalho -->
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title mb-1">{{ $instituicao->nomeInstituicao }}</h5>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{ $instituicao->id }}"
+                                            name="instituicoes[]" id="selecionarInstituicao{{ $instituicao->id }}">
+                                        <label class="form-check-label"
+                                            for="selecionarInstituicao{{ $instituicao->id }}"></label>
+                                    </div>
                                 </div>
+
+                                <!-- Morada -->
+                                <p class="card-text fw-light mb-3">{{ $instituicao->morada }}</p>
+
+                                <!-- Bloco de detalhes -->
+                                <div class="row g-2 mb-3">
+                                    <div class="col-4">
+                                        <p class="mb-1"><strong>NIF:</strong> {{ $instituicao->NIF }}</p>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <p class="mb-1"><strong>Telefone:</strong>
+                                            {{ $instituicao->telefoneResponsavel }}
+                                        </p>
+                                    </div>
+                                    <div class="col-12">
+                                        <p class="mb-1"><strong>Email:</strong> {{ $instituicao->emailResponsavel }}</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <p class="mb-0"><strong>Responsável:</strong> {{ $instituicao->nomeResponsavel }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Rodapé -->
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-sm btn-novo-curso me-2" data-bs-toggle="modal"
+                                        data-bs-target="#editarInstituicaoModal-{{ $instituicao->id }}"><i
+                                            class="bi bi-pencil-fill"></i>
+                                        Editar
+                                    </button>
+                                    <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
+                                        data-id="{{ $instituicao->id }}" data-bs-target="#confirmarEliminar"><i
+                                            class="bi bi-trash-fill"></i>
+                                        Apagar</button>
+                                </div>
+
                             </div>
-
-                            <!-- Morada -->
-                            <p class="card-text fw-light mb-3">{{ $instituicao->morada }}</p>
-
-                            <!-- Bloco de detalhes -->
-                            <div class="row g-2 mb-3">
-                                <div class="col-4">
-                                    <p class="mb-1"><strong>NIF:</strong> {{ $instituicao->NIF }}</p>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <p class="mb-1"><strong>Telefone:</strong> {{ $instituicao->telefoneResponsavel }}
-                                    </p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="mb-1"><strong>Email:</strong> {{ $instituicao->emailResponsavel }}</p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="mb-0"><strong>Responsável:</strong> {{ $instituicao->nomeResponsavel }}</p>
-                                </div>
-                            </div>
-
-                            <!-- Rodapé -->
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-sm btn-novo-curso me-2" data-bs-toggle="modal"
-                                    data-bs-target="#editarInstituicaoModal-{{ $instituicao->id }}"><i class="bi bi-pencil-fill"></i>
-                                    Editar
-                                </button>
-                                <button class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
-                                    data-id="{{ $instituicao->id }}" data-bs-target="#confirmarEliminar"><i
-                                        class="bi bi-trash-fill"></i>
-                                    Apagar</button>
-                            </div>
-
                         </div>
                     </div>
-                </div>
+                @endforeach
 
+            </div>
+            <!-- Modais de edição (fora da grid) -->
+            @foreach ($instituicoes as $instituicao)
+                @include('componentes.instituicao.editar-instituicao')
             @endforeach
-        </div>
- <!-- Modal Editar Instituição -->
-                    @include('componentes.instituicao.editar-instituicao')
         @else
-                <p class="text-muted">Nenhuma Instituição cadastrada ainda.</p>
-            @endif
+            <p class="text-muted">Nenhuma Instituição cadastrada ainda.</p>
+        @endif
 
-          @include('componentes.perfil.perfil')
+        @include('componentes.perfil.perfil')
     @endsection

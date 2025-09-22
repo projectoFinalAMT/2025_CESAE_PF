@@ -3,34 +3,30 @@
 namespace App\Exports;
 
 use App\Models\Event;
-use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class EventsExport implements FromCollection, WithHeadings
 {
-    protected string $range;
+    protected ?string $start;
+    protected ?string $end;
 
-    public function __construct(string $range = 'all')
+    public function __construct(?string $start = null, ?string $end = null)
     {
-        $this->range = $range;
+        $this->start = $start;
+        $this->end   = $end;
     }
 
     public function collection()
     {
-        // Eager load para ambos os caminhos: curso direto e módulo->curso
         $q = Event::with(['curso.instituicao', 'modulo.cursos.instituicao'])
             ->orderBy('start');
 
-        // Filtros simples (podes adaptar)
-        if ($this->range === 'today') {
-            $q->whereDate('start', Carbon::today());
-        } elseif ($this->range === 'week') {
-            $q->whereBetween('start', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+        if ($this->start && $this->end) {
+            $q->whereBetween('start', [$this->start, $this->end]);
         }
 
         return $q->get()->map(function ($e) {
-            // curso direto OU via módulo
             $curso = $e->curso ?: $e->modulo?->cursos?->first();
             $inst  = $curso?->instituicao;
 

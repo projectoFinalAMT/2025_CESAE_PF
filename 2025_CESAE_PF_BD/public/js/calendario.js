@@ -547,8 +547,15 @@ calendar.on('datesSet', () => {
 const btnExportarXlsx = document.getElementById('btnExportarXlsx');
 if (btnExportarXlsx) {
   btnExportarXlsx.addEventListener('click', () => {
-    window.location.href = '/events/export?range=all'; // ou today | all
-  });
+
+  const view = calendar.view;
+
+  const start = view.currentStart.toISOString().split('T')[0] + ' 00:00:00';
+  const end   = new Date(view.currentEnd - 1).toISOString().split('T')[0] + ' 23:59:59';
+
+
+  window.location.href = `/events/export?start=${start}&end=${end}`;
+});
 }
 
 // === Botão: Imprimir (se tiveres um #btnImprimir) ===
