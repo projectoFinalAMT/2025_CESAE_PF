@@ -535,7 +535,7 @@ calendar.on('datesSet', () => {
         if (!livres.length) renderEmpty('Sem horários livres nesta semana');
         else renderGrouped(livres);
 
-        if (subtitlesEl) subtitlesEl.textContent = `Horário Livre (Semana ${WORK_START}:00–${WORK_END}:00)`;
+        if (subtitlesEl) subtitlesEl.textContent = `Horário Livre ( ${WORK_START}:00–${WORK_END}:00)`;
         return;
       }
     });
@@ -547,7 +547,7 @@ calendar.on('datesSet', () => {
 const btnExportarXlsx = document.getElementById('btnExportarXlsx');
 if (btnExportarXlsx) {
   btnExportarXlsx.addEventListener('click', () => {
-    window.location.href = '/events/export?range=week'; // ou today | all
+    window.location.href = '/events/export?range=all'; // ou today | all
   });
 }
 

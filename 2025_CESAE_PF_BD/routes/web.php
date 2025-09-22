@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlunoModuloController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homeController;
@@ -40,10 +41,19 @@ Route::get('/home', [homeController::class, 'index'])->name('casa');
 Route::get('/alunos', [AlunosController::class, 'index'])->name('alunos_view');
 // Route::get('/alunoinfo', [AlunosController::class, 'alunoinfo'])->name('alunos_info');
 Route::post('/alunoadicionar', [AlunosController::class, 'store'])->name('alunos.store');
+
+//uptade aluno
+Route::put('/alunos', [AlunosController::class, 'updateAluno'])->name('alunos.update');
+
 // Endpoints AJAX para selects dependentes
 Route::get('/instituicoes/{id}/cursos', [CursoController::class, 'byInstituicao']);
 Route::get('/cursos/{id}/modulos', [ModuloController::class, 'byCurso']);
 Route::get('/fichaaluno',[AlunosController::class,'fichaaluno']);
+
+
+Route::post('/alunos/medias', [AlunoModuloController::class, 'atualizarMedias'])
+    ->name('alunos.atualizarMedias');
+
 //. alunos
 
 
@@ -106,10 +116,13 @@ Route::get('/cursos/{curso}/modulos', [moduloController::class, 'byCurso'])
 ->name('cursos.modulos');
 // Página do calendário (HTML)
 Route::get('/calendar', [ScheduleController::class, 'index'])->name('calendarioBladeView');
+
 //download eventos calendario
 Route::get('/events/export', [EventController::class, 'exportExcel'])->name('events.export');
 
  }); // .AUTH ROTAS
+
+ 
 
 
 
