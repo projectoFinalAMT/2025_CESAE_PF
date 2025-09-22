@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Modulo;
 use Illuminate\Http\Request;
 use App\Exports\EventsExport;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -26,8 +27,10 @@ class EventController extends Controller
     {
         $request->validate([
             'title'      => 'nullable|string|max:255',
-            'cursos_id'  => 'nullable|exists:cursos,id',
-            'modulos_id' => 'nullable|exists:modulos,id',
+           'cursos_id'  => ['nullable',Rule::exists('cursos', 'id')->where('users_id', Auth::id())
+        ,
+    ],
+    'modulos_id' => 'nullable|exists:modulos,id',
             'start'      => 'required|date',
             'end'        => 'required|date|after_or_equal:start',
             'nota'       => 'nullable|string|max:255',
@@ -77,7 +80,7 @@ class EventController extends Controller
     {
         $request->validate([
             'title'      => 'nullable|string|max:255',
-            'cursos_id'  => 'nullable|exists:cursos,id',
+           'cursos_id'  => ['nullable',Rule::exists('cursos', 'id')->where('users_id', Auth::id())],
             'modulos_id' => 'nullable|exists:modulos,id',
             'start'      => 'required|date',
             'end'        => 'required|date|after_or_equal:start',
@@ -203,11 +206,11 @@ class EventController extends Controller
 
 
     //exportar excell
+
    public function exportExcel(Request $request)
 {
     $start = $request->query('start');
     $end   = $request->query('end');
-
     $filename = 'agenda_' . now()->format('Ymd_His') . '.xlsx';
 
     return Excel::download(new EventsExport($start, $end), $filename);

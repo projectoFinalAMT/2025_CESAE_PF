@@ -4,6 +4,7 @@
   height: 100vh !important;
   display: flex;
   flex-direction: column;
+
 }
 
 .sidebar .offcanvas-body {
@@ -21,6 +22,7 @@
   padding: 10px 20px;
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
+
 }
 
 .sidebar a:hover {
@@ -29,7 +31,7 @@
 
 .sidebar a i {
   margin-right: 8px;
-  font-size: 1.2rem;
+  font-size: 1.2rem !important;
   vertical-align: middle;
 }
 

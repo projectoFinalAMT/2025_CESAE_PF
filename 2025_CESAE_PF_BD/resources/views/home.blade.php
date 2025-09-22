@@ -51,7 +51,7 @@
                             <div class="row d-flex justify-content-between">
                                 <div class="col d-flex align-items-center">
                                     <h5 class="titlecard mb-0">
-                                        Cursos Ativos <i class="fa-solid fa-graduation-cap ms-2"></i>
+                                        Cursos Ativos <i class="fa-solid fa-graduation-cap ms-2"style="color:#324c45;"></i>
                                     </h5>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                             <div class="row d-flex justify-content-between">
                                 <div class="col d-flex align-items-center">
                                     <h5 class="titlecard mb-0">
-                                        Total Alunos <i class="fa-solid fa-user"></i>
+                                        Total Alunos <i class="fa-solid fa-user" style="color:#324c45;"></i>
                                     </h5>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                             <div class="row d-flex justify-content-between">
                                 <div class="col d-flex align-items-center">
                                     <h5 class="titlecard mb-0">
-                                        Documentos <i class="fa-solid fa-file"></i>
+                                        Documentos <i class="fa-solid fa-file" style="color:#324c45;"></i>
                                     </h5>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                             <div class="row d-flex justify-content-between">
                                 <div class="col d-flex align-items-center">
                                     <h5 class="titlecard mb-0">
-                                        Aulas este mês <i class="fa-solid fa-calendar-days"></i>
+                                        Aulas este mês <i class="fa-solid fa-calendar-days" style="color:#324c45;"></i>
                                     </h5>
                                 </div>
                             </div>

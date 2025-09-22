@@ -16,7 +16,7 @@ class homeController extends Controller
 {
     public function index(){
 //info de cursos
-  $mCurso  = Curso::orderBy('titulo')->get();
+  $mCurso  = Curso::where('cursos.users_id',Auth::id())->orderBy('titulo')->get();
   $cursosAtivos = Curso::where('cursos.users_id',Auth::id())->where('estado_cursos_id', 1)->get();
   $totalCursosAtivos = $cursosAtivos->count();
   $cursosInativos= Curso::where('cursos.users_id',Auth::id())->where('estado_cursos_id', 2)->get();
@@ -42,7 +42,7 @@ class homeController extends Controller
   $instituicoes = Instituicao::where('users_id',Auth::id())->get();
 
   //info de agenda
-  $apontamentosHoje= Event::get(); // vou ao event model buscar todos os eventos
+  $apontamentosHoje= Event::where('users_id',Auth::id())->get(); // vou ao event model buscar todos os eventos
   $aulasTotais=Event::where('users_id',Auth::id())->whereNotNull('modulos_id')->whereMonth('created_at',now()->month)->whereYear('created_at',now()->year)->count();
   $aulasSemanaAtual = Event::where('users_id',Auth::id())->whereBetween(
     'start',

@@ -18,7 +18,7 @@ class moduloController extends Controller
     public function index()
     {
         // Carrega todos os cursos com a instituição
-        $cursos = Curso::with('instituicao')->get();
+        $cursos = Curso::where('cursos.users_id',Auth::id())->with('instituicao')->get();
 
         // Carrega todos os módulos com os cursos e a instituição de cada curso
         $modulos = Modulo::with([

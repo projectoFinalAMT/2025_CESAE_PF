@@ -26,9 +26,15 @@ height: 100%;}
 #calendar button{
     background-color: #52796F!important;
     color: #EAF4F4!important;
+    border-radius: 0px!important;
 }
 
 #calendar button:hover{
     background-color: #73ac99!important;
     color: #EAF4F4!important;
 }
+
+.btn{
+     border-radius: 0px!important;
+}
+
