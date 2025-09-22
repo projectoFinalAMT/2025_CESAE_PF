@@ -203,13 +203,15 @@ class EventController extends Controller
 
 
     //exportar excell
-    public function exportExcel(Request $request)
-    {
-        // podes filtrar por range se quiseres (exemplo: week, month)
-        $range = $request->get('range', 'all');
+   public function exportExcel(Request $request)
+{
+    $start = $request->query('start');
+    $end   = $request->query('end');
 
-        return Excel::download(new EventsExport($range), 'agenda.xlsx');
-    }
+    $filename = 'agenda_' . now()->format('Ymd_His') . '.xlsx';
+
+    return Excel::download(new EventsExport($start, $end), $filename);
+}
 
 
 }
