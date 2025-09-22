@@ -20,23 +20,26 @@ class financasController extends Controller
 
 public function index(Request $request)
 {
-    $cursos = Curso::where('users_id', Auth::id())->get();
+    // ======================
+    // 1. DADOS BÁSICOS PARA FORMULÁRIOS
+    // ======================
 
+    $cursos = Curso::where('users_id', Auth::id())->get();
     $modulos = Modulo::join('curso_modulo', 'modulos.id', 'modulo_id')
     ->join('cursos', 'cursos.id', 'curso_id')
     ->where('cursos.users_id', Auth::id())->get();
-
     $instituicoes = Instituicao::where('users_id', Auth::id())->get();
-
     $estados = EstadoFatura::all();
-
     $recebimentos = Financa::join('recebimentos', 'financas.id', 'financas_id')
     ->where('financas.users_id', Auth::id())->get();
+    $filtro = $request->input('filtro', 'este_mes'); // recebe o filtro via GET e estabelece como pré-definido este mês
 
-    $filtro = $request->input('filtro'); // recebe o filtro via GET
+    // ======================
+    // 2. DEFINIR PERÍODO DO FILTRO
+    // ======================
 
-    // Query base para filtrar valores Faturação, Ganhos (valor líquido), Faturação por Instituição & Faturas
-    $query = Financa::where('users_id', Auth::id())->with(['recebimento', 'instituicao', 'curso']);
+    $inicio = null;
+    $fim = null;
 
     // Define datas para o filtro
     switch ($filtro) {
@@ -63,53 +66,27 @@ public function index(Request $request)
             break;
     }
 
+    // ======================
+    // 3. CONSULTAR DADOS COM FILTROS
+    // ======================
+
+    // Query base para filtrar valores Faturação, Ganhos (valor líquido), Faturação por Instituição & Faturas
+    $query = Financa::where('users_id', Auth::id())
+                    ->with(['recebimento', 'instituicao', 'curso']);
+
+    // Query para aplicar o mesmo filtro de datas ao valor expectável
+    // Ligo a tabela Cursos à tabela de Eventos através do id do curso.
+    $queryAulas = Curso::join('events', 'cursos.id', 'events.cursos_id')
+    ->where('events.users_id', Auth::id());
+
     // Aplica o filtro de datas se definido
     if ($inicio && $fim) {
         $query->whereBetween('dataEmissao', [$inicio, $fim]);
+        $queryAulas->whereBetween('events.start', [$inicio, $fim]);
     }
 
     $financas = $query->get();
-
-    // Faturação total - soma de todas as faturas válidas
-    $totalFaturacao = $financas->whereIn('estado_faturas_id', [1, 2])
-                        ->sum('valor');
-
-    // IVA e IRS - de todas as faturas válidas (emitidas & pagas)
-    $totalIva = $financas->whereIn('estado_faturas_id', [1, 2])
-                          ->sum('IVATaxa');
-
-    $totalIrs = $financas->whereIn('estado_faturas_id', [1, 2])
-                          ->sum('IRSTaxa');
-
-
-    // Faturas pagas - soma das faturas que estão dadas como pagas
-    $totalFaturacaoPaga = $financas->sum(function ($financa) {
-        return $financa->recebimento->valor ?? 0;
-    });
-
-    // IVA e IRS (somente faturas pagas)
-    $totalIvaPago = $financas->where('estado_faturas_id', 2)
-                          ->sum('IVATaxa');
-
-    $totalIrsPago = $financas->where('estado_faturas_id', 2)
-                          ->sum('IRSTaxa');
-
-
-    // Ganhos (somente faturas pagas)
-    $totalGanhos = $financas->where('estado_faturas_id', 2)
-                             ->sum('valor_liquido');
-
-
-    // Expectável
-    // Para poder calcular Valor Expectável
-    // $valorExpectavelCurso = Curso::where('users_id', Auth::id())
-    // ->select('id','precoHora','duracaoTotal')
-    // ->get();
-
-    // Ligo a tabela Cursos à tabela de Eventos através do id do curso.
-    $aulasCurso = Curso::join('events', 'cursos.id', 'events.cursos_id')
-    ->where('events.users_id', Auth::id())
-    ->get([
+    $aulasCurso = $queryAulas->get([
         'cursos.id as curso_id',
         'cursos.titulo',
         'cursos.precoHora',
@@ -119,58 +96,95 @@ public function index(Request $request)
 
     //dd($aulasCurso);
 
+    // ======================
+    // 4. CÁLCULOS DE FATURAÇÃO
+    // ======================
+
+    // Faturação válida (emitidas e pagas)
+    $totalFaturacao = $financas->whereIn('estado_faturas_id', [1, 2])
+                               ->sum('valor');
+    $totalIva = $financas->whereIn('estado_faturas_id', [1, 2])
+                         ->sum('IVATaxa');
+    $totalIrs = $financas->whereIn('estado_faturas_id', [1, 2])
+                         ->sum('IRSTaxa');
+
+    // Faturação paga
+    $totalFaturacaoPaga = $financas->sum(function ($financa) {
+        return $financa->recebimento->valor ?? 0;
+    });
+    $totalIvaPago = $financas->where('estado_faturas_id', 2)
+                             ->sum('IVATaxa');
+    $totalIrsPago = $financas->where('estado_faturas_id', 2)
+                             ->sum('IRSTaxa');
+
+    // Ganhos (valor líquido das faturas pagas)
+    $totalGanhos = $financas->where('estado_faturas_id', 2)
+                            ->sum('valor_liquido');
+
+    // ======================
+    // 5. CÁLCULO DO VALOR EXPECTÁVEL (COM FILTRO APLICADO)
+    // ======================
+
     $cursosComValor = [];
+    $valorTotalExpectavel = 0;
 
-foreach ($aulasCurso as $aula) {
-    $start = new DateTime($aula->start);
-    $end = new DateTime($aula->end);
 
-    // calcula a diferença entre duas datas/horas.
-    // h->horas; i->minutos; s->segundos; d->dias; etc
-    $diferenca = $start->diff($end);
+    foreach ($aulasCurso as $aula) {
+        $start = new DateTime($aula->start);
+        $end = new DateTime($aula->end);
 
-    // Converto os minutos (i) para horas
-    $horas = $diferenca->h + ($diferenca->i / 60);
+        // calcula a diferença entre duas datas/horas.
+        // h->horas; i->minutos; s->segundos; d->dias; etc
+        $diferenca = $start->diff($end);
 
-    // Calcula valor desta aula
-    $valorAula = $horas * $aula->precoHora;
+        // Converto os minutos (i) para horas
+        $horas = $diferenca->h + ($diferenca->i / 60);
 
-    // Agrupa por curso
-    if (!isset($cursosComValor[$aula->curso_id])) {
+        // Calcula valor desta aula
+        $valorAula = $horas * $aula->precoHora;
+
+        // Agrupa por curso
+        if (!isset($cursosComValor[$aula->curso_id])) {
         // Se o curso ainda não foi adicionado, entra no if e cria uma nova entrada no $cursosComValor[].
         // Caso contrário, passa à frente e incrementa apenas o número de horas e valor por aula
 
-        $cursosComValor[$aula->curso_id] = [
-            'titulo' => $aula->titulo, // Nome do curso
-            'total_horas' => 0,
-            'total_valor' => 0
-        ];
+            $cursosComValor[$aula->curso_id] = [
+                'titulo' => $aula->titulo, // Nome do curso
+                'total_horas' => 0,
+                'total_valor' => 0
+            ];
+        }
+
+        $cursosComValor[$aula->curso_id]['total_horas'] += $horas;
+        $cursosComValor[$aula->curso_id]['total_valor'] += $valorAula;
+        $valorTotalExpectavel += $valorAula; // Soma total expectável
     }
 
-    $cursosComValor[$aula->curso_id]['total_horas'] += $horas;
-    $cursosComValor[$aula->curso_id]['total_valor'] += $valorAula;
-}
-
-    // $cursosComValor contém agora o total de horas e valor por curso
     //dd($cursosComValor);
 
-    // -------- Agrupar e somar valores por instituição --------
-    $agrupado = [];   // Array que vai armazenar os dados agrupados
+    // ======================
+    // 6. AGRUPAMENTO POR INSTITUIÇÃO
+    // ======================
+
+    $agrupado = [];   // Vai armazenar os dados agrupados
     $somaTotal = 0;   // Guarda o total de todas as faturas (para calcular percentagem)
 
     foreach ($financas as $financa) {
-        // Nome da instituição, ou "Sem Instituição" se não existir
+
+        // Apenas faturas válidas (emitidas ou pagas)
+        if (!in_array($financa->estado_faturas_id, [1, 2])) {
+            continue;
+        }
+
         $nome = $financa->instituicao->nomeInstituicao ?? 'Sem Instituição';
-        // Cor da instituição, ou cor padrão
         $cor = $financa->instituicao->cor ?? '#ccc';
-        // Valor da fatura
         $valor = $financa->valor;
 
         // Se ainda não existe essa instituição no array, inicializa
         if (!isset($agrupado[$nome])) {
             $agrupado[$nome] = [
                 'nome' => $nome,
-                'valor' => 0,   // inicializa soma
+                'valor' => 0,
                 'cor' => $cor,
             ];
         }
@@ -181,7 +195,7 @@ foreach ($aulasCurso as $aula) {
         $somaTotal += $valor;
     }
 
-    // -------- Calcula percentagem de cada instituição --------
+    // Calcula percentagem de cada instituição
     foreach ($agrupado as &$item) { // & significa passagem por referência - aponta diretamente para o elemento original do array
 
         // Se soma total > 0, calcula a percentagem; caso contrário 0
@@ -208,8 +222,8 @@ foreach ($aulasCurso as $aula) {
         'totalIvaPago',
         'totalIrsPago',
         'faturacaoInstituicoes',
-        'cursosComValor'
-        //'valorExpectavelCurso'
+        'cursosComValor',
+        'valorTotalExpectavel'
     ));
 }
 

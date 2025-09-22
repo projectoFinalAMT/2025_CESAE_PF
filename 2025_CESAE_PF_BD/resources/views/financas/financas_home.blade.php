@@ -195,16 +195,16 @@
                 <div class="row">
 
                     <!-- Card 1 - Faturação Válida (faturas emitidas & pagas) -->
-                    <div class="col-12 col-md-3 d-flex">
+                    <div class="col-12 col-md-3 d-flex mb-3 mb-md-0">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
                                     <!-- Título -->
                                     <div class="col-12 col-md-8">
-                                        <h5 class="card-title">
+                                        <h5 class="card-title">Faturação
                                             <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
                                                   title="Faturação Válida - Total de Faturas Emitidas & Pagas.">
-                                                Faturação*
+                                                <i class="bi bi-info-circle fs-6"></i>
                                         </span>
                                         </h5>
                                     </div>
@@ -238,16 +238,16 @@
                     </div>
 
                     <!-- Card 2 - Faturação Paga (faturas pagas) -->
-                    <div class="col-12 col-md-3 d-flex">
+                    <div class="col-12 col-md-3 d-flex mb-3 mb-md-0">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
                                     <!-- Título -->
                                     <div class="col-12 col-md-8">
-                                        <h5 class="card-title">
+                                        <h5 class="card-title">Faturas Pagas
                                         <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
                                                   title="Faturação Paga - Total de Faturas Pagas.">
-                                                Faturação Paga*
+                                                <i class="bi bi-info-circle fs-6"></i>
                                             </span>
                                         </h5>
                                     </div>
@@ -280,16 +280,16 @@
                 </div>
 
                     <!-- Card 3 - Ganhos (valor liquido) -->
-                    <div class="col-12 col-md-3 d-flex">
+                    <div class="col-12 col-md-3 d-flex mb-3 mb-md-0">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
                                     <!-- Título -->
                                     <div class="col-12 col-md-8">
-                                        <h5 class="card-title">
+                                        <h5 class="card-title">Ganhos
                                         <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
                                                   title="Valor Ganho - Valor líquido efetivamente recebido depois de entregar o IVA e descontar o IRS. Calculado a partir das Faturas Pagas.">
-                                                Ganhos*
+                                                <i class="bi bi-info-circle fs-6"></i>
                                             </span>
                                         </h5>
                                     </div>
@@ -304,31 +304,25 @@
                     </div>
 
                     <!-- Card 4 - Expectável -->
-                    <div class="col-12 col-md-3 d-flex">
+                    <div class="col-12 col-md-3 d-flex mb-3 mb-md-0">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
                                     <!-- Título -->
                                     <div class="col-12 col-md-8">
-                                        <h5 class="card-title">
+                                        <h5 class="card-title">Expectável
                                             <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
-                                                  title="Valor Expectável - com base no valor acordado, o valor total a receber com IVA e o valor líquido a receber depois de descontar IRS.">
-                                                Expectável*
+                                                  title="Valor Expectável - Valor negociado com o cliente, sem impostos. Será faturado com IVA adicional.">
+                                                <i class="bi bi-info-circle fs-6"></i>
                                             </span>
                                         </h5>
                                     </div>
                                 </div>
 
                                 <!-- Conteúdo -->
-                                <div class="text-amount mt-2 mb-1" id="tituloGanhos">
+                                <div class="text-amount mt-2 mb-1" id="tituloExpectavel">
                                     <h3 class="fw-bold mb-0">
-                                    @php
-                                    $total = 0;
-                                    foreach ($cursosComValor as $curso) {
-                                        $total += $curso['total_valor'];
-                                    }
-                                    @endphp
-                                    {{ number_format($total, 2) }} €
+                                    {{ number_format($valorTotalExpectavel, 2, ',', '.') }}€
                                     </h3>
                                 </div>
                             </div>
@@ -342,17 +336,23 @@
             <!-- Grid Esquerda/Direita
                 Faturação por Instituição/Faturas -->
             <div class="container mt-4">
-                <div class="row">
+                <div class="row d-flex align-items-stretch">
 
                     <!-- Coluna 1: Faturação por Instituição -->
-                    <div class="col-md-4">
-                        <div class="card-ganhos">
-                            <div class="card shadow-sm rounded-0 p-3">
+                    <div class="col-12 col-md-4 d-flex justify-content-center mb-3 mb-md-0">
+                        <div class="card-ganhos w-100 w-md-auto">
+                            <div class="card shadow-sm rounded-0 p-3 h-100 w-100">
                                 <div class="card-body">
 
                                     <!--Título e Icon Filtro-->
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <h5 class="card-title">Faturação por Instituição</h5>
+                                        <h5 class="card-title">Faturação por Instituição
+                                            <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
+                                                  title="Faturação Válida - Com base nas Faturas Emitidas & Pagas.">
+                                                <i class="bi bi-info-circle fs-6"></i>
+                                            </span>
+                                        </h5>
+
                                     </div>
 
                                     <div class="w-1/2 mx-auto">
@@ -379,19 +379,19 @@
 
 
                     <!-- Coluna 2: Faturas -->
-                    <div class="col-md-8">
+                    <div class="col-md-8 d-flex mb-3 mb-md-0">
                         <div class="card-faturas">
-                            <div class="card shadow-sm rounded-0 p-3">
+                            <div class="card shadow-sm rounded-0 p-3 h-100 w-100">
                                 <div class="card-body">
 
                                     <!--Título e Icon Filtro-->
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
                                         <h5 class="card-title">Faturas</h5>
                                     </div>
 
                                     <!-- Tabela Faturas -->
-                                    <div class="table-responsive" id="faturasTabela">
-                                        <table class="table table-hover align-middle text-center">
+                                    <div class="table-responsive flex-grow-1 overflow-auto" id="faturasTabela">
+                                        <table class="table table-hover align-middle text-center mb-0 table-sm">
                                             <thead>
                                                 <tr>
                                                     <th>Instituição</th>

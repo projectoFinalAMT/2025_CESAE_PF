@@ -113,4 +113,14 @@ body {
 
 
 
-
+/*--------- RESPONSIVIDADE MOBILE ---------*/
+/* Apenas mobile */
+@media (max-width: 767.98px) {
+    #faturasTabela table {
+        font-size: 0.8rem; /* encolhe texto */
+    }
+    #faturasTabela th,
+    #faturasTabela td {
+        padding: 0.3rem; /* menos espaço interno */
+    }
+}
