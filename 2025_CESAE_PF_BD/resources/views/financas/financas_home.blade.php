@@ -195,7 +195,7 @@
                 <div class="row">
 
                     <!-- Card 1 - Faturação Válida (faturas emitidas & pagas) -->
-                    <div class="col-12 col-md-3 d-flex">
+                    <div class="col-12 col-md-3 d-flex mb-3 mb-md-0">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
@@ -238,7 +238,7 @@
                     </div>
 
                     <!-- Card 2 - Faturação Paga (faturas pagas) -->
-                    <div class="col-12 col-md-3 d-flex">
+                    <div class="col-12 col-md-3 d-flex mb-3 mb-md-0">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
@@ -280,7 +280,7 @@
                 </div>
 
                     <!-- Card 3 - Ganhos (valor liquido) -->
-                    <div class="col-12 col-md-3 d-flex">
+                    <div class="col-12 col-md-3 d-flex mb-3 mb-md-0">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
@@ -304,7 +304,7 @@
                     </div>
 
                     <!-- Card 4 - Expectável -->
-                    <div class="col-12 col-md-3 d-flex">
+                    <div class="col-12 col-md-3 d-flex mb-3 mb-md-0">
                         <div class="card card-financas h-100 w-100">
                             <div class="card-body position-relative">
                                 <div class="row">
@@ -339,8 +339,8 @@
                 <div class="row d-flex align-items-stretch">
 
                     <!-- Coluna 1: Faturação por Instituição -->
-                    <div class="col-md-4 d-flex">
-                        <div class="card-ganhos">
+                    <div class="col-12 col-md-4 d-flex justify-content-center mb-3 mb-md-0">
+                        <div class="card-ganhos w-100 w-md-auto">
                             <div class="card shadow-sm rounded-0 p-3 h-100 w-100">
                                 <div class="card-body">
 
@@ -379,7 +379,7 @@
 
 
                     <!-- Coluna 2: Faturas -->
-                    <div class="col-md-8 d-flex">
+                    <div class="col-md-8 d-flex mb-3 mb-md-0">
                         <div class="card-faturas">
                             <div class="card shadow-sm rounded-0 p-3 h-100 w-100">
                                 <div class="card-body">
@@ -391,7 +391,7 @@
 
                                     <!-- Tabela Faturas -->
                                     <div class="table-responsive flex-grow-1 overflow-auto" id="faturasTabela">
-                                        <table class="table table-hover align-middle text-center mb-0">
+                                        <table class="table table-hover align-middle text-center mb-0 table-sm">
                                             <thead>
                                                 <tr>
                                                     <th>Instituição</th>
