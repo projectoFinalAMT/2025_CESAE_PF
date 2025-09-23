@@ -78,7 +78,7 @@
 
               <!-- Observações -->
               <div class="col-12">
-                <label for="observacoes" class="form-label">Observaçõess</label>
+                <label for="observacoes" class="form-label">Observações</label>
                 <textarea class="form-control rounded-0" id="observacoes" name="observacoes" rows="3"></textarea>
               </div>
             </div>

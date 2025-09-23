@@ -160,6 +160,95 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Função de cálculo
+    function calcularTotaisEdicao() {
+        const qtd = document.getElementById("qtdEditar");
+        const valor = document.getElementById("valorEditar");
+        const ivaInput = document.getElementById("ivaEditar");
+        const irsInput = document.getElementById("irsEditar");
+
+        const valorSubtotalInput = document.getElementById('valor_subtotal_editar');
+        const valorIvaInput = document.getElementById('valor_iva_editar');
+        const valorIrsInput = document.getElementById('valor_irs_editar');
+        const valorTotalInput = document.getElementById('valor_total_editar');
+        const valorLiquidoRealInput = document.getElementById('valor_liquido_editar');
+
+        const subtotalEl = document.getElementById("subtotal");
+        const ivaEl = document.getElementById("iva");
+        const irsEl = document.getElementById("irs");
+        const totalEl = document.getElementById("total");
+        const liquidoEl = document.getElementById("liquido");
+
+        const qtdVal = parseFloat(qtd.value) || 0;
+        const valorUnitario = parseFloat(valor.value) || 0;
+        const ivaPerc = parseFloat(ivaInput.value) || 0;
+        const irsPerc = parseFloat(irsInput.value) || 0;
+
+        const subtotal = qtdVal * valorUnitario;
+        const valorIva = subtotal * (ivaPerc / 100);
+        const valorIrs = subtotal * (irsPerc / 100);
+        const total = subtotal + valorIva;
+        const valorLiquidoReal = subtotal - valorIrs;
+
+        valorSubtotalInput.value = subtotal.toFixed(2);
+        valorIvaInput.value = valorIva.toFixed(2);
+        valorIrsInput.value = valorIrs.toFixed(2);
+        valorTotalInput.value = total.toFixed(2);
+        valorLiquidoRealInput.value = valorLiquidoReal.toFixed(2);
+
+        subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
+        ivaEl.textContent = `€${valorIva.toFixed(2)}`;
+        irsEl.textContent = `-€${valorIrs.toFixed(2)}`;
+        totalEl.textContent = `€${total.toFixed(2)}`;
+        liquidoEl.textContent = `€${valorLiquidoReal.toFixed(2)}`;
+    }
+
+    // Event listeners para inputs do modal
+    ['qtdEditar', 'valorEditar', 'ivaEditar', 'irsEditar'].forEach(id => {
+        document.getElementById(id).addEventListener('input', calcularTotaisEdicao);
+    });
+
+    // Abrir modal e preencher campos (a tua função atual)
+    const editarButtons = document.querySelectorAll('.btn-editar-fatura');
+    const formEditar = document.getElementById('formEditarFatura');
+
+    editarButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const fatura = JSON.parse(this.dataset.fatura);
+
+            document.getElementById('instituicaoEditar').value = fatura.instituicoes_id;
+            document.getElementById('cursoEditar').value = fatura.id_curso || '';
+            document.getElementById('moduloEditar').value = fatura.id_modulo || '';
+            document.getElementById('descricaoEditar').value = fatura.descricao;
+            document.getElementById('qtdEditar').value = fatura.quantidade_horas;
+            document.getElementById('valorEditar').value = fatura.valor_hora;
+            document.getElementById('ivaEditar').value = fatura.IVAPercetagem;
+            document.getElementById('irsEditar').value = fatura.baseCalculoIRS;
+            document.getElementById('dataEmissaoEditar').value = fatura.dataEmissao;
+            document.getElementById('dataPagamentoEditar').value = fatura.dataPagamento || '';
+            document.getElementById('estadoFaturaEditar').value = fatura.estado_faturas_id;
+            document.getElementById('observacoesEditar').value = fatura.observacoes || '';
+
+            document.getElementById('valor_total_editar').value = fatura.valor;
+            document.getElementById('valor_iva_editar').value = fatura.IVATaxa;
+            document.getElementById('valor_irs_editar').value = fatura.IRSTaxa;
+            document.getElementById('valor_subtotal_editar').value = fatura.valor_semImposto;
+            document.getElementById('valor_liquido_editar').value = fatura.valor_liquido;
+
+            formEditar.action = `/financas/${fatura.id}`;
+
+            const modal = new bootstrap.Modal(document.getElementById('modalEditarFatura'));
+            modal.show();
+
+            // Chamar cálculo assim que o modal abre
+            calcularTotaisEdicao();
+        });
+    });
+});
+
+
+
 
 // -------- TOAST TEMPORÁRIO - MENSAGEM DE SUCESSO --------
 document.addEventListener('DOMContentLoaded', function () {

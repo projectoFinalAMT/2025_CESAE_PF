@@ -368,6 +368,7 @@ public function update(Request $request, Financa $financa)
                      ->with('success', 'Fatura atualizada com sucesso!');
 }
 
+
 public function apagar(Request $request, Financa $financa){
 // Apaga o recebimento relacionado
     if ($financa->recebimento) {

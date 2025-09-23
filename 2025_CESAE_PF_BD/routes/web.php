@@ -89,8 +89,9 @@ Route::post('/documento-modulo/remover', [DocumentoModuloController::class, 'rem
 // Finanças
 Route::get('/financas', [financasController::class, 'index'])->name('financas');
 Route::post('/financas', [financasController::class, 'novaFatura'])->name('novaFatura_route');
-Route::put('/financas/{financa}/update', [financasController::class, 'update'])->name('faturaUpdate_route');
+Route::put('/financas/{financa}', [financasController::class, 'update'])->name('faturaUpdate_route');
 Route::delete('/financas/{financa}', [financasController::class, 'apagar'])->name('financas.apagar');
+
 
 
 
@@ -122,7 +123,7 @@ Route::get('/events/export', [EventController::class, 'exportExcel'])->name('eve
 
  }); // .AUTH ROTAS
 
- 
+
 
 
 
