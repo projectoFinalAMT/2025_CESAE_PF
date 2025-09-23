@@ -54,6 +54,11 @@ Route::get('/fichaaluno',[AlunosController::class,'fichaaluno']);
 Route::post('/alunos/medias', [AlunoModuloController::class, 'atualizarMedias'])
     ->name('alunos.atualizarMedias');
 
+
+
+Route::post('/alunos/delete', [AlunosController::class, 'delete'])->name('alunos.destroy');
+
+
 //. alunos
 
 
@@ -122,7 +127,7 @@ Route::get('/events/export', [EventController::class, 'exportExcel'])->name('eve
 
  }); // .AUTH ROTAS
 
- 
+
 
 
 
