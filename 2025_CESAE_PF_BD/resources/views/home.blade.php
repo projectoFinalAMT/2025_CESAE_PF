@@ -111,7 +111,7 @@
                             <div class="row d-flex justify-content-between">
                                 <div class="col d-flex align-items-center">
                                     <h5 class="titlecard mb-0">
-                                        Aulas este mês <i class="fa-solid fa-calendar-days" style="color:#324c45;"></i>
+                                        Eventos este mês <i class="fa-solid fa-calendar-days" style="color:#324c45;"></i>
                                     </h5>
                                 </div>
                             </div>

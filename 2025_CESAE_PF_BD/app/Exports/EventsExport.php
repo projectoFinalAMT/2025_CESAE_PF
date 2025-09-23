@@ -5,26 +5,27 @@ namespace App\Exports;
 use App\Models\Event;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Support\Facades\Auth; // <- acrescento
 
 class EventsExport implements FromCollection, WithHeadings
 {
     protected ?string $start;
     protected ?string $end;
+    protected ?int $userId; // <- acrescento
 
-    public function __construct(?string $start = null, ?string $end = null)
+    public function __construct(?string $start = null, ?string $end = null, ?int $userId = null) // <- acrescento $userId opcional
     {
-        $this->start = $start;
-        $this->end   = $end;
+        $this->start  = $start;
+        $this->end    = $end;
+        $this->userId = $userId;
     }
 
     public function collection()
     {
         $q = Event::with(['curso.instituicao', 'modulo.cursos.instituicao'])
+            ->ownedBy($this->userId ?? Auth::id())        // <- filtra pelo utilizador
+            ->between($this->start, $this->end)            // <- usa o scope between
             ->orderBy('start');
-
-        if ($this->start && $this->end) {
-            $q->whereBetween('start', [$this->start, $this->end]);
-        }
 
         return $q->get()->map(function ($e) {
             $curso = $e->curso ?: $e->modulo?->cursos?->first();

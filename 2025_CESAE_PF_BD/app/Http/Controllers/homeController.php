@@ -43,8 +43,10 @@ class homeController extends Controller
 
   //info de agenda
   $apontamentosHoje= Event::where('users_id',Auth::id())->get(); // vou ao event model buscar todos os eventos
-  $aulasTotais=Event::where('users_id',Auth::id())->whereNotNull('modulos_id')->whereMonth('created_at',now()->month)->whereYear('created_at',now()->year)->count();
-  $aulasSemanaAtual = Event::where('users_id',Auth::id())->whereBetween(
+  $aulasTotais = Event::where('users_id', Auth::id())
+  ->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])
+  ->count();
+$aulasSemanaAtual = Event::where('users_id',Auth::id())->whereBetween(
     'start',
     [now()->startOfWeek(), now()->endOfWeek()] // seg→dom
     )->count();
