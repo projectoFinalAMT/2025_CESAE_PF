@@ -62,8 +62,10 @@ class AlunosController extends Controller
         ->join('alunos','alunos_modulos.alunos_id','alunos.id')
         ->select(
             'alunos.*',
-            'modulos.id as modulo_id'
+            'modulos.id as modulo_id',
+            'alunos_modulos.notaAluno as notaAluno'
         )
+
         ->get() ;
 
 

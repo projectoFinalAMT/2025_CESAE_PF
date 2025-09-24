@@ -23,8 +23,8 @@ class EventsExport implements FromCollection, WithHeadings
     public function collection()
     {
         $q = Event::with(['curso.instituicao', 'modulo.cursos.instituicao'])
-            ->ownedBy($this->userId ?? Auth::id())        // <- filtra pelo utilizador
-            ->between($this->start, $this->end)            // <- usa o scope between
+            ->ownedBy($this->userId ?? Auth::id())        
+            ->between($this->start, $this->end)
             ->orderBy('start');
 
         return $q->get()->map(function ($e) {
