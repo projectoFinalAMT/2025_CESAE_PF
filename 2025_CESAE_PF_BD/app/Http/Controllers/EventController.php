@@ -207,14 +207,16 @@ class EventController extends Controller
 
     //exportar excell
 
-   public function exportExcel(Request $request)
-{
-    $start = $request->query('start');
-    $end   = $request->query('end');
-    $filename = 'agenda_' . now()->format('Ymd_His') . '.xlsx';
+    public function exportExcel(Request $request)
+    {
+        $start = $request->query('start'); // pode ser string ISO
+        $end   = $request->query('end');
+        $userId = Auth::id();
 
-    return Excel::download(new EventsExport($start, $end), $filename);
-}
+        $filename = 'agenda_' . now()->format('Ymd_His') . '.xlsx';
+
+        return Excel::download(new EventsExport($start, $end, $userId), $filename);
+    }
 
 
 }

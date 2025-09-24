@@ -62,7 +62,7 @@ class AlunosController extends Controller
         ->join('alunos','alunos_modulos.alunos_id','alunos.id')
         ->select(
             'alunos.*',
-            'modulos.id as modulo_id'               
+            'modulos.id as modulo_id'
         )
         ->get() ;
 
@@ -205,6 +205,43 @@ class AlunosController extends Controller
 
 
       }
+
+
+
+      public function delete(Request $request )
+{
+    // garante que só apagas alunos do utilizador autenticado
+    $aluno = Alunos::where('id', $request->id)
+        ->where('users_id', Auth::id())
+        ->first();
+
+    if (!$aluno) {
+        return redirect()
+            ->route('alunos_view')
+            ->with('error', 'Aluno não encontrado ou não pertence ao seu utilizador.');
+    }
+
+    try {
+        DB::transaction(function () use ($aluno) {
+            // Se tiveres a relação definida no Model (belongsToMany), podes detach:
+            // $aluno->modulos()->detach();
+
+            // Como usas tabela 'alunos_modulos', dá para garantir limpando manualmente:
+            DB::table('alunos_modulos')->where('alunos_id', $aluno->id)->delete();
+
+            // Apaga o próprio aluno
+            $aluno->delete();
+        });
+
+        return redirect()
+            ->route('alunos_view')
+            ->with('success', 'Aluno apagado com sucesso!');
+    } catch (\Throwable $e) {
+        return redirect()
+            ->route('alunos_view')
+            ->with('error', 'Erro ao apagar aluno. ' . $e->getMessage());
+    }
+}
 
 
 

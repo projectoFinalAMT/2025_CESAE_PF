@@ -13,6 +13,7 @@
 
 @section('content')
 
+
 <div class="content">
   <div class="container my-4">
  <!-- Toast de sucesso -->
@@ -34,7 +35,6 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-bold">Alunos</h2>
     </div>
-
     <!-- Grid dos card -->
     <div class="row g-4">
       <!-- Card 1 -->
@@ -205,6 +205,8 @@
               </td>
 
               <td>
+
+
                 <button
                   class="btn btn-light btn-sm"
                   data-bs-toggle="modal"
@@ -215,7 +217,13 @@
                   data-telefone="{{ e($aluno->telefone) }}"
                   data-observacoes="{{ e($aluno->observacoes) }}"
                 >Ver/Editar</button>
-              </td>
+
+
+                  <button type="submit" class="btn btn-light btn-sm" data-bs-toggle="modal"
+                  data-bs-target="#confirmarEliminarAluno" data-id="{{ $aluno->id }}"><i class="fa-solid fa-trash " ></i></button>
+                  @include('componentes.alunos.eliminar-alunos')
+
+           </td>
             </tr>
           @endforeach
         </tbody>
@@ -238,6 +246,8 @@
   @include('componentes.perfil.perfil')
   @include('componentes.alunos.alunos-modal')
   @include('componentes.alunos.infoalunos-modal')
+
+
 
   @endsection
 

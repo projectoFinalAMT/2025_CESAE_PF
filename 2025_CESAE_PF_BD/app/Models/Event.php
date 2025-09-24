@@ -23,6 +23,12 @@ class Event extends Model
         'cursos_id'
     ];
 
+    // >>> ACRESCIMO: casts para datas
+    protected $casts = [
+        'start' => 'datetime',
+        'end'   => 'datetime',
+    ];
+
     // Relacionamento com User (formador)
     public function user()
     {
@@ -44,20 +50,20 @@ class Event extends Model
 
     //cor texto
     private function pickTextColor(string $hex): string
-{
-    // remove '#'
-    $hex = ltrim($hex, '#');
+    {
+        // remove '#'
+        $hex = ltrim($hex, '#');
 
-    // rgb 0–255
-    $r = hexdec(substr($hex, 0, 2));
-    $g = hexdec(substr($hex, 2, 2));
-    $b = hexdec(substr($hex, 4, 2));
+        // rgb 0–255
+        $r = hexdec(substr($hex, 0, 2));
+        $g = hexdec(substr($hex, 2, 2));
+        $b = hexdec(substr($hex, 4, 2));
 
-    // luminância relativa simples
-    $luminance = (0.299*$r + 0.587*$g + 0.114*$b) / 255;
+        // luminância relativa simples
+        $luminance = (0.299*$r + 0.587*$g + 0.114*$b) / 255;
 
-    return $luminance > 0.6 ? '#000000' : '#FFFFFF'; // claro -> texto preto, escuro -> texto branco
-}
+        return $luminance > 0.6 ? '#000000' : '#FFFFFF'; // claro -> texto preto, escuro -> texto branco
+    }
 
     // Método opcional para facilitar o FullCalendar
     public function toCalendarArray()
@@ -97,9 +103,7 @@ class Event extends Model
             }
         }
 
-
-            $text = $this->pickTextColor($bg);
-
+        $text = $this->pickTextColor($bg);
 
         // já vem pronto do DB (pois no controller usamos buildTitle)
         $title = $this->title ?? ($moduloNome ?? $cursoTitulo ?? 'Evento');
@@ -122,27 +126,17 @@ class Event extends Model
         ];
     }
 
-
-//destruir todos os eventos tabela
-    public function destroyAll(Request $request)
+    // >>> ACRESCIMO: scopes para reutilizar em queries/exports
+    public function scopeOwnedBy($query, $userId)
     {
-        $count = Event::where('users_id', Auth::id())->delete();
-
-        return response()->json([
-            'success' => true,
-            'deleted' => $count,
-            'message' => "Apagados {$count} evento(s).",
-        ]);
+        return $query->where('users_id', $userId);
     }
 
-    //exportar excel
-    public function exportExcel(Request $request)
+    public function scopeBetween($query, $start, $end)
     {
-        $range = $request->query('range'); // today | week | all
-        $range = in_array($range, ['today','week']) ? $range : 'all';
-
-        $filename = 'agenda_' . now()->format('Ymd_His') . '.xlsx';
-        return Excel::download(new EventsExport($range), $filename);
+        if ($start && $end) {
+            return $query->whereBetween('start', [$start, $end]);
+        }
+        return $query;
     }
-
 }
