@@ -64,7 +64,7 @@
 
               <!-- Módulos (multi, dependente dos cursos) -->
               <div class="col-md-6">
-                <label for="modulo_ids" class="form-label">Módulos*</label>
+                <label for="modulo_ids" class="form-label">Módulos* </label>
                 <select class="form-control"
                         id="modulo_ids"
                         name="modulo_ids[]"
