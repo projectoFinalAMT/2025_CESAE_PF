@@ -3,7 +3,6 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/financas_home.css') }}">
     <link rel="stylesheet" href="{{ asset('css/cursos_home.css') }}">
-
 @endsection
 
 @section('content')
@@ -41,8 +40,9 @@
                         data-bs-target="#editModalNovaFatura"> + Nova Fatura </button>
                 </div>
 
-<!-- Modal Nova Instituicao -->
-            @include('componentes.instituicao.nova-instituicao', ['redirect' => 'financas'])
+                <!-- Modal Nova Instituicao -->
+                @include('componentes.instituicao.nova-instituicao', ['redirect' => 'financas'])
+
                 <!-- Modal Nova Fatura -->
                 <div class="modal fade" id="editModalNovaFatura" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -64,28 +64,32 @@
                                     <div class="row g-3 mb-3">
 
                                         <!-- Instituição -->
-                      <div class="col-md-12">
-                          <label for="instituicao" class="form-label">Instituição*</label>
-                          <select class="form-control" id="instituicao" name="instituicao" required>
-                              <option value="" selected disabled>Selecione uma instituição</option>
-                              @foreach ($instituicoes as $inst)
-                                  <option value="{{ $inst->id }}">{{ $inst->nomeInstituicao }}</option>
-                              @endforeach
-                          </select>
-                          <div class="d-flex justify-content-end mt-1">
-                              <button type="button" class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
-                                  data-bs-target="#novaInstituicaoModal">
-                                  <i class="bi bi-building-fill"></i> Cadastrar Nova Instituição
-                              </button>
-                          </div>
- </div>
+                                        <div class="col-md-12">
+                                            <label for="instituicao" class="form-label">Instituição*</label>
+                                            <select class="form-control" id="instituicao" name="instituicao" required>
+                                                <option value="" selected disabled>Selecione uma instituição</option>
+                                                @foreach ($instituicoes as $inst)
+                                                    <option value="{{ $inst->id }}">{{ $inst->nomeInstituicao }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div class="d-flex justify-content-end mt-1">
+                                                <button type="button" class="btn btn-sm btn-novo-curso"
+                                                    data-bs-toggle="modal" data-bs-target="#novaInstituicaoModal">
+                                                    <i class="bi bi-building-fill"></i> Cadastrar Nova Instituição
+                                                </button>
+                                            </div>
+                                        </div>
 
                                         <!-- Curso -->
-                                        <div class="col-md-6"> <label for="curso" class="form-label">Curso</label>
-                                            <select class="form-control" id="curso" name="curso">
+                                        <div class="col-md-6"> <label for="curso" class="form-label">Curso*</label>
+                                            <select class="form-control" id="curso" name="curso"6>
                                                 <option value="" selected disabled>Selecione um curso</option>
                                                 @foreach ($cursos as $curso)
-                                                    <option value="{{ $curso->id }}">{{ $curso->titulo }}</option>
+                                                    <option value="{{ $curso->id }}"
+                                                        data-instituicao="{{ $curso->instituicoes_id }}">
+                                                        {{ $curso->titulo }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -95,7 +99,10 @@
                                             <select class="form-control" id="modulo" name="modulo">
                                                 <option value="" selected disabled>Selecione um módulo</option>
                                                 @foreach ($modulos as $modulo)
-                                                    <option value="{{ $modulo->id }}">{{ $modulo->nomeModulo }}</option>
+                                                    <option value="{{ $modulo->id }}"
+                                                        data-curso="{{ $modulo->curso_id }}">
+                                                        {{ $modulo->nomeModulo }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -115,7 +122,7 @@
                                             </div>
                                             <div class="col-8"> <label class="form-label">Valor unitário (€)*</label>
                                                 <input type="number" class="form-control rounded-0" id="fatura-valor"
-                                                    name="valor" placeholder="0.00" required>
+                                                    name="valor" placeholder="0.00">
                                             </div>
                                         </div>
 
@@ -323,19 +330,35 @@
                                     <div class="col-12 col-md-8">
                                         <h5 class="card-title">Expectável
                                             <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
-                                                title="Valor Expectável - Valor negociado com o cliente, sem impostos. Será faturado com IVA adicional.">
+                                                title="Valor Expectável - Valor negociado com o cliente, sem impostos. Será faturado com IVA adicional. Com base nas aulas agendadas durante o período atualmente filtrado. (quantidade de horas X valor por hora) ">
                                                 <i class="bi bi-info-circle fs-6"></i>
                                             </span>
                                         </h5>
                                     </div>
                                 </div>
 
-                                <!-- Conteúdo -->
+                                <div class="row mt-2 align-items-center">
+                                    <!-- Texto à esquerda -->
+                                    <div class="col-8">
+                                        <!-- Valor em destaque -->
+                                        <div class="text-amount mb-1">
+                                            <h3 class="text fw-bold mb-0">
+                                                {{ number_format($valorTotalExpectavel, 2, ',', '.') }}€</h3>
+                                        </div>
+
+                                        <!-- Descrição -->
+                                        <div class="text-amount mt-2">
+                                            <h6 class="text-black-50 small">Valor das aulas agendadas no calendário.</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- <!-- Conteúdo -->
                                 <div class="text-amount mt-2 mb-1" id="tituloExpectavel">
                                     <h3 class="fw-bold mb-0">
                                         {{ number_format($valorTotalExpectavel, 2, ',', '.') }}€
                                     </h3>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -345,7 +368,7 @@
 
 
             <!-- Grid Esquerda/Direita
-                                            Faturação por Instituição/Faturas -->
+                                                                Faturação por Instituição/Faturas -->
             <div class="container mt-4">
                 <div class="row d-flex align-items-stretch">
 
@@ -585,7 +608,7 @@
                                             <div class="col-md-6">
                                                 <label for="instituicaoEditar" class="form-label">Instituição*</label>
                                                 <select class="form-control" id="instituicaoEditar" name="instituicao"
-                                                    required>
+                                                    disabled>
                                                     <option value="" disabled>Selecione uma instituição</option>
                                                     @foreach ($instituicoes as $inst)
                                                         <option value="{{ $inst->id }}">{{ $inst->nomeInstituicao }}
@@ -597,7 +620,7 @@
                                             <!-- Curso -->
                                             <div class="col-md-6">
                                                 <label for="cursoEditar" class="form-label">Curso</label>
-                                                <select class="form-control" id="cursoEditar" name="curso">
+                                                <select class="form-control" id="cursoEditar" name="curso" disabled>
                                                     <option value="" disabled>Selecione um curso</option>
                                                     @foreach ($cursos as $curso)
                                                         <option value="{{ $curso->id }}">{{ $curso->titulo }}</option>
@@ -608,7 +631,7 @@
                                             <!-- Módulo -->
                                             <div class="col-md-6">
                                                 <label for="moduloEditar" class="form-label">Módulo</label>
-                                                <select class="form-control" id="moduloEditar" name="modulo">
+                                                <select class="form-control" id="moduloEditar" name="modulo" disabled>
                                                     <option value="" disabled>Selecione um módulo</option>
                                                     @foreach ($modulos as $modulo)
                                                         <option value="{{ $modulo->id }}">{{ $modulo->nomeModulo }}
@@ -633,8 +656,9 @@
                                                 </div>
                                                 <div class="col-8">
                                                     <label class="form-label">Valor unitário (€)*</label>
-                                                    <input type="number" class="form-control rounded-0" id="valorEditar"
-                                                        name="valor" required>
+                                                    <input type="number"
+                                                        class="form-control rounded-0" id="valorEditar" name="valor"
+>
                                                 </div>
                                             </div>
 
