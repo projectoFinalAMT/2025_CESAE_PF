@@ -1,5 +1,5 @@
 <!-- Modal: Adicionar Aluno -->
-<div class="modal fade" id="alunoModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="alunoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content rounded-0 shadow">
         <div class="modal-header">

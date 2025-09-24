@@ -18,11 +18,18 @@ public function index()
     $instituicoes = Instituicao::where('users_id',Auth::id())->get();
 
 
-    $modulos = Modulo::with('cursos.instituicao')
-        ->select('id', 'nomeModulo')
-        ->distinct()
-        ->orderBy('nomeModulo')
-        ->get();
+    $modulos = Modulo::query()
+    ->whereHas('cursos', function ($q) {
+        $q->where('users_id', Auth::id());   // só cursos do user autenticado
+    })
+    ->with([
+        // também limita o eager load aos cursos do user e carrega a instituição
+        'cursos' => fn ($q) => $q->where('users_id', Auth::id())
+                                 ->with('instituicao'),
+    ])
+    ->orderBy('nomeModulo')
+    ->get(['modulos.id', 'modulos.nomeModulo']); // qualifica para evitar ambiguidade
+
 
     $cursos = Curso::where('users_id',Auth::id())->withCount('modulos')->get();
 

@@ -114,7 +114,7 @@ class AlunosController extends Controller
     {
         $request->validate([
             'nome'              => 'required|string|max:255',
-            'email'             => 'nullable|email|max:255|unique:alunos,email',
+            'email'             => 'nullable|email|max:255',
             'telefone'          => 'nullable|string|max:50',
             'observacoes'       => 'nullable|string|max:2000',
 
