@@ -34,14 +34,20 @@ public function store(Request $request)
         $instituicao->users_id =Auth::id();
         $instituicao->save();
 
-        if ($request->input('redirect_to') === 'cursos') {
-        return redirect()->route('cursos')
+       $redirect = $request->input('redirect_to');
+
+        if ($redirect === 'cursos') {
+            return redirect()->route('cursos')
+                             ->with('success', 'Instituição criada com sucesso!');
+        } elseif ($redirect === 'financas') {
+            return redirect()->route('financas')
+                             ->with('success', 'Instituição criada com sucesso!');
+        }
+
+        return redirect()->route('instituicoes')
                          ->with('success', 'Instituição criada com sucesso!');
     }
 
-    return redirect()->route('instituicoes')
-                     ->with('success', 'Instituição criada com sucesso!');
-}
 
 
     public function deletar(Request $request)
@@ -65,7 +71,7 @@ public function update(Request $request, $id)
         'emailResponsavel'    => 'required|email',
         'nomeResponsavel'     => 'nullable|string|max:255',
         'cor'                 => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/', // valida HEX
-       
+
     ]);
 
     // Atualizar os campos

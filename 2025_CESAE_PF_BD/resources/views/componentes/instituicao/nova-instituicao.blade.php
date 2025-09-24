@@ -10,7 +10,7 @@
                 </div>
                  <form method="POST" action="{{ route('instituicoes.store') }}">
                     @csrf
-
+                <input type="hidden" name="redirect_to" value="{{ $redirect ?? 'instituicoes' }}">
                 <!-- Botão Adicionar Cor -->
                 <div class="mt-4 w-md-auto d-flex justify-content-center justify-content-end">
                     <button type="button" class="btn btn-novo-curso btn-adicionar-cor" id="btnAdicionarCor">

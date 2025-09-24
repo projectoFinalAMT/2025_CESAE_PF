@@ -2,4 +2,11 @@
     white-space: nowrap;
   }
 
-  
+.btn{
+    border-radius: 0px !important;
+}
+
+.card{
+    min-height: 135px;
+}
+

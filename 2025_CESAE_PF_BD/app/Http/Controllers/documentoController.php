@@ -140,8 +140,8 @@ public function store(Request $request)
     } else {
         // Link externo
         $caminho = $request->input('link_documento');
-    }
 
+    }
     // Categoria
     $categoriaId = DB::table('categoria_documentos')
         ->where('categoria', $request->tipo)
@@ -152,7 +152,7 @@ public function store(Request $request)
         : ($request->dataValidade ?? now()->toDateString());
 
     $descricao = $request->input('descricao');
-
+dd($caminho);
     // Cria o documento
     $documento = Documento::create([
         'nome' => $nome,

@@ -2,6 +2,8 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/financas_home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/cursos_home.css') }}">
+
 @endsection
 
 @section('content')
@@ -38,7 +40,8 @@
                 <div class="mb-2 mb-md-0"> <button class="btn" id="btn-nova-fatura" data-bs-toggle="modal"
                         data-bs-target="#editModalNovaFatura"> + Nova Fatura </button> </div>
 
-
+<!-- Modal Nova Instituicao -->
+            @include('componentes.instituicao.nova-instituicao', ['redirect' => 'financas'])
                 <!-- Modal Nova Fatura -->
                 <div class="modal fade" id="editModalNovaFatura" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -60,15 +63,21 @@
                                     <div class="row g-3 mb-3">
 
                                         <!-- Instituição -->
-                                        <div class="col-md-6"> <label for="instituicao"
-                                                class="form-label">Instituição*</label> <select class="form-control"
-                                                id="instituicao" name="instituicao" required>
-                                                <option value="" selected disabled>Selecione uma instituição</option>
-                                                @foreach ($instituicoes as $inst)
-                                                    <option value="{{ $inst->id }}">{{ $inst->nomeInstituicao }}
-                                                    </option>
-                                                @endforeach
-                                            </select> </div>
+                      <div class="col-md-12">
+                          <label for="instituicao" class="form-label">Instituição*</label>
+                          <select class="form-control" id="instituicao" name="instituicao" required>
+                              <option value="" selected disabled>Selecione uma instituição</option>
+                              @foreach ($instituicoes as $inst)
+                                  <option value="{{ $inst->id }}">{{ $inst->nomeInstituicao }}</option>
+                              @endforeach
+                          </select>
+                          <div class="d-flex justify-content-end mt-1">
+                              <button type="button" class="btn btn-sm btn-novo-curso" data-bs-toggle="modal"
+                                  data-bs-target="#novaInstituicaoModal">
+                                  <i class="bi bi-building-fill"></i> Cadastrar Nova Instituição
+                              </button>
+                          </div>
+ </div>
 
                                         <!-- Curso -->
                                         <div class="col-md-6"> <label for="curso" class="form-label">Curso</label>
@@ -91,7 +100,7 @@
                                         </div>
 
                                         <!-- Descrição -->
-                                        <div class="col-md-6 mb-3"> <label for="descricao"
+                                        <div class="col-md-12 mb-3"> <label for="descricao"
                                                 class="form-label">Descrição*</label>
                                             <input type="text" class="form-control rounded-0" id="descricao"
                                                 name="descricao" placeholder="Ex: Formação em Excel - 6h" required>
