@@ -26,9 +26,9 @@ class Modulo extends Model
     }
 
     // Método para retornar todos os cursos com indicação de associação
-    public function todosCursosComAssociacao()
+    public function todosCursosComAssociacao($id)
     {
-        $cursos = Curso::with('instituicao')->get();
+        $cursos = Curso::where('users_id',$id)->with('instituicao')->get();
 
         return $cursos->map(function ($curso) {
             // Marca os cursos que pertencem a este módulo

@@ -44,7 +44,7 @@ class moduloController extends Controller
         // Adiciona propriedades personalizadas se necessário
         foreach ($modulos as $modulo) {
             if (method_exists($modulo, 'todosCursosComAssociacao')) {
-                $modulo->todosCursos = $modulo->todosCursosComAssociacao();
+                $modulo->todosCursos = $modulo->todosCursosComAssociacao(Auth::id());
             }
             if (method_exists($modulo, 'todosCursosPorInstituicao')) {
                 $modulo->todosCursosPorInstituicao = $modulo->todosCursosPorInstituicao();
@@ -203,7 +203,10 @@ class moduloController extends Controller
 
     public function documentosComAssociacao($moduloId)
     {
-        $modulo = Modulo::findOrFail($moduloId); // pega o módulo específico
+        $modulo = Modulo::join('curso_modulo','modulos.id','modulo_id')
+        ->join('cursos','cursos.id','curso_id')
+        ->where('cursos.users_id',Auth::id())
+        ->findOrFail($moduloId); // pega o módulo específico
         return $modulo->documentosComAssociacao(); // chama o método seguro do model
     }
 }

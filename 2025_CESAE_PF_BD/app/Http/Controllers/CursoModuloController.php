@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CursoModulo;
 use App\Models\Modulo;
+use App\Models\CursoModulo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CursoModuloController extends Controller
 {
@@ -13,7 +14,9 @@ class CursoModuloController extends Controller
     public function index()
     {
 
-        $cursosModulos = CursoModulo::all();
+        $cursosModulos = CursoModulo::join('cursos','cursos.id','curso_id')
+        ->where('cursos.users_id',Auth::id())
+        ->all();
         return view('modulos.modulos_home', compact('cursosModulos'));
     }
 

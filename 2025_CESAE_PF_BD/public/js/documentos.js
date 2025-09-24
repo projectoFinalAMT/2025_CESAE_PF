@@ -539,6 +539,13 @@ document.querySelector('.profile img').addEventListener('click', function() {
     myModal.show();
 });
 
-
+//check modulos
+// remove o required se algum for marcado
+document.querySelectorAll('input[name="cursos[]"]').forEach(input => {
+    input.addEventListener('change', () => {
+        let checked = document.querySelectorAll('input[name="cursos[]"]:checked').length > 0;
+        document.querySelectorAll('input[name="cursos[]"]')[0].required = !checked;
+    });
+});
 
 

@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Documento;
 use Illuminate\Http\Request;
 use App\Models\DocumentoModulo;
+use Illuminate\Support\Facades\Auth;
 
 class DocumentoModuloController extends Controller
 {
     public function index()
     {
 
-        $documentoModulo = DocumentoModulo::all();
+        $documentoModulo = DocumentoModulo::where('users_id',Auth::id())->get();
         return view('documentos.documentos_home', compact('documentoModulo'));
     }
 
