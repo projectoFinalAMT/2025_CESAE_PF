@@ -35,6 +35,8 @@ public function index()
 
     // Obter os IDs dos módulos associados a cada curso
   $cursoModulos = DB::table('curso_modulo')
+  ->join('cursos','cursos.id','curso_id')
+  ->where('users_id', Auth::id())
     ->select('curso_id', 'modulo_id')
     ->get()
     ->groupBy('curso_id')
@@ -133,7 +135,7 @@ public function index()
     {
         $query = $request->input('q');
 
-        $cursos = Curso::where('titulo', 'like', "%{$query}%")->get();
+        $cursos = Curso::where('users_id', Auth::id())->where('titulo', 'like', "%{$query}%")->get();
 
         return response()->json($cursos);
     }
@@ -149,7 +151,7 @@ public function index()
 
 //pagina alunos
 public function byInstituicao($instituicaoId) {
-    $cursos = Curso::where('instituicoes_id', $instituicaoId)
+    $cursos = Curso::where('users_id', Auth::id())->where('instituicoes_id', $instituicaoId)
         ->select('id','titulo')
         ->orderBy('titulo')
         ->get();

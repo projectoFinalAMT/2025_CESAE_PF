@@ -30,16 +30,22 @@
                             <div class="form-check-container w-100 p-2"
                                 style="max-height:105px; overflow-y:auto; border:1px solid #ccc; border-radius:0.25rem;">
                                 @foreach ($modulo->todosCursos as $curso)
-                                    <div class="form-check d-flex justify-content-between align-items-center">
-                                        <label class="form-check-label" for="curso{{ $curso->id }}">
-                                            {{ $curso->titulo }}
-                                            ({{ $curso->instituicao->nomeInstituicao ?? 'Instituição não disponível' }})
-                                        </label>
-                                        <input class="form-check-input ms-auto" type="checkbox"
-                                            value="{{ $curso->id }}" id="curso{{ $curso->id }}" name="cursos[]"
-                                            {{ $curso->associado ? 'checked' : '' }}>
-                                    </div>
-                                @endforeach
+                                <div class="form-check d-flex justify-content-between align-items-center">
+                                    <label class="form-check-label" for="curso{{ $curso->id }}">
+                                        {{ $curso->titulo }}
+                                        ({{ $curso->instituicao->nomeInstituicao ?? 'Instituição não disponível' }})
+                                    </label>
+                                    <input
+                                        class="form-check-input ms-auto"
+                                        type="checkbox"
+                                        value="{{ $curso->id }}"
+                                        id="curso{{ $curso->id }}"
+                                        name="cursos[]"
+                                        {{ $curso->associado ? 'checked' : '' }}
+                                        {{ $loop->first ? 'required' : '' }}  {{-- required apenas no primeiro --}}
+                                    >
+                                </div>
+                            @endforeach
                             </div>
                         </div>
 

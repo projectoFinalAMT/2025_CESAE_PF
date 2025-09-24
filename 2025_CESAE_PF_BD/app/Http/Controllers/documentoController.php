@@ -15,17 +15,21 @@ class documentoController extends Controller
 {
 public function index()
 {
-    $instituicoes = Instituicao::all();
+    $instituicoes = Instituicao::where('users_id',Auth::id())->get();
 
-    $documentos = Documento::where('users_id',Auth::id())->with('modulos')->get();
+    $documentos = Documento::
+    where('users_id',Auth::id())->with('modulos')->get();
 
-    $modulos = Modulo::with('cursos.instituicao')
-        ->select('id', 'nomeModulo')
+    $modulos = Modulo::join('curso_modulo','modulos.id','modulo_id')
+    ->join('cursos','cursos.id','curso_id')
+    ->where('users_id',Auth::id())
+    ->with('cursos.instituicao')
+        ->select('modulos.id', 'nomeModulo')
         ->distinct()
         ->orderBy('nomeModulo')
         ->get();
 
-    $cursos = Curso::withCount('modulos')->get();
+    $cursos = Curso::where('users_id',Auth::id())->withCount('modulos')->get();
 
     $cursoModulos = DB::table('curso_modulo')
         ->select('curso_id', 'modulo_id')
@@ -41,12 +45,12 @@ public function index()
         }
     }
 
-$documentosPessoais = Documento::with('categoria')
+$documentosPessoais = Documento::where('users_id',Auth::id())->with('categoria')
     ->where('users_id', Auth::id())
     ->whereHas('categoria', fn($q) => $q->where('categoria', 'pessoal'))
     ->get();
 
-$documentosApoio = Documento::with('categoria')
+$documentosApoio = Documento::where('users_id',Auth::id())->with('categoria')
     ->where('users_id', Auth::id())
     ->whereHas('categoria', fn($q) => $q->where('categoria', 'apoio'))
     ->get();
@@ -149,7 +153,7 @@ public function store(Request $request)
 
     $dataValidade = $request->vitalicio
         ? '9999-01-01'
-        : ($request->dataValidade ?? now()->toDateString());
+        : ($request->dataValidade ?? '9999-01-01');
 
     $descricao = $request->input('descricao');
     // Cria o documento
