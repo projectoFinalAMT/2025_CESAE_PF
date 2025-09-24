@@ -152,7 +152,6 @@ public function store(Request $request)
         : ($request->dataValidade ?? now()->toDateString());
 
     $descricao = $request->input('descricao');
-dd($caminho);
     // Cria o documento
     $documento = Documento::create([
         'nome' => $nome,

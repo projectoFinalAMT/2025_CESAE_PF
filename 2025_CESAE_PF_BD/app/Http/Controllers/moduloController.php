@@ -55,7 +55,8 @@ class moduloController extends Controller
             ->where('categoria', 'apoio')
             ->value('id');
 
-        $documentos = Documento::with('modulos')
+        $documentos = Documento::where('users_id', Auth::id())
+        ->with('modulos')
             ->where('categoria_documento_id', $categoriaIdApoio)
             ->get();
 

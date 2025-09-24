@@ -6,8 +6,15 @@
                     <div class="modal-header d-flex align-items-center">
                         <!-- Foto e nome do perfil à esquerda -->
                         <div class="profile text-center me-3">
-                            <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('image\perfil.png') }}"
-                                alt="Foto de perfil" class="rounded-circle mb-2" width="125" height="125">
+
+                            <div class="rounded-circle overflow-hidden" style="width:125px;height:125px;">
+                                <img
+                                  src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('image/perfil.png') }}"
+                                  alt="Foto de perfil"
+                                  class="w-100 h-100 object-fit-cover"
+                                />
+                              </div>
+
                             <h6 class="mb-0">{{ explode(' ', Auth::user()->name)[0] }}</h6>
                         </div>
 

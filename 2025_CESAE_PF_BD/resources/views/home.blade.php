@@ -275,12 +275,13 @@
                         <i class="fa-solid fa-user"></i> Adicionar Aluno
                     </button>
 
-                    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal" data-bs-target="#novoDocumentoModal">
+                    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal"
+                     data-bs-target="#novoDocumentoModal" >
                         <i class="fa-solid fa-file"></i> Upload Documento
                     </button>
 
-                    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal"
-                        data-bs-target="#eventoModal">
+                    <button class="btn btn-novo-curso d-flex align-items-center gap-2 p-3" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        data-bs-target="#eventoModal2">
                         <i class="fa-solid fa-calendar-days"></i> Agendar Aula
                     </button>
 
@@ -306,6 +307,8 @@
 
          <!--Alunos modal-->
          @include('componentes.alunos.alunos-modal')
+
+         @include('componentes.Events.evento-modal')
 
 
 
