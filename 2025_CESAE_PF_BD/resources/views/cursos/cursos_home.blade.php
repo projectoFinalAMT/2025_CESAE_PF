@@ -41,7 +41,7 @@
             @include('componentes.curso.novo-curso')
 
             <!-- Modal Nova Instituicao -->
-            @include('componentes.instituicao.nova-instituicao')
+            @include('componentes.instituicao.nova-instituicao', ['redirect' => 'cursos'])
 
             <!-- Modal de confirmação -->
             @include('componentes.curso.eliminar')
