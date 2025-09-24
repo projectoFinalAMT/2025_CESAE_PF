@@ -370,6 +370,110 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// filtra apenas cursos de uma instituicao - botão nova fatura
+document.addEventListener('DOMContentLoaded', function () {
+    const instituicao = document.getElementById('instituicao');
+    const curso = document.getElementById('curso');
+    if (!instituicao || !curso) return;
+
+    // todas as opções reais (exclui o placeholder value === "")
+    const realOptions = Array.from(curso.querySelectorAll('option')).filter(opt => opt.value !== '');
+
+    function resetCurso() {
+        curso.disabled = true;
+        curso.value = '';
+        realOptions.forEach(opt => { opt.hidden = true; opt.disabled = true; });
+    }
+
+    // Inicializa: esconde todas as opções reais
+    resetCurso();
+
+    // Se já houver instituição preenchida (p.ex. na edição), dispare o change para popular cursos
+    if (instituicao.value) {
+        instituicao.dispatchEvent(new Event('change'));
+        // se já houver curso selecionado (form de edição), garante que ele fica visível
+        if (curso.value) {
+            const sel = curso.querySelector(`option[value="${curso.value}"]`);
+            if (sel) { sel.hidden = false; sel.disabled = false; curso.disabled = false; }
+        }
+    }
+
+    instituicao.addEventListener('change', function () {
+        const instId = this.value;
+        if (!instId) { resetCurso(); return; }
+
+        let anyVisible = false;
+        realOptions.forEach(opt => {
+            if (opt.dataset.instituicao == instId) { // comparação em string
+                opt.hidden = false;
+                opt.disabled = false;
+                anyVisible = true;
+            } else {
+                opt.hidden = true;
+                opt.disabled = true;
+            }
+        });
+
+        if (anyVisible) {
+            curso.disabled = false;
+            curso.value = ''; // força escolher um curso
+        } else {
+            // sem cursos para a instituição; deixamos desativado
+            resetCurso();
+        }
+    });
+});
+
+// filtra apenas modulos de um curso - botão nova fatura
+
+document.addEventListener('DOMContentLoaded', function () {
+    const curso = document.getElementById('curso');
+    const modulo = document.getElementById('modulo');
+    if (!curso || !modulo) return;
+
+    // Todas as opções reais do módulo (exclui placeholder)
+    const realOptionsModulo = Array.from(modulo.querySelectorAll('option')).filter(opt => opt.value !== '');
+
+    function resetModulo() {
+        modulo.disabled = true;
+        modulo.value = '';
+        realOptionsModulo.forEach(opt => { opt.hidden = true; opt.disabled = true; });
+    }
+
+    // Inicializa: esconde todas as opções reais
+    resetModulo();
+
+    // Se já houver curso selecionado (form de edição), exibe módulos correspondentes
+    if (curso.value) {
+        curso.dispatchEvent(new Event('change'));
+    }
+
+    curso.addEventListener('change', function () {
+        const cursoId = this.value;
+        if (!cursoId) { resetModulo(); return; }
+
+        let anyVisible = false;
+        realOptionsModulo.forEach(opt => {
+            if (opt.dataset.curso == cursoId) { // compara com o ID do curso
+                opt.hidden = false;
+                opt.disabled = false;
+                anyVisible = true;
+            } else {
+                opt.hidden = true;
+                opt.disabled = true;
+            }
+        });
+
+        if (anyVisible) {
+            modulo.disabled = false;
+            modulo.value = ''; // força escolher um módulo
+        } else {
+            resetModulo();
+        }
+    });
+});
+
+
 // -------- TOAST TEMPORÁRIO - MENSAGEM DE SUCESSO --------
 document.addEventListener("DOMContentLoaded", function () {
     const toastEl = document.getElementById("successToast");
