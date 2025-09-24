@@ -336,7 +336,7 @@
 
 
             <!-- Grid Esquerda/Direita
-                                        Faturação por Instituição/Faturas -->
+                                            Faturação por Instituição/Faturas -->
             <div class="container mt-4">
                 <div class="row d-flex align-items-stretch">
 
@@ -447,7 +447,7 @@
                                                             <!--Retirado da Blade Detalhes-Curso-->
 
                                                             <!-- Botão Collapse -->
-                                                            <button class="btn btn-sm btn-light" type="button"
+                                                            <button class="btn btn-sm btn-light btn-apagar" type="button"
                                                                 data-bs-toggle="collapse"
                                                                 data-bs-target="#acoesFatura-{{ $financa->id }}"
                                                                 aria-expanded="false"
@@ -490,12 +490,14 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <!-- Botão Editar -->
-                                                            <button type="button" class="btn btn-link btn-editar-fatura"
-                                                                data-fatura='@json($financa)'>
-                                                                <i class="bi bi-pencil-square"></i>
-                                                            </button>
-
+                                                            @if ($financa->estado_faturas_id != 2)
+                                                                <!-- Botão Editar só aparece se NÃO for paga -->
+                                                                <button type="button"
+                                                                    class="btn btn-link btn-editar-fatura btn-apagar"
+                                                                    data-fatura='@json($financa)'>
+                                                                    <i class="bi bi-pencil-square"></i>
+                                                                </button>
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             <button type="button"
@@ -562,11 +564,11 @@
                                         @csrf
                                         @method('PUT')
 
-<input type="hidden" id="valor_total_editar" name="valor_total">
-<input type="hidden" id="valor_iva_editar" name="valor_iva">
-<input type="hidden" id="valor_irs_editar" name="valor_irs">
-<input type="hidden" id="valor_subtotal_editar" name="valor_subtotal">
-<input type="hidden" id="valor_liquido_editar" name="valor_liquido">
+                                        <input type="hidden" id="valor_total_editar" name="valor_total">
+                                        <input type="hidden" id="valor_iva_editar" name="valor_iva">
+                                        <input type="hidden" id="valor_irs_editar" name="valor_irs">
+                                        <input type="hidden" id="valor_subtotal_editar" name="valor_subtotal">
+                                        <input type="hidden" id="valor_liquido_editar" name="valor_liquido">
 
 
                                         <div class="row g-3 mb-3">
@@ -680,7 +682,8 @@
                                             </div>
 
                                             <div class="text-center">
-                                                <button type="submit" class="btn btn-primary rounded-0">Atualizar
+                                                <button type="submit" class="btn btn-primary rounded-0"
+                                                    id="btn-nova-fatura">Atualizar
                                                     Fatura</button>
                                             </div>
 
