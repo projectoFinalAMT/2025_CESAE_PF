@@ -9,20 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::table('financas', function (Blueprint $table) {
-            $table->decimal('valor_semImposto')->after('descricao');
-        });
-    }
+    // public function up(): void
+    // {
+    //     Schema::table('financas', function (Blueprint $table) {
+    //         $table->decimal('valor_semImposto')->after('descricao');
+    //     });
+    // }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::table('financas', function (Blueprint $table) {
-            //
-        });
-    }
+    // public function down(): void
+    // {
+    //     Schema::table('financas', function (Blueprint $table) {
+    //         //
+    //     });
+    // }
 };

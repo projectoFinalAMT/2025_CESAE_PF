@@ -38,7 +38,8 @@
 
                 <!-- Botão Nova Fatura -->
                 <div class="mb-2 mb-md-0"> <button class="btn" id="btn-nova-fatura" data-bs-toggle="modal"
-                        data-bs-target="#editModalNovaFatura"> + Nova Fatura </button> </div>
+                        data-bs-target="#editModalNovaFatura"> + Nova Fatura </button>
+                </div>
 
 <!-- Modal Nova Instituicao -->
             @include('componentes.instituicao.nova-instituicao', ['redirect' => 'financas'])
@@ -110,7 +111,8 @@
                                         <div class="row mb-3">
                                             <div class="col-4"> <label class="form-label">Quantidade Horas*</label>
                                                 <input type="number" class="form-control rounded-0" id="fatura-qtd"
-                                                    name="qtd" value="1" required> </div>
+                                                    name="qtd" value="1" required>
+                                            </div>
                                             <div class="col-8"> <label class="form-label">Valor unitário (€)*</label>
                                                 <input type="number" class="form-control rounded-0" id="fatura-valor"
                                                     name="valor" placeholder="0.00" required>
@@ -212,9 +214,9 @@
                                     <div class="col-12 col-md-8">
                                         <h5 class="card-title">Faturação
                                             <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
-                                                  title="Faturação Válida - Total de Faturas Emitidas & Pagas.">
+                                                title="Faturação Válida - Total de Faturas Emitidas & Pagas.">
                                                 <i class="bi bi-info-circle fs-6"></i>
-                                        </span>
+                                            </span>
                                         </h5>
                                     </div>
                                 </div>
@@ -254,15 +256,15 @@
                                     <!-- Título -->
                                     <div class="col-12 col-md-8">
                                         <h5 class="card-title">Faturas Pagas
-                                        <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
-                                                  title="Faturação Paga - Total de Faturas Pagas.">
+                                            <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
+                                                title="Faturação Paga - Total de Faturas Pagas.">
                                                 <i class="bi bi-info-circle fs-6"></i>
                                             </span>
                                         </h5>
                                     </div>
                                 </div>
 
-                            <div class="row mt-2 align-items-center">
+                                <div class="row mt-2 align-items-center">
                                     <!-- Texto à esquerda -->
                                     <div class="col-8">
                                         <!-- Valor em destaque -->
@@ -284,9 +286,9 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
                     <!-- Card 3 - Ganhos (valor liquido) -->
                     <div class="col-12 col-md-3 d-flex mb-3 mb-md-0">
@@ -296,8 +298,8 @@
                                     <!-- Título -->
                                     <div class="col-12 col-md-8">
                                         <h5 class="card-title">Ganhos
-                                        <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
-                                                  title="Valor Ganho - Valor líquido efetivamente recebido depois de entregar o IVA e descontar o IRS. Calculado a partir das Faturas Pagas.">
+                                            <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
+                                                title="Valor Ganho - Valor líquido efetivamente recebido depois de entregar o IVA e descontar o IRS. Calculado a partir das Faturas Pagas.">
                                                 <i class="bi bi-info-circle fs-6"></i>
                                             </span>
                                         </h5>
@@ -321,7 +323,7 @@
                                     <div class="col-12 col-md-8">
                                         <h5 class="card-title">Expectável
                                             <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
-                                                  title="Valor Expectável - Valor negociado com o cliente, sem impostos. Será faturado com IVA adicional.">
+                                                title="Valor Expectável - Valor negociado com o cliente, sem impostos. Será faturado com IVA adicional.">
                                                 <i class="bi bi-info-circle fs-6"></i>
                                             </span>
                                         </h5>
@@ -331,7 +333,7 @@
                                 <!-- Conteúdo -->
                                 <div class="text-amount mt-2 mb-1" id="tituloExpectavel">
                                     <h3 class="fw-bold mb-0">
-                                    {{ number_format($valorTotalExpectavel, 2, ',', '.') }}€
+                                        {{ number_format($valorTotalExpectavel, 2, ',', '.') }}€
                                     </h3>
                                 </div>
                             </div>
@@ -343,7 +345,7 @@
 
 
             <!-- Grid Esquerda/Direita
-                Faturação por Instituição/Faturas -->
+                                            Faturação por Instituição/Faturas -->
             <div class="container mt-4">
                 <div class="row d-flex align-items-stretch">
 
@@ -357,7 +359,7 @@
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <h5 class="card-title">Faturação por Instituição
                                             <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
-                                                  title="Faturação Válida - Com base nas Faturas Emitidas & Pagas.">
+                                                title="Faturação Válida - Com base nas Faturas Emitidas & Pagas.">
                                                 <i class="bi bi-info-circle fs-6"></i>
                                             </span>
                                         </h5>
@@ -365,20 +367,21 @@
                                     </div>
 
                                     <div class="w-1/2 mx-auto">
-                                        <canvas id="donutChart"
-                                            data-faturacao='@json($faturacaoInstituicoes)'>
+                                        <canvas id="donutChart" data-faturacao='@json($faturacaoInstituicoes)'>
                                         </canvas>
                                     </div>
 
 
                                     <!-- Legenda -->
                                     <ul class="list-unstyled mt-4 small" id="listaInstituicoes">
-                                        @foreach($faturacaoInstituicoes as $instituicao)
-                                        <li class="d-flex align-items-center mb-2">
-                                            <span class="badge rounded-circle me-2" style="background-color: {{ $instituicao['cor'] }};">&nbsp;</span>
-                                            <span class="text-secondary">{{ $instituicao['nome'] }}</span>
-                                            <span class="ms-auto fw-bold text-dark">{{ $instituicao['percent'] }}%</span>
-                                        </li>
+                                        @foreach ($faturacaoInstituicoes as $instituicao)
+                                            <li class="d-flex align-items-center mb-2">
+                                                <span class="badge rounded-circle me-2"
+                                                    style="background-color: {{ $instituicao['cor'] }};">&nbsp;</span>
+                                                <span class="text-secondary">{{ $instituicao['nome'] }}</span>
+                                                <span
+                                                    class="ms-auto fw-bold text-dark">{{ $instituicao['percent'] }}%</span>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -408,6 +411,7 @@
                                                     <th>Estado</th>
                                                     <th>Data de Emissão</th>
                                                     <th>Data de Pagamento</th>
+                                                    <th></th>
                                                     <th></th>
                                                     <th></th>
                                                 </tr>
@@ -452,7 +456,7 @@
                                                             <!--Retirado da Blade Detalhes-Curso-->
 
                                                             <!-- Botão Collapse -->
-                                                            <button class="btn btn-sm btn-light" type="button"
+                                                            <button class="btn btn-sm btn-light btn-apagar" type="button"
                                                                 data-bs-toggle="collapse"
                                                                 data-bs-target="#acoesFatura-{{ $financa->id }}"
                                                                 aria-expanded="false"
@@ -493,6 +497,16 @@
                                                                     @endforeach
                                                                 </div>
                                                             </div>
+                                                        </td>
+                                                        <td>
+                                                            @if ($financa->estado_faturas_id != 2)
+                                                                <!-- Botão Editar só aparece se NÃO for paga -->
+                                                                <button type="button"
+                                                                    class="btn btn-link btn-editar-fatura btn-apagar"
+                                                                    data-fatura='@json($financa)'>
+                                                                    <i class="bi bi-pencil-square"></i>
+                                                                </button>
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             <button type="button"
@@ -542,18 +556,168 @@
                     </div>
 
 
+
+                    <!-- Modal Editar Fatura -->
+                    <div class="modal fade" id="modalEditarFatura" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content rounded-0 shadow">
+                                <div class="modal-header">
+                                    <div class="col-12 col-md-8">
+                                        <h5 class="modal-title">Editar Fatura</h5>
+                                        <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
+                                    </div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="formEditarFatura" method="POST">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <input type="hidden" id="valor_total_editar" name="valor_total">
+                                        <input type="hidden" id="valor_iva_editar" name="valor_iva">
+                                        <input type="hidden" id="valor_irs_editar" name="valor_irs">
+                                        <input type="hidden" id="valor_subtotal_editar" name="valor_subtotal">
+                                        <input type="hidden" id="valor_liquido_editar" name="valor_liquido">
+
+
+                                        <div class="row g-3 mb-3">
+                                            <!-- Instituição -->
+                                            <div class="col-md-6">
+                                                <label for="instituicaoEditar" class="form-label">Instituição*</label>
+                                                <select class="form-control" id="instituicaoEditar" name="instituicao"
+                                                    required>
+                                                    <option value="" disabled>Selecione uma instituição</option>
+                                                    @foreach ($instituicoes as $inst)
+                                                        <option value="{{ $inst->id }}">{{ $inst->nomeInstituicao }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <!-- Curso -->
+                                            <div class="col-md-6">
+                                                <label for="cursoEditar" class="form-label">Curso</label>
+                                                <select class="form-control" id="cursoEditar" name="curso">
+                                                    <option value="" disabled>Selecione um curso</option>
+                                                    @foreach ($cursos as $curso)
+                                                        <option value="{{ $curso->id }}">{{ $curso->titulo }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <!-- Módulo -->
+                                            <div class="col-md-6">
+                                                <label for="moduloEditar" class="form-label">Módulo</label>
+                                                <select class="form-control" id="moduloEditar" name="modulo">
+                                                    <option value="" disabled>Selecione um módulo</option>
+                                                    @foreach ($modulos as $modulo)
+                                                        <option value="{{ $modulo->id }}">{{ $modulo->nomeModulo }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <!-- Descrição -->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="descricaoEditar" class="form-label">Descrição*</label>
+                                                <input type="text" class="form-control rounded-0" id="descricaoEditar"
+                                                    name="descricao" required>
+                                            </div>
+
+                                            <!-- Quantidade e Valor -->
+                                            <div class="row mb-3">
+                                                <div class="col-4">
+                                                    <label class="form-label">Quantidade Horas*</label>
+                                                    <input type="number" class="form-control rounded-0" id="qtdEditar"
+                                                        name="qtd" value="1" required>
+                                                </div>
+                                                <div class="col-8">
+                                                    <label class="form-label">Valor unitário (€)*</label>
+                                                    <input type="number" class="form-control rounded-0" id="valorEditar"
+                                                        name="valor" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- IVA & IRS -->
+                                            <div class="row mb-3">
+                                                <div class="col-6">
+                                                    <label class="form-label">IVA (%)*</label>
+                                                    <input type="number" class="form-control rounded-0" id="ivaEditar"
+                                                        name="iva" value="0" required>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-label">IRS (%)*</label>
+                                                    <input type="number" class="form-control rounded-0" id="irsEditar"
+                                                        name="irs" value="0" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Datas -->
+                                            <div class="row g-3 mb-2">
+                                                <div class="col">
+                                                    <label for="dataEmissaoEditar" class="form-label">Data
+                                                        Emissão*</label>
+                                                    <input type="date" class="form-control rounded-0"
+                                                        id="dataEmissaoEditar" name="dataEmissao" required>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="dataPagamentoEditar" class="form-label">Data
+                                                        Pagamento</label>
+                                                    <input type="date" class="form-control rounded-0"
+                                                        id="dataPagamentoEditar" name="dataPagamento">
+                                                </div>
+                                            </div>
+
+                                            <!-- Estado Fatura -->
+                                            <div class="row g-3 mb-2">
+                                                <div class="col">
+                                                    <label for="estadoFaturaEditar" class="form-label">Estado da
+                                                        Fatura*</label>
+                                                    <select class="form-control" id="estadoFaturaEditar"
+                                                        name="estadoFatura" required>
+                                                        <option value="" disabled>Selecione um estado</option>
+                                                        @foreach ($estados as $estado)
+                                                            <option value="{{ $estado->id }}">
+                                                                {{ $estado->nomeEstadoFatura }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Observações -->
+                                            <div class="mb-3">
+                                                <label for="observacoesEditar" class="form-label">Observações</label>
+                                                <textarea class="form-control rounded-0" id="observacoesEditar" name="observacoes" rows="3"></textarea>
+                                            </div>
+
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary rounded-0"
+                                                    id="btn-nova-fatura">Atualizar
+                                                    Fatura</button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
                 </div>
             </div>
 
         </div>
     </div>
 
-  @include('componentes.perfil.perfil')
+    @include('componentes.perfil.perfil')
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!--Gráfico donut-->
     <script src="{{ asset('js/financas.js') }}"></script>
-
 @endsection
 
 @endsection
