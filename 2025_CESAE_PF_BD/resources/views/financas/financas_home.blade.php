@@ -330,7 +330,7 @@
                                     <div class="col-12 col-md-8">
                                         <h5 class="card-title">Expectável
                                             <span style="border-bottom: 1px dotted #6c757d; cursor: help;"
-                                                title="Valor Expectável - Valor negociado com o cliente, sem impostos. Será faturado com IVA adicional. Com base nas aulas agendadas durante o período atualmente filtrado. (quantidade de horas X valor por hora) ">
+                                                title="Valor Expectável -  Com base nas aulas agendadas durante o período atualmente filtrado. Valor sem impostos. Será faturado com IVA adicional.">
                                                 <i class="bi bi-info-circle fs-6"></i>
                                             </span>
                                         </h5>
@@ -345,20 +345,8 @@
                                             <h3 class="text fw-bold mb-0">
                                                 {{ number_format($valorTotalExpectavel, 2, ',', '.') }}€</h3>
                                         </div>
-
-                                        <!-- Descrição -->
-                                        <div class="text-amount mt-2">
-                                            <h6 class="text-black-50 small">Valor das aulas agendadas no calendário.</h6>
-                                        </div>
                                     </div>
                                 </div>
-
-                                {{-- <!-- Conteúdo -->
-                                <div class="text-amount mt-2 mb-1" id="tituloExpectavel">
-                                    <h3 class="fw-bold mb-0">
-                                        {{ number_format($valorTotalExpectavel, 2, ',', '.') }}€
-                                    </h3>
-                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -429,6 +417,7 @@
                                         <table class="table table-hover align-middle text-center mb-0 table-sm">
                                             <thead>
                                                 <tr>
+                                                    <th></th>
                                                     <th>Instituição</th>
                                                     <th>Valor</th>
                                                     <th>Estado</th>
@@ -444,7 +433,10 @@
                                                     <tr>
                                                         <td class="text-start">
                                                             <span class="badge rounded-circle me-2"
-                                                                style="background-color:{{ $financa->instituicao->cor ?? '#ccc' }};">&nbsp;</span>{{ $financa->instituicao->nomeInstituicao }}
+                                                                style="background-color:{{ $financa->instituicao->cor ?? '#ccc' }};">&nbsp;</span>
+                                                            </td>
+                                                        <td class="text-start">
+                                                            {{ $financa->instituicao->nomeInstituicao }}
                                                         </td>
                                                         <td class="">
                                                             {{ number_format($financa->valor, 2, ',', '.') }}€
@@ -587,7 +579,7 @@
                                 <div class="modal-header">
                                     <div class="col-12 col-md-8">
                                         <h5 class="modal-title">Editar Fatura</h5>
-                                        <small class="card-subtitle fw-light">Campos com * são obrigatórios.</small>
+                                        <small class="card-subtitle fw-light">Campos com * têm que estar preenchidos.</small>
                                     </div>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
@@ -606,7 +598,7 @@
                                         <div class="row g-3 mb-3">
                                             <!-- Instituição -->
                                             <div class="col-md-6">
-                                                <label for="instituicaoEditar" class="form-label">Instituição*</label>
+                                                <label for="instituicaoEditar" class="form-label">Instituição</label>
                                                 <select class="form-control" id="instituicaoEditar" name="instituicao"
                                                     disabled>
                                                     <option value="" disabled>Selecione uma instituição</option>
@@ -657,8 +649,7 @@
                                                 <div class="col-8">
                                                     <label class="form-label">Valor unitário (€)*</label>
                                                     <input type="number"
-                                                        class="form-control rounded-0" id="valorEditar" name="valor"
->
+                                                        class="form-control rounded-0" id="valorEditar" name="valor">
                                                 </div>
                                             </div>
 
