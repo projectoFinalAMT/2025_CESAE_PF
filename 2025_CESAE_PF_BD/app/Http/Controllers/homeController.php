@@ -53,7 +53,9 @@ $aulasSemanaAtual = Event::where('users_id',Auth::id())->whereBetween(
 
     // info de documentos
     $documentos= Documento::where('users_id',Auth::id())->count();
-    $documentosExpirar= Documento::where('users_id',Auth::id())->whereMonth('dataValidade',now()->month)->whereYear('dataValidade', now()->year)->count();
+    $documentosExpirar = Documento::where('users_id', Auth::id())
+    ->whereBetween('dataValidade', [now(), now()->addMonth()])
+    ->count();
 
   return view('home', compact('modulos','instituicoes','mCurso','apontamentosHoje','alunos','totalCursosAtivos','totalCursosInativos','novosAlunos','aulasTotais','aulasSemanaAtual','documentos','documentosExpirar'));
     }
