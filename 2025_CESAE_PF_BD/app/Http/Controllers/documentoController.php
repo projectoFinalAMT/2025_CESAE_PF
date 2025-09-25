@@ -102,8 +102,8 @@ public function store(Request $request)
             $tempRealFile = $tempDir . DIRECTORY_SEPARATOR . uniqid('upload_', true) . '.' . $file->getClientOriginalExtension();
             copy($file->getRealPath(), $tempRealFile);
 
-            $sofficePath = '"/Applications/LibreOffice.app/Contents/MacOS/soffice"';
-            //  $sofficePath = '"C:\Program Files\LibreOffice\program\soffice.exe"';
+            // $sofficePath = '"/Applications/LibreOffice.app/Contents/MacOS/soffice"';
+             $sofficePath = '"C:\Program Files\LibreOffice\program\soffice.exe"';
             $command = $sofficePath . " --headless --convert-to pdf --outdir "
                 . escapeshellarg($tempDir) . " " . escapeshellarg($tempRealFile);
 

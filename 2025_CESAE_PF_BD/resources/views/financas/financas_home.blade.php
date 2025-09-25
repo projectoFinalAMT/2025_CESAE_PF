@@ -553,14 +553,14 @@
                                     <p>Tem certeza que deseja eliminar esta fatura?</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    <button type="button" class="btn btn-novo-curso" data-bs-dismiss="modal">
                                         Cancelar
                                     </button>
 
                                     <form id="formEliminar" method="POST" action="">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">
+                                        <button type="submit" class="btn btn-novo-curso">
                                             Eliminar <i class="bi bi-x-lg"></i>
                                         </button>
                                     </form>
