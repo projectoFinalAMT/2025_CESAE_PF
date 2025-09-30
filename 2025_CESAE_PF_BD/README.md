@@ -1,61 +1,46 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+**Projeto ACCEPT Cesae Digital - Projeto Final**
+Nome do Projeto - TrainerApp
+Grupo - Ana Neves (TL), Marcelo Valente & Tiago Morgado
+Cliente - João Câncio
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Em que consistiu o projeto?**
+O projeto passou por desenvolver uma plataforma que permitisse toda a gestão do dia-adia de um formador – desde as ferramentas necessárias para se organizar em aula (material de apoio, registo de alunos), à gestão logística (registo de instituições, cursos e módulos ensinados), à gestão administrativa (documentos legais necessários para dar formação em Portugal) e finalmente, à gestão financeira (faturação, ganhos efetivos).
 
-## About Laravel
+**Quais eram os principais objetivos e requisitos do cliente?**
+Os principais objetivos do cliente era que fosse uma plataforma fácil e intuitiva de
+trabalhar mas ao mesmo tempo, completa.
+Era importante haver uma forma de rastrear toda a atividade financeira relativa ao exercício da formação - como parte deste pedido, o cliente demonstrou interesse em ter registo da faturação total, ganhos efetivos e a possibilidade de poder visualmente perceber a diferença da faturação entre entidades.
+Relativamente à gestão administrativa, existia a necessidade de selecionar vários documentos legais (seguro, registo criminal, cópia do CC) e efetuar o download mesclado. 
+O calendário deve ser intuitivo, e permitir a sua utilização duma forma simples. Se possível, distinção com cores por curso ou módulo ou instituição, de modo a facilitar o seu reconhecimento.
+A nível de organização de aulas, foi solicitado que existisse uma forma de registar os alunos e atribuir uma nota final.
+Também a possibilidade de registar os cursos, instituições e módulos foi algo imperativo para o funcionamento da aplicação.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Ferramentas utililizadas para realização do projeto**
+Laravel, PHP, JS, HTML, CSS || MySQL || Jira || Figma
+Implementamos também o FullCalendar e utilizamos bibliotecas como Bootstrap e Charts. 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Como estruturamos o projeto?**
+1. BD – diagrama ER, modelo de Dados & criação de BD no Laravel/MySQL
+2. Figma – elaboração do layout visual
+3. Front & Back integrados
+3.1. Front-End - Distribuição das páginas por todos os elementos: Ana (Página Gestão Financeira), Marcelo (Página Instituições, Cursos, Módulos & Documentos) & Tiago (Páginas Aluno, Dashboard & Calendário). A página de Login foi distribuída por todos – layout no CodePen (Ana), desenvolvimento Front (Tiago), desenvolvimento back (Marcelo).
+3.2. Back-End – Desenvolvimento de todas as funcionalidades de cada página
+e ligação com BD.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Limitações/Dificuldades sentidas**
+A BD estruturada inicialmente sofreu várias alterações, por necessidade de novas tabelas e atributos. Isso acabou por dificultar e atrasar o nosso processo de integração dos dados no Back e trazê-los para o Front. Esta dificuldade foi sentida por todos os membros do grupo.
+Devido à falta de oportunidade de nos reunirmos com o nosso cliente mais frequentemente, tivemos que tomar algumas decisões com base na informação que nos foi passada nas reuniões iniciais - o valor expectável na página de gestão financeira foi calculado com base nos agendamentos do calendário (com filtro respetivo aplicado - este mês, último mês, trimestre ou todos). Esta decisão foi tomada de forma a manter a consistência e exatidão dos dados na página. 
+Sentimos também dificuldade em implementar a conversão para PDF e em ajustar a estrutura para que o download conjunto e o preview funcionassem corretamente. Apesar de estar funcional, exigiu-se mudanças na forma como os documentos estavam organizados.
+Também houve maior complexidade na implementação da busca e edição, porque os elementos já relacionados precisavam de vir assinalados no modal. Apesar de resolvido, estas partes foram mais trabalhosas e poderiam ser otimizadas no futuro.
+Foi desafiante importar o full calendar para o nosso projeto, uma vez que nunca tínhamos tido contacto com o mesmo. Foi necessário fazer alterações a nível do css e JavaScript do projeto Full Calendar, que já existia. 
 
-## Learning Laravel
+**Objetivos cumpridos**
+Conseguimos cumprir todos os pedidos essenciais do cliente. O projeto tem a possibilidade de ser escalado e existem claro coisas que podem ser melhoradas. 
+No entanto, a plataforma tem uma navegação fácil, intuitiva e completa. 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Algumas futuras adições**
+Relativamente à página de gestão financeira, podem ser adicionados mais filtros - faturação por curso, faturação por módulo, faturação anual.
+Relativamente à página alunos, podem ser adicionadas funcionalidades como presenças/ausências, comportamento, participação, entre outras. 
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Feedback entre Equipa**
+Equipa proativa, dinâmica e comunicativa. Houve contacto diários entre todos os membros da equipa e uma troca constante de ideias. Capacidade de flexibilizar o que faz sentido incluir no projeto e o que não faz. Equipa bastante autónoma na realização das suas tarefas.
