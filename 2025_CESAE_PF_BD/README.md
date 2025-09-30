@@ -1,7 +1,9 @@
 **<h2>Projeto ACCEPT Cesae Digital - Projeto Final</h2>**
-<br><h4>Nome do Projeto - TrainerApp</h4>
-<br><h4>Grupo - Ana Neves (TL), Marcelo Valente & Tiago Morgado</h4>
-<br><h4>Cliente - João Câncio</h4>
+<h4>Nome do Projeto - TrainerApp</h4>
+<h4>Grupo - Ana Neves (TL), Marcelo Valente & Tiago Morgado</h4>
+<h4>Cliente - João Câncio</h4>
+
+<br>
 
 **<h4>Em que consistiu o projeto?**</h4>
 <br>O projeto passou por desenvolver uma plataforma que permitisse toda a gestão do dia-adia de um formador – desde as ferramentas necessárias para se organizar em aula (material de apoio, registo de alunos), à gestão logística (registo de instituições, cursos e módulos ensinados), à gestão administrativa (documentos legais necessários para dar formação em Portugal) e finalmente, à gestão financeira (faturação, ganhos efetivos).
