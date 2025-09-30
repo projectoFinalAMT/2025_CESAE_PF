@@ -1,5 +1,4 @@
 **<h2>Projeto ACCEPT Cesae Digital - Projeto Final</h2>**
-<br>
 <br>Nome do Projeto - TrainerApp
 <br>Grupo - Ana Neves (TL), Marcelo Valente & Tiago Morgado
 <br>Cliente - João Câncio
